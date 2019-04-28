@@ -53,6 +53,7 @@ _conn = None
 _cursor = None
 _server = None
 
+
 def init(quiet=False):
     global _conn
     global _cursor
@@ -70,12 +71,14 @@ def init(quiet=False):
 
         print = _
 
+
 class ThreadingServer(ThreadingMixIn, HTTPServer):
     def finish_request(self, *args, **kwargs):
         try:
             HTTPServer.finish_request(self, *args, **kwargs)
         except Exception:
             traceback.print_exc()
+
 
 class ReqHandler(BaseHTTPRequestHandler):
     def do_REQUEST(self):
@@ -141,6 +144,7 @@ class ReqHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         return
 
+
 def run(address=LISTEN_ADDRESS, port=LISTEN_PORT):
     global _server
     try:
@@ -151,9 +155,11 @@ def run(address=LISTEN_ADDRESS, port=LISTEN_PORT):
         _server.socket.close()
         raise
 
+
 if __name__ == "__main__":
     try:
         init()
-        run(sys.argv[1] if len(sys.argv) > 1 else LISTEN_ADDRESS, int(sys.argv[2] if len(sys.argv) > 2 else LISTEN_PORT))
+        run(sys.argv[1] if len(sys.argv) > 1 else LISTEN_ADDRESS,
+            int(sys.argv[2] if len(sys.argv) > 2 else LISTEN_PORT))
     except KeyboardInterrupt:
         print("\r[x] Ctrl-C received")

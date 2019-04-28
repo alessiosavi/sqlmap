@@ -9,6 +9,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "TrueShield Web Application Firewall (SiteLock)"
 
+
 # Note: https://www.whitefirdesign.com/blog/2016/11/08/more-evidence-that-sitelocks-trueshield-web-application-firewall-is-really-incapsulas-waf/
 def detect(get_page):
     retval = False

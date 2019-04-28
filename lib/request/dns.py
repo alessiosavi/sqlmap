@@ -13,6 +13,7 @@ import socket
 import threading
 import time
 
+
 class DNSQuery(object):
     """
     Used for making fake DNS resolution responses based on received
@@ -27,9 +28,9 @@ class DNSQuery(object):
         self._raw = raw
         self._query = ""
 
-        type_ = (ord(raw[2]) >> 3) & 15                 # Opcode bits
+        type_ = (ord(raw[2]) >> 3) & 15  # Opcode bits
 
-        if type_ == 0:                                  # Standard query
+        if type_ == 0:  # Standard query
             i = 12
             j = ord(raw[i])
 
@@ -46,18 +47,19 @@ class DNSQuery(object):
         retVal = ""
 
         if self._query:
-            retVal += self._raw[:2]                                             # Transaction ID
-            retVal += "\x85\x80"                                                # Flags (Standard query response, No error)
-            retVal += self._raw[4:6] + self._raw[4:6] + "\x00\x00\x00\x00"      # Questions and Answers Counts
-            retVal += self._raw[12:(12 + self._raw[12:].find("\x00") + 5)]      # Original Domain Name Query
-            retVal += "\xc0\x0c"                                                # Pointer to domain name
-            retVal += "\x00\x01"                                                # Type A
-            retVal += "\x00\x01"                                                # Class IN
-            retVal += "\x00\x00\x00\x20"                                        # TTL (32 seconds)
-            retVal += "\x00\x04"                                                # Data length
-            retVal += "".join(chr(int(_)) for _ in resolution.split('.'))       # 4 bytes of IP
+            retVal += self._raw[:2]  # Transaction ID
+            retVal += "\x85\x80"  # Flags (Standard query response, No error)
+            retVal += self._raw[4:6] + self._raw[4:6] + "\x00\x00\x00\x00"  # Questions and Answers Counts
+            retVal += self._raw[12:(12 + self._raw[12:].find("\x00") + 5)]  # Original Domain Name Query
+            retVal += "\xc0\x0c"  # Pointer to domain name
+            retVal += "\x00\x01"  # Type A
+            retVal += "\x00\x01"  # Class IN
+            retVal += "\x00\x00\x00\x20"  # TTL (32 seconds)
+            retVal += "\x00\x04"  # Data length
+            retVal += "".join(chr(int(_)) for _ in resolution.split('.'))  # 4 bytes of IP
 
         return retVal
+
 
 class DNSServer(object):
     def __init__(self):
@@ -78,7 +80,8 @@ class DNSServer(object):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.connect(("", 53))
-            s.send("6509012000010000000000010377777706676f6f676c6503636f6d00000100010000291000000000000000".decode("hex"))  # A www.google.com
+            s.send("6509012000010000000000010377777706676f6f676c6503636f6d00000100010000291000000000000000".decode(
+                "hex"))  # A www.google.com
             response = s.recv(512)
         except:
             pass
@@ -130,6 +133,7 @@ class DNSServer(object):
         thread = threading.Thread(target=_)
         thread.daemon = True
         thread.start()
+
 
 if __name__ == "__main__":
     server = None

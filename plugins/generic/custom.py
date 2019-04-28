@@ -25,6 +25,7 @@ from lib.core.settings import PARAMETER_SPLITTING_REGEX
 from lib.core.shell import autoCompletion
 from lib.request import inject
 
+
 class Custom:
     """
     This class defines custom enumeration functionalities for plugins.
@@ -53,11 +54,11 @@ class Custom:
 
                 return output
             elif not isStackingAvailable() and not conf.direct:
-                    warnMsg = "execution of non-query SQL statements is only "
-                    warnMsg += "available when stacked queries are supported"
-                    logger.warn(warnMsg)
+                warnMsg = "execution of non-query SQL statements is only "
+                warnMsg += "available when stacked queries are supported"
+                logger.warn(warnMsg)
 
-                    return None
+                return None
             else:
                 if sqlType:
                     debugMsg = "executing %s query: '%s'" % (sqlType if sqlType is not None else "SQL", query)
@@ -130,7 +131,8 @@ class Custom:
 
             snippet = getSQLSnippet(Backend.getDbms(), filename)
 
-            if snippet and all(query.strip().upper().startswith("SELECT") for query in (_ for _ in snippet.split(';' if ';' in snippet else '\n') if _)):
+            if snippet and all(query.strip().upper().startswith("SELECT") for query in
+                               (_ for _ in snippet.split(';' if ';' in snippet else '\n') if _)):
                 for query in (_ for _ in snippet.split(';' if ';' in snippet else '\n') if _):
                     query = query.strip()
                     if query:

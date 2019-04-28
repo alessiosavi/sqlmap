@@ -15,6 +15,7 @@ from lib.core.data import kb
 from lib.core.data import paths
 from lib.core.threads import getCurrentThreadData
 
+
 class HTMLHandler(ContentHandler):
     """
     This class defines methods to parse the input HTML page to
@@ -52,6 +53,7 @@ class HTMLHandler(ContentHandler):
             if kb.cache.regex[regexp] in self._lower_page and re.search(regexp, self._urldecoded_page, re.I):
                 self.dbms = self._dbms
                 self._markAsErrorPage()
+
 
 def htmlParser(page):
     """

@@ -16,8 +16,11 @@ from lib.core.enums import PRIORITY
 
 __priority__ = PRIORITY.HIGHEST
 
+
 def dependencies():
-    singleTimeWarnMessage("tamper script '%s' is only meant to be run against %s" % (os.path.basename(__file__).split(".")[0], DBMS.MSSQL))
+    singleTimeWarnMessage("tamper script '%s' is only meant to be run against %s" % (
+    os.path.basename(__file__).split(".")[0], DBMS.MSSQL))
+
 
 def tamper(payload, **kwargs):
     """
@@ -42,7 +45,8 @@ def tamper(payload, **kwargs):
     retVal = payload
 
     if payload:
-        prefix, suffix = '+' * len(re.search(r"\A(\+*)", payload).group(0)), '+' * len(re.search(r"(\+*)\Z", payload).group(0))
+        prefix, suffix = '+' * len(re.search(r"\A(\+*)", payload).group(0)), '+' * len(
+            re.search(r"(\+*)\Z", payload).group(0))
         retVal = retVal.strip('+')
 
         while True:
@@ -57,7 +61,9 @@ def tamper(payload, **kwargs):
                         last = i
 
                 start = retVal[:indexes[first]].rfind(' ') + 1
-                end = (retVal[indexes[last] + 1:].find(' ') + indexes[last] + 1) if ' ' in retVal[indexes[last] + 1:] else len(retVal) - 1
+                end = (retVal[indexes[last] + 1:].find(' ') + indexes[last] + 1) if ' ' in retVal[
+                                                                                           indexes[last] + 1:] else len(
+                    retVal) - 1
 
                 chars = [char for char in retVal]
                 for index in indexes[first:last + 1]:

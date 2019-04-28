@@ -12,8 +12,10 @@ from lib.core.enums import PRIORITY
 
 __priority__ = PRIORITY.NORMAL
 
+
 def dependencies():
     pass
+
 
 def randomIP():
     numbers = []
@@ -22,6 +24,7 @@ def randomIP():
         numbers = random.sample(xrange(1, 255), 4)
 
     return '.'.join(str(_) for _ in numbers)
+
 
 def tamper(payload, **kwargs):
     """

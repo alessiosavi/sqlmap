@@ -36,6 +36,7 @@ from .mbcssm import EUCJPSMModel
 if sys.version_info >= (3, 0):
     xrange = range
 
+
 class EUCJPProber(MultiByteCharSetProber):
     def __init__(self):
         MultiByteCharSetProber.__init__(self)
@@ -81,7 +82,7 @@ class EUCJPProber(MultiByteCharSetProber):
 
         if self.get_state() == constants.eDetecting:
             if (self._mContextAnalyzer.got_enough_data() and
-               (self.get_confidence() > constants.SHORTCUT_THRESHOLD)):
+                    (self.get_confidence() > constants.SHORTCUT_THRESHOLD)):
                 self._mState = constants.eFoundIt
 
         return self.get_state()

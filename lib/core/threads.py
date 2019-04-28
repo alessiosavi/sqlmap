@@ -29,6 +29,7 @@ from lib.core.settings import PYVERSION
 
 shared = AttribDict()
 
+
 class _ThreadData(threading.local):
     """
     Represents thread independent data
@@ -66,11 +67,14 @@ class _ThreadData(threading.local):
         self.validationRun = 0
         self.valueStack = []
 
+
 ThreadData = _ThreadData()
+
 
 def readInput(message, default=None, checkBatch=True, boolean=False):
     # It will be overwritten by original from lib.core.common
     pass
+
 
 def getCurrentThreadData():
     """
@@ -81,12 +85,14 @@ def getCurrentThreadData():
 
     return ThreadData
 
+
 def getCurrentThreadName():
     """
     Returns current's thread name
     """
 
     return threading.current_thread().getName()
+
 
 def exceptionHandledFunction(threadFunction, silent=False):
     try:
@@ -103,6 +109,7 @@ def exceptionHandledFunction(threadFunction, silent=False):
             if conf.get("verbose") > 1 and not isinstance(ex, (SqlmapUserQuitException,)):
                 traceback.print_exc()
 
+
 def setDaemon(thread):
     # Reference: http://stackoverflow.com/questions/190010/daemon-threads-explanation
     if PYVERSION >= "2.6":
@@ -110,13 +117,16 @@ def setDaemon(thread):
     else:
         thread.setDaemon(True)
 
-def runThreads(numThreads, threadFunction, cleanupFunction=None, forwardException=True, threadChoice=False, startThreadMsg=True):
+
+def runThreads(numThreads, threadFunction, cleanupFunction=None, forwardException=True, threadChoice=False,
+               startThreadMsg=True):
     threads = []
 
     kb.threadContinue = True
     kb.threadException = False
 
-    if threadChoice and numThreads == 1 and not (kb.injection.data and not any(_ not in (PAYLOAD.TECHNIQUE.TIME, PAYLOAD.TECHNIQUE.STACKED) for _ in kb.injection.data)):
+    if threadChoice and numThreads == 1 and not (kb.injection.data and not any(
+            _ not in (PAYLOAD.TECHNIQUE.TIME, PAYLOAD.TECHNIQUE.STACKED) for _ in kb.injection.data)):
         while True:
             message = "please enter number of threads? [Enter for %d (current)] " % numThreads
             choice = readInput(message, default=str(numThreads))
@@ -177,7 +187,8 @@ def runThreads(numThreads, threadFunction, cleanupFunction=None, forwardExceptio
         kb.threadException = True
 
         if numThreads > 1:
-            logger.info("waiting for threads to finish%s" % (" (Ctrl+C was pressed)" if isinstance(ex, KeyboardInterrupt) else ""))
+            logger.info("waiting for threads to finish%s" % (
+                " (Ctrl+C was pressed)" if isinstance(ex, KeyboardInterrupt) else ""))
         try:
             while (threading.activeCount() > 1):
                 pass

@@ -9,6 +9,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Squarespace Web Application Firewall (Squarespace)"
 
+
 def detect(get_page):
     retval = False
 

@@ -1289,7 +1289,8 @@
             <lastChar value="5"/>
         </switches>
         <parse>
-            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'" console_output="True"/>
+            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'"
+                  console_output="True"/>
             <item value="r'Database: testdb.+Table: users.+5 entries.+the     | iss.+&lt;blank&gt; | mei'"/>
         </parse>
     </case>
@@ -1341,7 +1342,8 @@
             <lastChar value="5"/>
         </switches>
         <parse>
-            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'" console_output="True"/>
+            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'"
+                  console_output="True"/>
             <item value="r'Database: public.+Table: users.+5 entries.+the     | iss.+&lt;blank&gt; | mei'"/>
         </parse>
     </case>
@@ -1393,7 +1395,8 @@
             <lastChar value="5"/>
         </switches>
         <parse>
-            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'" console_output="True"/>
+            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'"
+                  console_output="True"/>
             <item value="r'Database: SYS.+Table: USERS.+5 entries.+the     | iss.+&lt;blank&gt; | mei'"/>
         </parse>
     </case>
@@ -1409,7 +1412,8 @@
             <lastChar value="5"/>
         </switches>
         <parse>
-            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'" console_output="True"/>
+            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'"
+                  console_output="True"/>
             <item value="r'Database: DB2INST1.+Table: USERS.+5 entries.+the  | iss.+NULL | mei'"/>
         </parse>
     </case>
@@ -1475,7 +1479,8 @@
             <lastChar value="5"/>
         </switches>
         <parse>
-            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'" console_output="True"/>
+            <item value="r'fetching number of entries for table .+retrieving the length of query output\n[\r]*\[.+?\] \[INFO\] retrieved: [\d]+'"
+                  console_output="True"/>
             <item value="r'Database: Firebird_masterdb.+Table: USERS.+5 entries.+the .+| iss.+   | mei'"/>
         </parse>
     </case>
@@ -3194,7 +3199,8 @@
             <dFile value="/tmp/passwd-${random}"/>
         </switches>
         <parse>
-            <item value="the remote file /tmp/passwd-${random} is larger than the local file /etc/passwd" console_output="True"/>
+            <item value="the remote file /tmp/passwd-${random} is larger than the local file /etc/passwd"
+                  console_output="True"/>
         </parse>
     </case>
     <case name="PostgreSQL boolean-based multi-threaded file read">
@@ -3244,7 +3250,8 @@
             <answers value="do you want to overwrite it=Y"/>
         </switches>
         <parse>
-            <item value="the local file /etc/passwd and the remote file /tmp/passwd-${random} have the same size" console_output="True"/>
+            <item value="the local file /etc/passwd and the remote file /tmp/passwd-${random} have the same size"
+                  console_output="True"/>
         </parse>
     </case>
     <!-- End of file system access switches -->
@@ -3255,7 +3262,8 @@
             <url value="http://debiandev/sqlmap/mysql/get_int.php?id=1"/>
             <tech value="B"/>
             <osCmd value="id"/>
-            <answers value="what do you want to use for writable directory=2,please provide a comma separate list of absolute directory paths=/var/www/test"/>
+            <answers
+                    value="what do you want to use for writable directory=2,please provide a comma separate list of absolute directory paths=/var/www/test"/>
         </switches>
         <parse>
             <item value="command standard output:    'uid="/>
@@ -3267,7 +3275,8 @@
             <tech value="BU"/>
             <osPwn value="True"/>
             <msfPath value="/usr/local/bin/"/>
-            <answers value="what do you want to use for writable directory=2,please provide a comma separate list of absolute directory paths=/var/www/test"/>
+            <answers
+                    value="what do you want to use for writable directory=2,please provide a comma separate list of absolute directory paths=/var/www/test"/>
         </switches>
         <parse>
             <item value="r'Sending stage.+Linux.+uid=.+www-data'" console_output="True"/>

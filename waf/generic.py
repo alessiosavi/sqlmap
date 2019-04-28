@@ -15,6 +15,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Generic (Unknown)"
 
+
 def detect(get_page):
     retval = False
 
@@ -25,9 +26,13 @@ def detect(get_page):
     for vector in WAF_ATTACK_VECTORS:
         page, headers, code = get_page(get=vector)
 
-        if code >= 400 or (IPS_WAF_CHECK_PAYLOAD in vector and (code is None or re.search(GENERIC_PROTECTION_REGEX, page or "") and not re.search(GENERIC_PROTECTION_REGEX, original or ""))):
+        if code >= 400 or (IPS_WAF_CHECK_PAYLOAD in vector and (
+                code is None or re.search(GENERIC_PROTECTION_REGEX, page or "") and not re.search(
+                GENERIC_PROTECTION_REGEX, original or ""))):
             if code is not None:
-                kb.wafSpecificResponse = "HTTP/1.1 %s\n%s\n%s" % (code, "".join(getUnicode(_) for _ in (headers.headers if headers else {}) or [] if not _.startswith("URI")), getUnicode(page or ""))
+                kb.wafSpecificResponse = "HTTP/1.1 %s\n%s\n%s" % (code, "".join(
+                    getUnicode(_) for _ in (headers.headers if headers else {}) or [] if not _.startswith("URI")),
+                                                                  getUnicode(page or ""))
 
             retval = True
             break

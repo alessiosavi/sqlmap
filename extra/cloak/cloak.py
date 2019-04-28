@@ -20,6 +20,7 @@ from optparse import OptionParser
 if sys.version_info >= (3, 0):
     xrange = range
 
+
 def hideAscii(data):
     retVal = b""
     for i in xrange(len(data)):
@@ -28,12 +29,14 @@ def hideAscii(data):
 
     return retVal
 
+
 def cloak(inputFile=None, data=None):
     if data is None:
         with open(inputFile, "rb") as f:
             data = f.read()
 
     return hideAscii(zlib.compress(data))
+
 
 def decloak(inputFile=None, data=None):
     if data is None:
@@ -49,6 +52,7 @@ def decloak(inputFile=None, data=None):
         f.close()
 
     return data
+
 
 def main():
     usage = '%s [-d] -i <input file> [-o <output file>]' % sys.argv[0]
@@ -85,6 +89,7 @@ def main():
     f = open(args.outputFile, 'wb')
     f.write(data)
     f.close()
+
 
 if __name__ == '__main__':
     main()

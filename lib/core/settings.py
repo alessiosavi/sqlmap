@@ -20,7 +20,8 @@ from lib.core.enums import OS
 VERSION = "1.3.4.34"
 TYPE = "dev" if VERSION.count('.') > 2 and VERSION.split('.')[-1] != '0' else "stable"
 TYPE_COLORS = {"dev": 33, "stable": 90, "pip": 34}
-VERSION_STRING = "sqlmap/%s#%s" % ('.'.join(VERSION.split('.')[:-1]) if VERSION.count('.') > 2 and VERSION.split('.')[-1] == '0' else VERSION, TYPE)
+VERSION_STRING = "sqlmap/%s#%s" % (
+'.'.join(VERSION.split('.')[:-1]) if VERSION.count('.') > 2 and VERSION.split('.')[-1] == '0' else VERSION, TYPE)
 DESCRIPTION = "automatic SQL injection and database takeover tool"
 SITE = "http://sqlmap.org"
 DEFAULT_USER_AGENT = "%s (%s)" % (VERSION_STRING, SITE)
@@ -236,13 +237,27 @@ IS_WIN = PLATFORM == "nt"
 MSSQL_SYSTEM_DBS = ("Northwind", "master", "model", "msdb", "pubs", "tempdb")
 MYSQL_SYSTEM_DBS = ("information_schema", "mysql", "performance_schema", "sys")
 PGSQL_SYSTEM_DBS = ("information_schema", "pg_catalog", "pg_toast", "pgagent")
-ORACLE_SYSTEM_DBS = ('ANONYMOUS', 'APEX_030200', 'APEX_PUBLIC_USER', 'APPQOSSYS', 'BI', 'CTXSYS', 'DBSNMP', 'DIP', 'EXFSYS', 'FLOWS_%', 'FLOWS_FILES', 'HR', 'IX', 'LBACSYS', 'MDDATA', 'MDSYS', 'MGMT_VIEW', 'OC', 'OE', 'OLAPSYS', 'ORACLE_OCM', 'ORDDATA', 'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'OWBSYS', 'PM', 'SCOTT', 'SH', 'SI_INFORMTN_SCHEMA', 'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SYS', 'SYSMAN', 'SYSTEM', 'WKPROXY', 'WKSYS', 'WK_TEST', 'WMSYS', 'XDB', 'XS$NULL')
+ORACLE_SYSTEM_DBS = (
+'ANONYMOUS', 'APEX_030200', 'APEX_PUBLIC_USER', 'APPQOSSYS', 'BI', 'CTXSYS', 'DBSNMP', 'DIP', 'EXFSYS', 'FLOWS_%',
+'FLOWS_FILES', 'HR', 'IX', 'LBACSYS', 'MDDATA', 'MDSYS', 'MGMT_VIEW', 'OC', 'OE', 'OLAPSYS', 'ORACLE_OCM', 'ORDDATA',
+'ORDPLUGINS', 'ORDSYS', 'OUTLN', 'OWBSYS', 'PM', 'SCOTT', 'SH', 'SI_INFORMTN_SCHEMA', 'SPATIAL_CSW_ADMIN_USR',
+'SPATIAL_WFS_ADMIN_USR', 'SYS', 'SYSMAN', 'SYSTEM', 'WKPROXY', 'WKSYS', 'WK_TEST', 'WMSYS', 'XDB', 'XS$NULL')
 SQLITE_SYSTEM_DBS = ("sqlite_master", "sqlite_temp_master")
-ACCESS_SYSTEM_DBS = ("MSysAccessObjects", "MSysACEs", "MSysObjects", "MSysQueries", "MSysRelationships", "MSysAccessStorage", "MSysAccessXML", "MSysModules", "MSysModules2")
-FIREBIRD_SYSTEM_DBS = ("RDB$BACKUP_HISTORY", "RDB$CHARACTER_SETS", "RDB$CHECK_CONSTRAINTS", "RDB$COLLATIONS", "RDB$DATABASE", "RDB$DEPENDENCIES", "RDB$EXCEPTIONS", "RDB$FIELDS", "RDB$FIELD_DIMENSIONS", " RDB$FILES", "RDB$FILTERS", "RDB$FORMATS", "RDB$FUNCTIONS", "RDB$FUNCTION_ARGUMENTS", "RDB$GENERATORS", "RDB$INDEX_SEGMENTS", "RDB$INDICES", "RDB$LOG_FILES", "RDB$PAGES", "RDB$PROCEDURES", "RDB$PROCEDURE_PARAMETERS", "RDB$REF_CONSTRAINTS", "RDB$RELATIONS", "RDB$RELATION_CONSTRAINTS", "RDB$RELATION_FIELDS", "RDB$ROLES", "RDB$SECURITY_CLASSES", "RDB$TRANSACTIONS", "RDB$TRIGGERS", "RDB$TRIGGER_MESSAGES", "RDB$TYPES", "RDB$USER_PRIVILEGES", "RDB$VIEW_RELATIONS")
+ACCESS_SYSTEM_DBS = (
+"MSysAccessObjects", "MSysACEs", "MSysObjects", "MSysQueries", "MSysRelationships", "MSysAccessStorage",
+"MSysAccessXML", "MSysModules", "MSysModules2")
+FIREBIRD_SYSTEM_DBS = (
+"RDB$BACKUP_HISTORY", "RDB$CHARACTER_SETS", "RDB$CHECK_CONSTRAINTS", "RDB$COLLATIONS", "RDB$DATABASE",
+"RDB$DEPENDENCIES", "RDB$EXCEPTIONS", "RDB$FIELDS", "RDB$FIELD_DIMENSIONS", " RDB$FILES", "RDB$FILTERS", "RDB$FORMATS",
+"RDB$FUNCTIONS", "RDB$FUNCTION_ARGUMENTS", "RDB$GENERATORS", "RDB$INDEX_SEGMENTS", "RDB$INDICES", "RDB$LOG_FILES",
+"RDB$PAGES", "RDB$PROCEDURES", "RDB$PROCEDURE_PARAMETERS", "RDB$REF_CONSTRAINTS", "RDB$RELATIONS",
+"RDB$RELATION_CONSTRAINTS", "RDB$RELATION_FIELDS", "RDB$ROLES", "RDB$SECURITY_CLASSES", "RDB$TRANSACTIONS",
+"RDB$TRIGGERS", "RDB$TRIGGER_MESSAGES", "RDB$TYPES", "RDB$USER_PRIVILEGES", "RDB$VIEW_RELATIONS")
 MAXDB_SYSTEM_DBS = ("SYSINFO", "DOMAIN")
 SYBASE_SYSTEM_DBS = ("master", "model", "sybsystemdb", "sybsystemprocs")
-DB2_SYSTEM_DBS = ("NULLID", "SQLJ", "SYSCAT", "SYSFUN", "SYSIBM", "SYSIBMADM", "SYSIBMINTERNAL", "SYSIBMTS", "SYSPROC", "SYSPUBLIC", "SYSSTAT", "SYSTOOLS")
+DB2_SYSTEM_DBS = (
+"NULLID", "SQLJ", "SYSCAT", "SYSFUN", "SYSIBM", "SYSIBMADM", "SYSIBMINTERNAL", "SYSIBMTS", "SYSPROC", "SYSPUBLIC",
+"SYSSTAT", "SYSTOOLS")
 HSQLDB_SYSTEM_DBS = ("INFORMATION_SCHEMA", "SYSTEM_LOB")
 H2_SYSTEM_DBS = ("INFORMATION_SCHEMA")
 INFORMIX_SYSTEM_DBS = ("sysmaster", "sysutils", "sysuser", "sysadmin")
@@ -261,12 +276,17 @@ HSQLDB_ALIASES = ("hsql", "hsqldb", "hs", "hypersql")
 H2_ALIASES = ("h2",)
 INFORMIX_ALIASES = ("informix", "ibm informix", "ibminformix")
 
-DBMS_DIRECTORY_DICT = dict((getattr(DBMS, _), getattr(DBMS_DIRECTORY_NAME, _)) for _ in dir(DBMS) if not _.startswith("_"))
+DBMS_DIRECTORY_DICT = dict(
+    (getattr(DBMS, _), getattr(DBMS_DIRECTORY_NAME, _)) for _ in dir(DBMS) if not _.startswith("_"))
 
 SUPPORTED_DBMS = MSSQL_ALIASES + MYSQL_ALIASES + PGSQL_ALIASES + ORACLE_ALIASES + SQLITE_ALIASES + ACCESS_ALIASES + FIREBIRD_ALIASES + MAXDB_ALIASES + SYBASE_ALIASES + DB2_ALIASES + HSQLDB_ALIASES + H2_ALIASES + INFORMIX_ALIASES
 SUPPORTED_OS = ("linux", "windows")
 
-DBMS_ALIASES = ((DBMS.MSSQL, MSSQL_ALIASES), (DBMS.MYSQL, MYSQL_ALIASES), (DBMS.PGSQL, PGSQL_ALIASES), (DBMS.ORACLE, ORACLE_ALIASES), (DBMS.SQLITE, SQLITE_ALIASES), (DBMS.ACCESS, ACCESS_ALIASES), (DBMS.FIREBIRD, FIREBIRD_ALIASES), (DBMS.MAXDB, MAXDB_ALIASES), (DBMS.SYBASE, SYBASE_ALIASES), (DBMS.DB2, DB2_ALIASES), (DBMS.HSQLDB, HSQLDB_ALIASES), (DBMS.H2, H2_ALIASES), (DBMS.INFORMIX, INFORMIX_ALIASES))
+DBMS_ALIASES = (
+(DBMS.MSSQL, MSSQL_ALIASES), (DBMS.MYSQL, MYSQL_ALIASES), (DBMS.PGSQL, PGSQL_ALIASES), (DBMS.ORACLE, ORACLE_ALIASES),
+(DBMS.SQLITE, SQLITE_ALIASES), (DBMS.ACCESS, ACCESS_ALIASES), (DBMS.FIREBIRD, FIREBIRD_ALIASES),
+(DBMS.MAXDB, MAXDB_ALIASES), (DBMS.SYBASE, SYBASE_ALIASES), (DBMS.DB2, DB2_ALIASES), (DBMS.HSQLDB, HSQLDB_ALIASES),
+(DBMS.H2, H2_ALIASES), (DBMS.INFORMIX, INFORMIX_ALIASES))
 
 USER_AGENT_ALIASES = ("ua", "useragent", "user-agent")
 REFERER_ALIASES = ("ref", "referer", "referrer")
@@ -275,7 +295,9 @@ HOST_ALIASES = ("host",)
 H2_DEFAULT_SCHEMA = HSQLDB_DEFAULT_SCHEMA = "PUBLIC"
 
 # Names that can't be used to name files on Windows OS
-WINDOWS_RESERVED_NAMES = ("CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9")
+WINDOWS_RESERVED_NAMES = (
+"CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2",
+"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9")
 
 # Items displayed in basic help (-h) output
 BASIC_HELP_ITEMS = (
@@ -330,7 +352,9 @@ CURRENT_DB = "CD"
 SESSION_SQLITE_FILE = "session.sqlite"
 
 # Regular expressions used for finding file paths in error messages
-FILE_PATH_REGEXES = (r"<b>(?P<result>[^<>]+?)</b> on line \d+", r"\bin (?P<result>[^<>'\"]+?)['\"]? on line \d+", r"(?:[>(\[\s])(?P<result>[A-Za-z]:[\\/][\w. \\/-]*)", r"(?:[>(\[\s])(?P<result>/\w[/\w.~-]+)", r"\bhref=['\"]file://(?P<result>/[^'\"]+)", r"\bin <b>(?P<result>[^<]+): line \d+")
+FILE_PATH_REGEXES = (r"<b>(?P<result>[^<>]+?)</b> on line \d+", r"\bin (?P<result>[^<>'\"]+?)['\"]? on line \d+",
+                     r"(?:[>(\[\s])(?P<result>[A-Za-z]:[\\/][\w. \\/-]*)", r"(?:[>(\[\s])(?P<result>/\w[/\w.~-]+)",
+                     r"\bhref=['\"]file://(?P<result>/[^'\"]+)", r"\bin <b>(?P<result>[^<]+): line \d+")
 
 # Regular expressions used for parsing error messages (--parse-errors)
 ERROR_PARSING_REGEXES = (
@@ -355,7 +379,9 @@ META_REFRESH_REGEX = r'(?si)<head>(?!.*?<noscript.*?</head).*?<meta http-equiv="
 EMPTY_FORM_FIELDS_REGEX = r'(&|\A)(?P<result>[^=]+=(&|\Z))'
 
 # Reference: http://www.cs.ru.nl/bachelorscripties/2010/Martin_Devillers___0437999___Analyzing_password_strength.pdf
-COMMON_PASSWORD_SUFFIXES = ("1", "123", "2", "12", "3", "13", "7", "11", "5", "22", "23", "01", "4", "07", "21", "14", "10", "06", "08", "8", "15", "69", "16", "6", "18")
+COMMON_PASSWORD_SUFFIXES = (
+"1", "123", "2", "12", "3", "13", "7", "11", "5", "22", "23", "01", "4", "07", "21", "14", "10", "06", "08", "8", "15",
+"69", "16", "6", "18")
 
 # Reference: http://www.the-interweb.com/serendipity/index.php?/archives/94-A-brief-analysis-of-40,000-leaked-MySpace-passwords.html
 COMMON_PASSWORD_SUFFIXES += ("!", ".", "*", "!!", "?", ";", "..", "!!!", ", ", "@")
@@ -382,7 +408,9 @@ URI_INJECTABLE_REGEX = r"//[^/]*/([^\.*?]+)\Z"
 SENSITIVE_DATA_REGEX = r"(\s|=)(?P<result>[^\s=]*\b%s\b[^\s]*)\s"
 
 # Options to explicitly mask in anonymous (unhandled exception) reports (along with anything carrying the <hostname> inside)
-SENSITIVE_OPTIONS = ("hostname", "answers", "data", "dnsDomain", "googleDork", "authCred", "proxyCred", "tbl", "db", "col", "user", "cookie", "proxy", "fileRead", "fileWrite", "fileDest", "testParameter", "authCred")
+SENSITIVE_OPTIONS = (
+"hostname", "answers", "data", "dnsDomain", "googleDork", "authCred", "proxyCred", "tbl", "db", "col", "user", "cookie",
+"proxy", "fileRead", "fileWrite", "fileDest", "testParameter", "authCred")
 
 # Maximum number of threads (avoiding connection issues and/or DoS)
 MAX_NUMBER_OF_THREADS = 10
@@ -412,7 +440,9 @@ MIN_ERROR_CHUNK_LENGTH = 8
 MAX_ERROR_CHUNK_LENGTH = 1024
 
 # Do not escape the injected statement if it contains any of the following SQL keywords
-EXCLUDE_UNESCAPE = ("WAITFOR DELAY ", " INTO DUMPFILE ", " INTO OUTFILE ", "CREATE ", "BULK ", "EXEC ", "RECONFIGURE ", "DECLARE ", "'%s'" % CHAR_INFERENCE_MARK)
+EXCLUDE_UNESCAPE = (
+"WAITFOR DELAY ", " INTO DUMPFILE ", " INTO OUTFILE ", "CREATE ", "BULK ", "EXEC ", "RECONFIGURE ", "DECLARE ",
+"'%s'" % CHAR_INFERENCE_MARK)
 
 # Mark used for replacement of reflected values
 REFLECTED_VALUE_MARKER = "__REFLECTED_VALUE__"
@@ -451,10 +481,14 @@ MAX_INT = sys.maxsize
 UNSAFE_DUMP_FILEPATH_REPLACEMENT = '_'
 
 # Options that need to be restored in multiple targets run mode
-RESTORE_MERGED_OPTIONS = ("col", "db", "dnsDomain", "privEsc", "tbl", "regexp", "string", "textOnly", "threads", "timeSec", "tmpPath", "uChar", "user")
+RESTORE_MERGED_OPTIONS = (
+"col", "db", "dnsDomain", "privEsc", "tbl", "regexp", "string", "textOnly", "threads", "timeSec", "tmpPath", "uChar",
+"user")
 
 # Parameters to be ignored in detection phase (upper case)
-IGNORE_PARAMETERS = ("__VIEWSTATE", "__VIEWSTATEENCRYPTED", "__VIEWSTATEGENERATOR", "__EVENTARGUMENT", "__EVENTTARGET", "__EVENTVALIDATION", "ASPSESSIONID", "ASP.NET_SESSIONID", "JSESSIONID", "CFID", "CFTOKEN")
+IGNORE_PARAMETERS = (
+"__VIEWSTATE", "__VIEWSTATEENCRYPTED", "__VIEWSTATEGENERATOR", "__EVENTARGUMENT", "__EVENTTARGET", "__EVENTVALIDATION",
+"ASPSESSIONID", "ASP.NET_SESSIONID", "JSESSIONID", "CFID", "CFTOKEN")
 
 # Regular expression used for recognition of ASP.NET control parameters
 ASP_NET_CONTROL_REGEX = r"(?i)\Actl\d+\$"
@@ -494,7 +528,9 @@ LOW_TEXT_PERCENT = 20
 
 # These MySQL keywords can't go (alone) into versioned comment form (/*!...*/)
 # Reference: http://dev.mysql.com/doc/refman/5.1/en/function-resolution.html
-IGNORE_SPACE_AFFECTED_KEYWORDS = ("CAST", "COUNT", "EXTRACT", "GROUP_CONCAT", "MAX", "MID", "MIN", "SESSION_USER", "SUBSTR", "SUBSTRING", "SUM", "SYSTEM_USER", "TRIM")
+IGNORE_SPACE_AFFECTED_KEYWORDS = (
+"CAST", "COUNT", "EXTRACT", "GROUP_CONCAT", "MAX", "MID", "MIN", "SESSION_USER", "SUBSTR", "SUBSTRING", "SUM",
+"SYSTEM_USER", "TRIM")
 
 # Keywords expected to be in UPPERCASE in getValue()
 GET_VALUE_UPPERCASE_KEYWORDS = ("SELECT", "FROM", "WHERE", "DISTINCT", "COUNT")
@@ -517,7 +553,19 @@ DUMMY_SQL_INJECTION_CHARS = ";()'"
 DUMMY_USER_INJECTION = r"(?i)[^\w](AND|OR)\s+[^\s]+[=><]|\bUNION\b.+\bSELECT\b|\bSELECT\b.+\bFROM\b|\b(CONCAT|information_schema|SLEEP|DELAY|FLOOR\(RAND)\b"
 
 # Extensions skipped by crawler
-CRAWL_EXCLUDE_EXTENSIONS = ("3ds", "3g2", "3gp", "7z", "DS_Store", "a", "aac", "adp", "ai", "aif", "aiff", "apk", "ar", "asf", "au", "avi", "bak", "bin", "bk", "bmp", "btif", "bz2", "cab", "caf", "cgm", "cmx", "cpio", "cr2", "dat", "deb", "djvu", "dll", "dmg", "dmp", "dng", "doc", "docx", "dot", "dotx", "dra", "dsk", "dts", "dtshd", "dvb", "dwg", "dxf", "ear", "ecelp4800", "ecelp7470", "ecelp9600", "egg", "eol", "eot", "epub", "exe", "f4v", "fbs", "fh", "fla", "flac", "fli", "flv", "fpx", "fst", "fvt", "g3", "gif", "gz", "h261", "h263", "h264", "ico", "ief", "image", "img", "ipa", "iso", "jar", "jpeg", "jpg", "jpgv", "jpm", "jxr", "ktx", "lvp", "lz", "lzma", "lzo", "m3u", "m4a", "m4v", "mar", "mdi", "mid", "mj2", "mka", "mkv", "mmr", "mng", "mov", "movie", "mp3", "mp4", "mp4a", "mpeg", "mpg", "mpga", "mxu", "nef", "npx", "o", "oga", "ogg", "ogv", "otf", "pbm", "pcx", "pdf", "pea", "pgm", "pic", "png", "pnm", "ppm", "pps", "ppt", "pptx", "ps", "psd", "pya", "pyc", "pyo", "pyv", "qt", "rar", "ras", "raw", "rgb", "rip", "rlc", "rz", "s3m", "s7z", "scm", "scpt", "sgi", "shar", "sil", "smv", "so", "sub", "swf", "tar", "tbz2", "tga", "tgz", "tif", "tiff", "tlz", "ts", "ttf", "uvh", "uvi", "uvm", "uvp", "uvs", "uvu", "viv", "vob", "war", "wav", "wax", "wbmp", "wdp", "weba", "webm", "webp", "whl", "wm", "wma", "wmv", "wmx", "woff", "woff2", "wvx", "xbm", "xif", "xls", "xlsx", "xlt", "xm", "xpi", "xpm", "xwd", "xz", "z", "zip", "zipx")
+CRAWL_EXCLUDE_EXTENSIONS = (
+"3ds", "3g2", "3gp", "7z", "DS_Store", "a", "aac", "adp", "ai", "aif", "aiff", "apk", "ar", "asf", "au", "avi", "bak",
+"bin", "bk", "bmp", "btif", "bz2", "cab", "caf", "cgm", "cmx", "cpio", "cr2", "dat", "deb", "djvu", "dll", "dmg", "dmp",
+"dng", "doc", "docx", "dot", "dotx", "dra", "dsk", "dts", "dtshd", "dvb", "dwg", "dxf", "ear", "ecelp4800", "ecelp7470",
+"ecelp9600", "egg", "eol", "eot", "epub", "exe", "f4v", "fbs", "fh", "fla", "flac", "fli", "flv", "fpx", "fst", "fvt",
+"g3", "gif", "gz", "h261", "h263", "h264", "ico", "ief", "image", "img", "ipa", "iso", "jar", "jpeg", "jpg", "jpgv",
+"jpm", "jxr", "ktx", "lvp", "lz", "lzma", "lzo", "m3u", "m4a", "m4v", "mar", "mdi", "mid", "mj2", "mka", "mkv", "mmr",
+"mng", "mov", "movie", "mp3", "mp4", "mp4a", "mpeg", "mpg", "mpga", "mxu", "nef", "npx", "o", "oga", "ogg", "ogv",
+"otf", "pbm", "pcx", "pdf", "pea", "pgm", "pic", "png", "pnm", "ppm", "pps", "ppt", "pptx", "ps", "psd", "pya", "pyc",
+"pyo", "pyv", "qt", "rar", "ras", "raw", "rgb", "rip", "rlc", "rz", "s3m", "s7z", "scm", "scpt", "sgi", "shar", "sil",
+"smv", "so", "sub", "swf", "tar", "tbz2", "tga", "tgz", "tif", "tiff", "tlz", "ts", "ttf", "uvh", "uvi", "uvm", "uvp",
+"uvs", "uvu", "viv", "vob", "war", "wav", "wax", "wbmp", "wdp", "weba", "webm", "webp", "whl", "wm", "wma", "wmv",
+"wmx", "woff", "woff2", "wvx", "xbm", "xif", "xls", "xlsx", "xlt", "xm", "xpi", "xpm", "xwd", "xz", "z", "zip", "zipx")
 
 # Patterns often seen in HTTP headers containing custom injection marking character '*'
 PROBLEMATIC_CUSTOM_INJECTION_PATTERNS = r"(;q=[^;']+)|(\*/\*)"
@@ -590,7 +638,10 @@ UNION_CHAR_REGEX = r"\A\w+\Z"
 UNENCODED_ORIGINAL_VALUE = "original"
 
 # Common column names containing usernames (used for hash cracking in some cases)
-COMMON_USER_COLUMNS = ("login", "user", "username", "user_name", "user_login", "benutzername", "benutzer", "utilisateur", "usager", "consommateur", "utente", "utilizzatore", "utilizator", "utilizador", "usufrutuario", "korisnik", "uporabnik", "usuario", "consumidor", "client", "cuser")
+COMMON_USER_COLUMNS = (
+"login", "user", "username", "user_name", "user_login", "benutzername", "benutzer", "utilisateur", "usager",
+"consommateur", "utente", "utilizzatore", "utilizator", "utilizador", "usufrutuario", "korisnik", "uporabnik",
+"usuario", "consumidor", "client", "cuser")
 
 # Default delimiter in GET/POST values
 DEFAULT_GET_POST_DELIMITER = '&'
@@ -644,7 +695,8 @@ DNS_BOUNDARIES_ALPHABET = re.sub(r"[a-fA-F]", "", string.ascii_letters)
 HEURISTIC_CHECK_ALPHABET = ('"', '\'', ')', '(', ',', '.')
 
 # Minor artistic touch
-BANNER = re.sub(r"\[.\]", lambda _: "[\033[01;41m%s\033[01;49m]" % random.sample(HEURISTIC_CHECK_ALPHABET, 1)[0], BANNER)
+BANNER = re.sub(r"\[.\]", lambda _: "[\033[01;41m%s\033[01;49m]" % random.sample(HEURISTIC_CHECK_ALPHABET, 1)[0],
+                BANNER)
 
 # String used for dummy non-SQLi (e.g. XSS) heuristic checks of a tested parameter value
 DUMMY_NON_SQLI_CHECK_APPENDIX = "<'\">"
@@ -680,10 +732,17 @@ VALID_TIME_CHARS_RUN_THRESHOLD = 100
 CHECK_ZERO_COLUMNS_THRESHOLD = 10
 
 # Boldify all logger messages containing these "patterns"
-BOLD_PATTERNS = ("' injectable", "provided empty", "leftover chars", "might be injectable", "' is vulnerable", "is not injectable", "does not seem to be", "test failed", "test passed", "live test final result", "test shows that", "the back-end DBMS is", "created Github", "blocked by the target server", "protection is involved", "CAPTCHA", "specific response", "NULL connection is supported", "PASSED", "FAILED", "for more than")
+BOLD_PATTERNS = (
+"' injectable", "provided empty", "leftover chars", "might be injectable", "' is vulnerable", "is not injectable",
+"does not seem to be", "test failed", "test passed", "live test final result", "test shows that",
+"the back-end DBMS is", "created Github", "blocked by the target server", "protection is involved", "CAPTCHA",
+"specific response", "NULL connection is supported", "PASSED", "FAILED", "for more than")
 
 # TLDs used in randomization of email-alike parameter values
-RANDOMIZATION_TLDS = ("com", "net", "ru", "org", "de", "jp", "cn", "fr", "it", "pl", "tv", "edu", "in", "ir", "es", "me", "info", "gr", "gov", "ca", "co", "se", "cz", "to", "vn", "nl", "cc", "az", "hu", "ua", "be", "no", "biz", "io", "ch", "ro", "sk", "eu", "us", "tw", "pt", "fi", "at", "lt", "kz", "cl", "hr", "pk", "lv", "la", "pe")
+RANDOMIZATION_TLDS = (
+"com", "net", "ru", "org", "de", "jp", "cn", "fr", "it", "pl", "tv", "edu", "in", "ir", "es", "me", "info", "gr", "gov",
+"ca", "co", "se", "cz", "to", "vn", "nl", "cc", "az", "hu", "ua", "be", "no", "biz", "io", "ch", "ro", "sk", "eu", "us",
+"tw", "pt", "fi", "at", "lt", "kz", "cl", "hr", "pk", "lv", "la", "pe")
 
 # Generic www root directory names
 GENERIC_DOC_ROOT_DIRECTORY_NAMES = ("htdocs", "httpdocs", "public", "wwwroot", "www")
@@ -695,7 +754,15 @@ MAX_HELP_OPTION_LENGTH = 18
 MAX_CONNECT_RETRIES = 100
 
 # Strings for detecting formatting errors
-FORMAT_EXCEPTION_STRINGS = ("Type mismatch", "Error converting", "Please enter a", "Conversion failed", "String or binary data would be truncated", "Failed to convert", "unable to interpret text value", "Input string was not in a correct format", "System.FormatException", "java.lang.NumberFormatException", "ValueError: invalid literal", "TypeMismatchException", "CF_SQL_INTEGER", "CF_SQL_NUMERIC", " for CFSQLTYPE ", "cfqueryparam cfsqltype", "InvalidParamTypeException", "Invalid parameter type", "Attribute validation error for tag", "is not of type numeric", "<cfif Not IsNumeric(", "invalid input syntax for integer", "invalid input syntax for type", "invalid number", "character to number conversion error", "unable to interpret text value", "String was not recognized as a valid", "Convert.ToInt", "cannot be converted to a ", "InvalidDataException")
+FORMAT_EXCEPTION_STRINGS = (
+"Type mismatch", "Error converting", "Please enter a", "Conversion failed", "String or binary data would be truncated",
+"Failed to convert", "unable to interpret text value", "Input string was not in a correct format",
+"System.FormatException", "java.lang.NumberFormatException", "ValueError: invalid literal", "TypeMismatchException",
+"CF_SQL_INTEGER", "CF_SQL_NUMERIC", " for CFSQLTYPE ", "cfqueryparam cfsqltype", "InvalidParamTypeException",
+"Invalid parameter type", "Attribute validation error for tag", "is not of type numeric", "<cfif Not IsNumeric(",
+"invalid input syntax for integer", "invalid input syntax for type", "invalid number",
+"character to number conversion error", "unable to interpret text value", "String was not recognized as a valid",
+"Convert.ToInt", "cannot be converted to a ", "InvalidDataException")
 
 # Regular expression used for extracting ASP.NET view state values
 VIEWSTATE_REGEX = r'(?i)(?P<name>__VIEWSTATE[^"]*)[^>]+value="(?P<result>[^"]+)'
@@ -734,7 +801,8 @@ JSON_LIKE_RECOGNITION_REGEX = r"(?s)\A(\s*\[)*\s*\{.*'[^']+'\s*:\s*('[^']+'|\d+)
 MULTIPART_RECOGNITION_REGEX = r"(?i)Content-Disposition:[^;]+;\s*name="
 
 # Regular expression used for detecting Array-like POST data
-ARRAY_LIKE_RECOGNITION_REGEX = r"(\A|%s)(\w+)\[\]=.+%s\2\[\]=" % (DEFAULT_GET_POST_DELIMITER, DEFAULT_GET_POST_DELIMITER)
+ARRAY_LIKE_RECOGNITION_REGEX = r"(\A|%s)(\w+)\[\]=.+%s\2\[\]=" % (
+DEFAULT_GET_POST_DELIMITER, DEFAULT_GET_POST_DELIMITER)
 
 # Default POST data content-type
 DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded; charset=utf-8"
@@ -749,7 +817,8 @@ SUHOSIN_MAX_VALUE_LENGTH = 512
 MIN_BINARY_DISK_DUMP_SIZE = 100
 
 # Filenames of payloads xml files (in order of loading)
-PAYLOAD_XML_FILES = ("boolean_blind.xml", "error_based.xml", "inline_query.xml", "stacked_queries.xml", "time_blind.xml", "union_query.xml")
+PAYLOAD_XML_FILES = (
+"boolean_blind.xml", "error_based.xml", "inline_query.xml", "stacked_queries.xml", "time_blind.xml", "union_query.xml")
 
 # Regular expression used for extracting form tags
 FORM_SEARCH_REGEX = r"(?si)<form(?!.+<form).+?</form>"
@@ -777,15 +846,24 @@ CSRF_TOKEN_PARAMETER_INFIXES = ("csrf", "xsrf", "token")
 
 # Prefixes used in brute force search for web server document root
 BRUTE_DOC_ROOT_PREFIXES = {
-    OS.LINUX: ("/var/www", "/usr/local/apache", "/usr/local/apache2", "/usr/local/www/apache22", "/usr/local/www/apache24", "/usr/local/httpd", "/var/www/nginx-default", "/srv/www", "/var/www/%TARGET%", "/var/www/vhosts/%TARGET%", "/var/www/virtual/%TARGET%", "/var/www/clients/vhosts/%TARGET%", "/var/www/clients/virtual/%TARGET%"),
-    OS.WINDOWS: ("/xampp", "/Program Files/xampp", "/wamp", "/Program Files/wampp", "/apache", "/Program Files/Apache Group/Apache", "/Program Files/Apache Group/Apache2", "/Program Files/Apache Group/Apache2.2", "/Program Files/Apache Group/Apache2.4", "/Inetpub/wwwroot", "/Inetpub/wwwroot/%TARGET%", "/Inetpub/vhosts/%TARGET%")
+    OS.LINUX: (
+    "/var/www", "/usr/local/apache", "/usr/local/apache2", "/usr/local/www/apache22", "/usr/local/www/apache24",
+    "/usr/local/httpd", "/var/www/nginx-default", "/srv/www", "/var/www/%TARGET%", "/var/www/vhosts/%TARGET%",
+    "/var/www/virtual/%TARGET%", "/var/www/clients/vhosts/%TARGET%", "/var/www/clients/virtual/%TARGET%"),
+    OS.WINDOWS: (
+    "/xampp", "/Program Files/xampp", "/wamp", "/Program Files/wampp", "/apache", "/Program Files/Apache Group/Apache",
+    "/Program Files/Apache Group/Apache2", "/Program Files/Apache Group/Apache2.2",
+    "/Program Files/Apache Group/Apache2.4", "/Inetpub/wwwroot", "/Inetpub/wwwroot/%TARGET%",
+    "/Inetpub/vhosts/%TARGET%")
 }
 
 # Table prefix to use in "takeover" functionalities (i.e. auxiliary tables used by sqlmap at the vulnerable DBMS)
 TAKEOVER_TABLE_PREFIX = "sqlmap"
 
 # Suffixes used in brute force search for web server document root
-BRUTE_DOC_ROOT_SUFFIXES = ("", "html", "htdocs", "httpdocs", "php", "public", "src", "site", "build", "web", "www", "data", "sites/all", "www/build")
+BRUTE_DOC_ROOT_SUFFIXES = (
+"", "html", "htdocs", "httpdocs", "php", "public", "src", "site", "build", "web", "www", "data", "sites/all",
+"www/build")
 
 # String used for marking target name inside used brute force web server document root
 BRUTE_DOC_ROOT_TARGET_MARK = "%TARGET%"
@@ -797,7 +875,9 @@ KB_CHARS_BOUNDARY_CHAR = 'q'
 KB_CHARS_LOW_FREQUENCY_ALPHABET = "zqxjkvbp"
 
 # SQL keywords used for splitting in HTTP chunked transfer encoded requests (switch --chunk)
-HTTP_CHUNKED_SPLIT_KEYWORDS = ("SELECT", "UPDATE", "INSERT", "FROM", "LOAD_FILE", "UNION", "information_schema", "sysdatabases", "msysaccessobjects", "msysqueries", "sysmodules")
+HTTP_CHUNKED_SPLIT_KEYWORDS = (
+"SELECT", "UPDATE", "INSERT", "FROM", "LOAD_FILE", "UNION", "information_schema", "sysdatabases", "msysaccessobjects",
+"msysqueries", "sysmodules")
 
 # CSS style used in HTML dump format
 HTML_DUMP_CSS_STYLE = """<style>
@@ -831,12 +911,16 @@ for key, value in os.environ.items():
         if _ in globals():
             globals()[_] = value
 
+
 # Installing "reversible" unicode (decoding) error handler
 def _reversible(ex):
     if isinstance(ex, UnicodeDecodeError):
         if INVALID_UNICODE_PRIVATE_AREA:
             return ("".join(unichr(int('000f00%2x' % ord(_), 16)) for _ in ex.object[ex.start:ex.end]), ex.end)
         else:
-            return ("".join(INVALID_UNICODE_CHAR_FORMAT % ord(_) for _ in ex.object[ex.start:ex.end]).decode(UNICODE_ENCODING), ex.end)
+            return (
+            "".join(INVALID_UNICODE_CHAR_FORMAT % ord(_) for _ in ex.object[ex.start:ex.end]).decode(UNICODE_ENCODING),
+            ex.end)
+
 
 codecs.register_error("reversible", _reversible)

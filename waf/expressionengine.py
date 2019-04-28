@@ -12,12 +12,14 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "ExpressionEngine (EllisLab)"
 
+
 def detect(get_page):
     retval = False
 
     for vector in WAF_ATTACK_VECTORS:
         page, headers, _ = get_page(get=vector)
-        retval |= any((page or "").strip() == _ for _ in ("Invalid GET Data", "Invalid URI")) and re.search(r"\bexp_last_", headers.get(HTTP_HEADER.SET_COOKIE, ""), re.I) is not None
+        retval |= any((page or "").strip() == _ for _ in ("Invalid GET Data", "Invalid URI")) and re.search(
+            r"\bexp_last_", headers.get(HTTP_HEADER.SET_COOKIE, ""), re.I) is not None
         if retval:
             break
 

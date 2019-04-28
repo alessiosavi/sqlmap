@@ -31,9 +31,11 @@ import urllib2
 from lib.core.compat import choose_boundary
 from lib.core.exception import SqlmapDataException
 
+
 class Callable:
     def __init__(self, anycallable):
         self.__call__ = anycallable
+
 
 # Controls how sequences are uncoded. If true, elements may be given
 # multiple values by assigning a sequence.
@@ -41,7 +43,7 @@ doseq = 1
 
 
 class MultipartPostHandler(urllib2.BaseHandler):
-    handler_order = urllib2.HTTPHandler.handler_order - 10 # needs to run first
+    handler_order = urllib2.HTTPHandler.handler_order - 10  # needs to run first
 
     def http_request(self, request):
         data = request.get_data()
@@ -51,7 +53,7 @@ class MultipartPostHandler(urllib2.BaseHandler):
             v_vars = []
 
             try:
-                for(key, value) in data.items():
+                for (key, value) in data.items():
                     if isinstance(value, file) or hasattr(value, "file") or isinstance(value, io.IOBase):
                         v_files.append((key, value))
                     else:
@@ -65,7 +67,7 @@ class MultipartPostHandler(urllib2.BaseHandler):
             else:
                 boundary, data = self.multipart_encode(v_vars, v_files)
                 contenttype = "multipart/form-data; boundary=%s" % boundary
-                #if (request.has_header("Content-Type") and request.get_header("Content-Type").find("multipart/form-data") != 0):
+                # if (request.has_header("Content-Type") and request.get_header("Content-Type").find("multipart/form-data") != 0):
                 #    print "Replacing %s with %s" % (request.get_header("content-type"), "multipart/form-data")
                 request.add_unredirected_header("Content-Type", contenttype)
 

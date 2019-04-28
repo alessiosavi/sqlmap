@@ -12,6 +12,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "CloudProxy WebSite Firewall (Sucuri)"
 
+
 def detect(get_page):
     retval = False
 

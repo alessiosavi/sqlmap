@@ -75,6 +75,7 @@ from lib.core.target import initTargetEnv
 from lib.core.target import setupTargetEnv
 from lib.utils.hash import crackHashFile
 
+
 def _selectInjection():
     """
     Selection function for injection place, parameters and type.
@@ -137,6 +138,7 @@ def _selectInjection():
 
         kb.injection = kb.injections[index]
 
+
 def _formatInjection(inj):
     paramType = conf.method if conf.method not in (None, HTTPMETHOD.GET, HTTPMETHOD.POST) else inj.place
     data = "Parameter: %s (%s)\n" % (inj.parameter, paramType)
@@ -158,10 +160,12 @@ def _formatInjection(inj):
             vector = "%s%s" % (vector, comment)
         data += "    Type: %s\n" % PAYLOAD.SQLINJECTION[stype]
         data += "    Title: %s\n" % title
-        data += "    Payload: %s\n" % urldecode(payload, unsafe="&", spaceplus=(inj.place != PLACE.GET and kb.postSpaceToPlus))
+        data += "    Payload: %s\n" % urldecode(payload, unsafe="&",
+                                                spaceplus=(inj.place != PLACE.GET and kb.postSpaceToPlus))
         data += "    Vector: %s\n\n" % vector if conf.verbose > 1 else "\n"
 
     return data
+
 
 def _showInjections():
     if conf.wizard and kb.wizardMode:
@@ -174,7 +178,8 @@ def _showInjections():
         header = "sqlmap resumed the following injection point(s) from stored session"
 
     if conf.api:
-        conf.dumper.string("", {"url": conf.url, "query": conf.parameters.get(PLACE.GET), "data": conf.parameters.get(PLACE.POST)}, content_type=CONTENT_TYPE.TARGET)
+        conf.dumper.string("", {"url": conf.url, "query": conf.parameters.get(PLACE.GET),
+                                "data": conf.parameters.get(PLACE.POST)}, content_type=CONTENT_TYPE.TARGET)
         conf.dumper.string("", kb.injections, content_type=CONTENT_TYPE.TECHNIQUES)
     else:
         data = "".join(set(_formatInjection(_) for _ in kb.injections)).rstrip("\n")
@@ -189,6 +194,7 @@ def _showInjections():
         warnMsg = "changes made by HTTP parameter pollution are not "
         warnMsg += "included in shown payload content(s)"
         logger.warn(warnMsg)
+
 
 def _randomFillBlankFields(value):
     retVal = value
@@ -206,6 +212,7 @@ def _randomFillBlankFields(value):
                         retVal = retVal.replace(item, "%s%s" % (item, randomStr()))
 
     return retVal
+
 
 def _saveToHashDB():
     injections = hashDBRetrieve(HASHDB_KEYS.KB_INJECTIONS, True)
@@ -231,6 +238,7 @@ def _saveToHashDB():
     if not hashDBRetrieve(HASHDB_KEYS.KB_DYNAMIC_MARKINGS):
         hashDBWrite(HASHDB_KEYS.KB_DYNAMIC_MARKINGS, kb.dynamicMarkings, True)
 
+
 def _saveToResultsFile():
     if not conf.resultsFP:
         return
@@ -251,7 +259,8 @@ def _saveToResultsFile():
     try:
         for key, value in results.items():
             place, parameter, notes = key
-            line = "%s,%s,%s,%s,%s%s" % (safeCSValue(kb.originalUrls.get(conf.url) or conf.url), place, parameter, "".join(techniques[_][0].upper() for _ in sorted(value)), notes, os.linesep)
+            line = "%s,%s,%s,%s,%s%s" % (safeCSValue(kb.originalUrls.get(conf.url) or conf.url), place, parameter,
+                                         "".join(techniques[_][0].upper() for _ in sorted(value)), notes, os.linesep)
             conf.resultsFP.write(line)
 
         if not results:
@@ -262,6 +271,7 @@ def _saveToResultsFile():
     except IOError as ex:
         errMsg = "unable to write to the results file '%s' ('%s'). " % (conf.resultsFilename, getSafeExString(ex))
         raise SqlmapSystemException(errMsg)
+
 
 @stackedmethod
 def start():
@@ -326,7 +336,9 @@ def start():
                         conf.httpHeaders.append((header, value))
                         break
 
-            conf.httpHeaders = [conf.httpHeaders[i] for i in xrange(len(conf.httpHeaders)) if conf.httpHeaders[i][0].upper() not in (__[0].upper() for __ in conf.httpHeaders[i + 1:])]
+            conf.httpHeaders = [conf.httpHeaders[i] for i in xrange(len(conf.httpHeaders)) if
+                                conf.httpHeaders[i][0].upper() not in (__[0].upper() for __ in
+                                                                       conf.httpHeaders[i + 1:])]
 
             initTargetEnv()
             parseTargetUrl()
@@ -334,7 +346,9 @@ def start():
             testSqlInj = False
 
             if PLACE.GET in conf.parameters and not any((conf.data, conf.testParameter)):
-                for parameter in re.findall(r"([^=]+)=([^%s]+%s?|\Z)" % (re.escape(conf.paramDel or "") or DEFAULT_GET_POST_DELIMITER, re.escape(conf.paramDel or "") or DEFAULT_GET_POST_DELIMITER), conf.parameters[PLACE.GET]):
+                for parameter in re.findall(r"([^=]+)=([^%s]+%s?|\Z)" % (
+                re.escape(conf.paramDel or "") or DEFAULT_GET_POST_DELIMITER,
+                re.escape(conf.paramDel or "") or DEFAULT_GET_POST_DELIMITER), conf.parameters[PLACE.GET]):
                     paramKey = (conf.hostname, conf.path, PLACE.GET, parameter[0])
 
                     if paramKey not in kb.testedParams:
@@ -372,7 +386,9 @@ def start():
                     message += "\nCookie: %s" % conf.cookie
 
                 if conf.data is not None:
-                    message += "\n%s data: %s" % ((conf.method if conf.method != HTTPMETHOD.GET else conf.method) or HTTPMETHOD.POST, urlencode(conf.data) if conf.data else "")
+                    message += "\n%s data: %s" % (
+                    (conf.method if conf.method != HTTPMETHOD.GET else conf.method) or HTTPMETHOD.POST,
+                    urlencode(conf.data) if conf.data else "")
 
                 if conf.forms and conf.method:
                     if conf.method == HTTPMETHOD.GET and targetUrl.find("?") == -1:
@@ -387,10 +403,14 @@ def start():
                         break
                     else:
                         if conf.method != HTTPMETHOD.GET:
-                            message = "Edit %s data [default: %s]%s: " % (conf.method, urlencode(conf.data) if conf.data else "None", " (Warning: blank fields detected)" if conf.data and extractRegexResult(EMPTY_FORM_FIELDS_REGEX, conf.data) else "")
+                            message = "Edit %s data [default: %s]%s: " % (
+                            conf.method, urlencode(conf.data) if conf.data else "None",
+                            " (Warning: blank fields detected)" if conf.data and extractRegexResult(
+                                EMPTY_FORM_FIELDS_REGEX, conf.data) else "")
                             conf.data = readInput(message, default=conf.data)
                             conf.data = _randomFillBlankFields(conf.data)
-                            conf.data = urldecode(conf.data) if conf.data and urlencode(DEFAULT_GET_POST_DELIMITER, None) not in conf.data else conf.data
+                            conf.data = urldecode(conf.data) if conf.data and urlencode(DEFAULT_GET_POST_DELIMITER,
+                                                                                        None) not in conf.data else conf.data
 
                         else:
                             if '?' in targetUrl:
@@ -428,7 +448,8 @@ def start():
             if conf.nullConnection:
                 checkNullConnection()
 
-            if (len(kb.injections) == 0 or (len(kb.injections) == 1 and kb.injections[0].place is None)) and (kb.injection.place is None or kb.injection.parameter is None):
+            if (len(kb.injections) == 0 or (len(kb.injections) == 1 and kb.injections[0].place is None)) and (
+                    kb.injection.place is None or kb.injection.parameter is None):
 
                 if not any((conf.string, conf.notString, conf.regexp)) and PAYLOAD.TECHNIQUE.BOOLEAN in conf.tech:
                     # NOTE: this is not needed anymore, leaving only to display
@@ -460,7 +481,8 @@ def start():
                     # Test Cookie header only if --level >= 2
                     skip |= (place == PLACE.COOKIE and conf.level < 2)
 
-                    skip |= (place == PLACE.USER_AGENT and intersect(USER_AGENT_ALIASES, conf.skip, True) not in ([], None))
+                    skip |= (place == PLACE.USER_AGENT and intersect(USER_AGENT_ALIASES, conf.skip, True) not in (
+                    [], None))
                     skip |= (place == PLACE.REFERER and intersect(REFERER_ALIASES, conf.skip, True) not in ([], None))
                     skip |= (place == PLACE.COOKIE and intersect(PLACE.COOKIE, conf.skip, True) not in ([], None))
                     skip |= (place == PLACE.HOST and intersect(PLACE.HOST, conf.skip, True) not in ([], None))
@@ -512,7 +534,9 @@ def start():
                             infoMsg = "skipping %s parameter '%s'" % (paramType, parameter)
                             logger.info(infoMsg)
 
-                        elif conf.paramExclude and (re.search(conf.paramExclude, parameter, re.I) or kb.postHint and re.search(conf.paramExclude, parameter.split(' ')[-1], re.I)):
+                        elif conf.paramExclude and (
+                                re.search(conf.paramExclude, parameter, re.I) or kb.postHint and re.search(
+                                conf.paramExclude, parameter.split(' ')[-1], re.I)):
                             testSqlInj = False
 
                             infoMsg = "skipping %s parameter '%s'" % (paramType, parameter)
@@ -525,7 +549,10 @@ def start():
                             logger.info(infoMsg)
 
                         # Ignore session-like parameters for --level < 4
-                        elif conf.level < 4 and (parameter.upper() in IGNORE_PARAMETERS or any(_ in parameter.lower() for _ in CSRF_TOKEN_PARAMETER_INFIXES) or parameter.upper().startswith(GOOGLE_ANALYTICS_COOKIE_PREFIX)):
+                        elif conf.level < 4 and (parameter.upper() in IGNORE_PARAMETERS or any(
+                                _ in parameter.lower() for _ in
+                                CSRF_TOKEN_PARAMETER_INFIXES) or parameter.upper().startswith(
+                                GOOGLE_ANALYTICS_COOKIE_PREFIX)):
                             testSqlInj = False
 
                             infoMsg = "ignoring %s parameter '%s'" % (paramType, parameter)

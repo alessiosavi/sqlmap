@@ -157,10 +157,10 @@ class SGMLParser(_markupbase.ParserBase):
                         break
                     continue
                 if rawdata.startswith("<!--", i):
-                        # Strictly speaking, a comment is --.*--
-                        # within a declaration tag <!...>.
-                        # This should be removed,
-                        # and comments handled only in parse_declaration.
+                    # Strictly speaking, a comment is --.*--
+                    # within a declaration tag <!...>.
+                    # This should be removed,
+                    # and comments handled only in parse_declaration.
                     k = self.parse_comment(i)
                     if k < 0:
                         break
@@ -170,7 +170,7 @@ class SGMLParser(_markupbase.ParserBase):
                     k = self.parse_pi(i)
                     if k < 0:
                         break
-                    i = i+k
+                    i = i + k
                     continue
                 if rawdata.startswith("<!", i):
                     # This is some sort of declaration; in "HTML as
@@ -191,16 +191,16 @@ class SGMLParser(_markupbase.ParserBase):
                     name = match.group(1)
                     self.handle_charref(name)
                     i = match.end(0)
-                    if rawdata[i-1] != ';':
-                        i = i-1
+                    if rawdata[i - 1] != ';':
+                        i = i - 1
                     continue
                 match = entityref.match(rawdata, i)
                 if match:
                     name = match.group(1)
                     self.handle_entityref(name)
                     i = match.end(0)
-                    if rawdata[i-1] != ';':
-                        i = i-1
+                    if rawdata[i - 1] != ';':
+                        i = i - 1
                     continue
             else:
                 self.error('neither < nor & ??')
@@ -229,15 +229,15 @@ class SGMLParser(_markupbase.ParserBase):
     # Internal -- parse processing instr, return length or -1 if not terminated
     def parse_pi(self, i):
         rawdata = self.rawdata
-        if rawdata[i:i+2] != '<?':
+        if rawdata[i:i + 2] != '<?':
             self.error('unexpected call to parse_pi()')
-        match = piclose.search(rawdata, i+2)
+        match = piclose.search(rawdata, i + 2)
         if not match:
             return -1
         j = match.start(0)
-        self.handle_pi(rawdata[i+2: j])
+        self.handle_pi(rawdata[i + 2: j])
         j = match.end(0)
-        return j-i
+        return j - i
 
     def get_starttag_text(self):
         return self.__starttag_text
@@ -272,7 +272,7 @@ class SGMLParser(_markupbase.ParserBase):
         j = match.start(0)
         # Now parse the data between i + 1 and j into a tag and attrs
         attrs = []
-        if rawdata[i:i+2] == '<>':
+        if rawdata[i:i + 2] == '<>':
             # SGML shorthand: <> == <last open tag seen>
             k = j
             tag = self.lasttag
@@ -292,7 +292,7 @@ class SGMLParser(_markupbase.ParserBase):
                 attrvalue = attrname
             else:
                 if (attrvalue[:1] == "'" == attrvalue[-1:] or
-                   attrvalue[:1] == '"' == attrvalue[-1:]):
+                        attrvalue[:1] == '"' == attrvalue[-1:]):
                     # strip quotes
                     attrvalue = attrvalue[1:-1]
                 attrvalue = self.entity_or_charref.sub(
@@ -309,10 +309,10 @@ class SGMLParser(_markupbase.ParserBase):
     def _convert_ref(self, match):
         if match.group(2):
             return self.convert_charref(match.group(2)) or \
-                '&#%s%s' % match.groups()[1:]
+                   '&#%s%s' % match.groups()[1:]
         elif match.group(3):
             return self.convert_entityref(match.group(1)) or \
-                '&%s;' % match.group(1)
+                   '&%s;' % match.group(1)
         else:
             return '&%s' % match.group(1)
 
@@ -323,7 +323,7 @@ class SGMLParser(_markupbase.ParserBase):
         if not match:
             return -1
         j = match.start(0)
-        tag = rawdata[i+2:j].strip().lower()
+        tag = rawdata[i + 2:j].strip().lower()
         if rawdata[j] == '>':
             j = j + 1
         self.finish_endtag(tag)

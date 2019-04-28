@@ -9,12 +9,14 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "GoDaddy Website Firewall (GoDaddy Inc.)"
 
+
 def detect(get_page):
     retval = False
 
     for vector in WAF_ATTACK_VECTORS:
         page, _, _ = get_page(get=vector)
-        retval |= any(_ in (page or "") for _ in ("Access Denied - GoDaddy Website Firewall", "<title>GoDaddy Security - Access Denied</title>"))
+        retval |= any(_ in (page or "") for _ in
+                      ("Access Denied - GoDaddy Website Firewall", "<title>GoDaddy Security - Access Denied</title>"))
         if retval:
             break
 

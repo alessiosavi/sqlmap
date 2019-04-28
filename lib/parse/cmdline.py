@@ -41,6 +41,7 @@ from lib.core.shell import clearHistory
 from lib.core.shell import loadHistory
 from lib.core.shell import saveHistory
 
+
 def cmdLineParser(argv=None):
     """
     This function parses the command line parameters and arguments
@@ -71,20 +72,20 @@ def cmdLineParser(argv=None):
 
         # Target options
         target = OptionGroup(parser, "Target", "At least one of these "
-                             "options has to be provided to define the target(s)")
+                                               "options has to be provided to define the target(s)")
 
         target.add_option("-d", dest="direct", help="Connection string "
-                          "for direct database connection")
+                                                    "for direct database connection")
 
         target.add_option("-u", "--url", dest="url", help="Target URL (e.g. \"http://www.site.com/vuln.php?id=1\")")
 
         target.add_option("-l", dest="logFile", help="Parse target(s) from Burp "
-                          "or WebScarab proxy log file")
+                                                     "or WebScarab proxy log file")
 
         target.add_option("-x", dest="sitemapUrl", help="Parse target(s) from remote sitemap(.xml) file")
 
         target.add_option("-m", dest="bulkFile", help="Scan multiple targets given "
-                          "in a textual file ")
+                                                      "in a textual file ")
 
         target.add_option("-r", dest="requestFile",
                           help="Load HTTP request from a file")
@@ -97,7 +98,7 @@ def cmdLineParser(argv=None):
 
         # Request options
         request = OptionGroup(parser, "Request", "These options can be used "
-                              "to specify how to connect to the target URL")
+                                                 "to specify how to connect to the target URL")
 
         request.add_option("--method", dest="method",
                            help="Force usage of given HTTP method (e.g. PUT)")
@@ -226,7 +227,8 @@ def cmdLineParser(argv=None):
                            help="Evaluate provided Python code before the request (e.g. \"import hashlib;id2=hashlib.md5(id).hexdigest()\")")
 
         # Optimization options
-        optimization = OptionGroup(parser, "Optimization", "These options can be used to optimize the performance of sqlmap")
+        optimization = OptionGroup(parser, "Optimization",
+                                   "These options can be used to optimize the performance of sqlmap")
 
         optimization.add_option("-o", dest="optimize", action="store_true",
                                 help="Turn on all optimization switches")
@@ -242,10 +244,11 @@ def cmdLineParser(argv=None):
 
         optimization.add_option("--threads", dest="threads", type="int",
                                 help="Max number of concurrent HTTP(s) "
-                                "requests (default %d)" % defaults.threads)
+                                     "requests (default %d)" % defaults.threads)
 
         # Injection options
-        injection = OptionGroup(parser, "Injection", "These options can be used to specify which parameters to test for, provide custom injection payloads and optional tampering scripts")
+        injection = OptionGroup(parser, "Injection",
+                                "These options can be used to specify which parameters to test for, provide custom injection payloads and optional tampering scripts")
 
         injection.add_option("-p", dest="testParameter",
                              help="Testable parameter(s)")
@@ -320,7 +323,8 @@ def cmdLineParser(argv=None):
                              help="Compare pages based only on their titles")
 
         # Techniques options
-        techniques = OptionGroup(parser, "Techniques", "These options can be used to tweak testing of specific SQL injection techniques")
+        techniques = OptionGroup(parser, "Techniques",
+                                 "These options can be used to tweak testing of specific SQL injection techniques")
 
         techniques.add_option("--technique", dest="tech",
                               help="SQL injection techniques to use (default \"%s\")" % defaults.tech)
@@ -353,7 +357,8 @@ def cmdLineParser(argv=None):
                                help="Perform an extensive DBMS version fingerprint")
 
         # Enumeration options
-        enumeration = OptionGroup(parser, "Enumeration", "These options can be used to enumerate the back-end database management system information, structure and data contained in the tables. Moreover you can run your own SQL statements")
+        enumeration = OptionGroup(parser, "Enumeration",
+                                  "These options can be used to enumerate the back-end database management system information, structure and data contained in the tables. Moreover you can run your own SQL statements")
 
         enumeration.add_option("-a", "--all", dest="getAll", action="store_true",
                                help="Retrieve everything")
@@ -467,7 +472,8 @@ def cmdLineParser(argv=None):
                          help="Check existence of common columns")
 
         # User-defined function options
-        udf = OptionGroup(parser, "User-defined function injection", "These options can be used to create custom user-defined functions")
+        udf = OptionGroup(parser, "User-defined function injection",
+                          "These options can be used to create custom user-defined functions")
 
         udf.add_option("--udf-inject", dest="udfInject", action="store_true",
                        help="Inject custom user-defined functions")
@@ -476,7 +482,8 @@ def cmdLineParser(argv=None):
                        help="Local path of the shared library")
 
         # File system options
-        filesystem = OptionGroup(parser, "File system access", "These options can be used to access the back-end database management system underlying file system")
+        filesystem = OptionGroup(parser, "File system access",
+                                 "These options can be used to access the back-end database management system underlying file system")
 
         filesystem.add_option("--file-read", dest="fileRead",
                               help="Read a file from the back-end DBMS file system")
@@ -488,7 +495,8 @@ def cmdLineParser(argv=None):
                               help="Back-end DBMS absolute filepath to write to")
 
         # Takeover options
-        takeover = OptionGroup(parser, "Operating system access", "These options can be used to access the back-end database management system underlying operating system")
+        takeover = OptionGroup(parser, "Operating system access",
+                               "These options can be used to access the back-end database management system underlying operating system")
 
         takeover.add_option("--os-cmd", dest="osCmd",
                             help="Execute an operating system command")
@@ -516,7 +524,8 @@ def cmdLineParser(argv=None):
                             help="Remote absolute path of temporary files directory")
 
         # Windows registry options
-        windows = OptionGroup(parser, "Windows registry access", "These options can be used to access the back-end database management system Windows registry")
+        windows = OptionGroup(parser, "Windows registry access",
+                              "These options can be used to access the back-end database management system Windows registry")
 
         windows.add_option("--reg-read", dest="regRead", action="store_true",
                            help="Read a Windows registry key value")
@@ -683,11 +692,11 @@ def cmdLineParser(argv=None):
         # Hidden and/or experimental options
         parser.add_option("--base64", dest="base64Parameter",
                           help=SUPPRESS_HELP)
-#                          help="Parameter(s) containing Base64 encoded values")
+        #                          help="Parameter(s) containing Base64 encoded values")
 
         parser.add_option("--crack", dest="hashFile",
                           help=SUPPRESS_HELP)
-#                          help="Load and crack hashes from a file (standalone)")
+        #                          help="Load and crack hashes from a file (standalone)")
 
         parser.add_option("--dummy", dest="dummy", action="store_true",
                           help=SUPPRESS_HELP)
@@ -840,20 +849,27 @@ def cmdLineParser(argv=None):
         for i in xrange(len(argv)):
             if argv[i] == "-hh":
                 argv[i] = "-h"
-            elif len(argv[i]) > 1 and all(ord(_) in xrange(0x2018, 0x2020) for _ in ((argv[i].split('=', 1)[-1].strip() or ' ')[0], argv[i][-1])):
-                dataToStdout("[!] copy-pasting illegal (non-console) quote characters from Internet is, well, illegal (%s)\n" % argv[i])
+            elif len(argv[i]) > 1 and all(ord(_) in xrange(0x2018, 0x2020) for _ in
+                                          ((argv[i].split('=', 1)[-1].strip() or ' ')[0], argv[i][-1])):
+                dataToStdout(
+                    "[!] copy-pasting illegal (non-console) quote characters from Internet is, well, illegal (%s)\n" %
+                    argv[i])
                 raise SystemExit
             elif len(argv[i]) > 1 and u"\uff0c" in argv[i].split('=', 1)[-1]:
-                dataToStdout("[!] copy-pasting illegal (non-console) comma characters from Internet is, well, illegal (%s)\n" % argv[i])
+                dataToStdout(
+                    "[!] copy-pasting illegal (non-console) comma characters from Internet is, well, illegal (%s)\n" %
+                    argv[i])
                 raise SystemExit
             elif re.search(r"\A-\w=.+", argv[i]):
                 dataToStdout("[!] potentially miswritten (illegal '=') short option detected ('%s')\n" % argv[i])
                 raise SystemExit
             elif argv[i].startswith("--tamper"):
                 if tamperIndex is None:
-                    tamperIndex = i if '=' in argv[i] else (i + 1 if i + 1 < len(argv) and not argv[i + 1].startswith('-') else None)
+                    tamperIndex = i if '=' in argv[i] else (
+                        i + 1 if i + 1 < len(argv) and not argv[i + 1].startswith('-') else None)
                 else:
-                    argv[tamperIndex] = "%s,%s" % (argv[tamperIndex], argv[i].split('=')[1] if '=' in argv[i] else (argv[i + 1] if i + 1 < len(argv) and not argv[i + 1].startswith('-') else ""))
+                    argv[tamperIndex] = "%s,%s" % (argv[tamperIndex], argv[i].split('=')[1] if '=' in argv[i] else (
+                        argv[i + 1] if i + 1 < len(argv) and not argv[i + 1].startswith('-') else ""))
                     argv[i] = ""
             elif argv[i] == "-H":
                 if i + 1 < len(argv):
@@ -866,7 +882,8 @@ def cmdLineParser(argv=None):
                         argv[j] = ''
                     else:
                         break
-            elif re.match(r"\A\d+!\Z", argv[i]) and argv[max(0, i - 1)] == "--threads" or re.match(r"\A--threads.+\d+!\Z", argv[i]):
+            elif re.match(r"\A\d+!\Z", argv[i]) and argv[max(0, i - 1)] == "--threads" or re.match(
+                    r"\A--threads.+\d+!\Z", argv[i]):
                 argv[i] = argv[i][:-1]
                 conf.skipThreadCheck = True
             elif argv[i] == "--version":
@@ -916,7 +933,9 @@ def cmdLineParser(argv=None):
         if args.dummy:
             args.url = args.url or DUMMY_URL
 
-        if not any((args.direct, args.url, args.logFile, args.bulkFile, args.googleDork, args.configFile, args.requestFile, args.updateAll, args.smokeTest, args.vulnTest, args.liveTest, args.wizard, args.dependencies, args.purge, args.sitemapUrl, args.listTampers, args.hashFile)):
+        if not any((args.direct, args.url, args.logFile, args.bulkFile, args.googleDork, args.configFile,
+                    args.requestFile, args.updateAll, args.smokeTest, args.vulnTest, args.liveTest, args.wizard,
+                    args.dependencies, args.purge, args.sitemapUrl, args.listTampers, args.hashFile)):
             errMsg = "missing a mandatory option (-d, -u, -l, -m, -r, -g, -c, -x, --list-tampers, --wizard, --update, --purge or --dependencies). "
             errMsg += "Use -h for basic and -hh for advanced help\n"
             parser.error(errMsg)

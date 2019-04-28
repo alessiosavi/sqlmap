@@ -24,6 +24,7 @@ except ImportError:
 
 try:
     import MySQLdb  # used by SQLAlchemy in case of MySQL
+
     warnings.filterwarnings("error", category=MySQLdb.Warning)
 except ImportError:
     pass
@@ -34,6 +35,7 @@ from lib.core.exception import SqlmapConnectionException
 from lib.core.exception import SqlmapFilePathException
 from lib.core.exception import SqlmapMissingDependence
 from plugins.generic.connector import Connector as GenericConnector
+
 
 class SQLAlchemy(GenericConnector):
     def __init__(self, dialect=None):
@@ -68,11 +70,13 @@ class SQLAlchemy(GenericConnector):
                     try:
                         import pymssql
                         if int(pymssql.__version__[0]) < 2:
-                            raise SqlmapConnectionException("SQLAlchemy connection issue (obsolete version of pymssql ('%s') is causing problems)" % pymssql.__version__)
+                            raise SqlmapConnectionException(
+                                "SQLAlchemy connection issue (obsolete version of pymssql ('%s') is causing problems)" % pymssql.__version__)
                     except ImportError:
                         pass
                 elif "invalid literal for int() with base 10: '0b" in traceback.format_exc():
-                    raise SqlmapConnectionException("SQLAlchemy connection issue ('https://bitbucket.org/zzzeek/sqlalchemy/issues/3975')")
+                    raise SqlmapConnectionException(
+                        "SQLAlchemy connection issue ('https://bitbucket.org/zzzeek/sqlalchemy/issues/3975')")
                 raise
             except SqlmapFilePathException:
                 raise
@@ -90,14 +94,16 @@ class SQLAlchemy(GenericConnector):
                 retVal.append(tuple(row))
             return retVal
         except _sqlalchemy.exc.ProgrammingError as ex:
-            logger.log(logging.WARN if conf.dbmsHandler else logging.DEBUG, "(remote) %s" % ex.message if hasattr(ex, "message") else ex)
+            logger.log(logging.WARN if conf.dbmsHandler else logging.DEBUG,
+                       "(remote) %s" % ex.message if hasattr(ex, "message") else ex)
             return None
 
     def execute(self, query):
         try:
             self.cursor = self.connector.execute(query)
         except (_sqlalchemy.exc.OperationalError, _sqlalchemy.exc.ProgrammingError) as ex:
-            logger.log(logging.WARN if conf.dbmsHandler else logging.DEBUG, "(remote) %s" % ex.message if hasattr(ex, "message") else ex)
+            logger.log(logging.WARN if conf.dbmsHandler else logging.DEBUG,
+                       "(remote) %s" % ex.message if hasattr(ex, "message") else ex)
         except _sqlalchemy.exc.InternalError as ex:
             raise SqlmapConnectionException(ex[1])
 

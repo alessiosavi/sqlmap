@@ -11,6 +11,7 @@ from lib.core.common import isDBMSVersionAtLeast
 from lib.core.common import randomStr
 from plugins.generic.syntax import Syntax as GenericSyntax
 
+
 class Syntax(GenericSyntax):
     @staticmethod
     def escape(expression, quote=True):

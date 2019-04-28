@@ -77,6 +77,7 @@ from thirdparty import six
 from thirdparty.odict import OrderedDict
 from thirdparty.six.moves import urllib as _urllib
 
+
 def _setRequestParams():
     """
     Check and set the parameters and perform checks on 'data' option for
@@ -115,7 +116,8 @@ def _setRequestParams():
                 while True:
                     _ = re.search(r"\\g<([^>]+)>", retVal)
                     if _:
-                        retVal = retVal.replace(_.group(0), match.group(int(_.group(1)) if _.group(1).isdigit() else _.group(1)))
+                        retVal = retVal.replace(_.group(0),
+                                                match.group(int(_.group(1)) if _.group(1).isdigit() else _.group(1)))
                     else:
                         break
                 if kb.customInjectionMark in retVal:
@@ -146,9 +148,14 @@ def _setRequestParams():
                 if not (kb.processUserMarks and kb.customInjectionMark in conf.data):
                     conf.data = getattr(conf.data, UNENCODED_ORIGINAL_VALUE, conf.data)
                     conf.data = conf.data.replace(kb.customInjectionMark, ASTERISK_MARKER)
-                    conf.data = re.sub(r'("(?P<name>[^"]+)"\s*:\s*".+?)"(?<!\\")', functools.partial(process, repl=r'\g<1>%s"' % kb.customInjectionMark), conf.data)
-                    conf.data = re.sub(r'("(?P<name>[^"]+)"\s*:\s*)(-?\d[\d\.]*)\b', functools.partial(process, repl=r'\g<1>\g<3>%s' % kb.customInjectionMark), conf.data)
-                    conf.data = re.sub(r'("(?P<name>[^"]+)"\s*:\s*)((true|false|null))\b', functools.partial(process, repl=r'\g<1>\g<3>%s' % kb.customInjectionMark), conf.data)
+                    conf.data = re.sub(r'("(?P<name>[^"]+)"\s*:\s*".+?)"(?<!\\")',
+                                       functools.partial(process, repl=r'\g<1>%s"' % kb.customInjectionMark), conf.data)
+                    conf.data = re.sub(r'("(?P<name>[^"]+)"\s*:\s*)(-?\d[\d\.]*)\b',
+                                       functools.partial(process, repl=r'\g<1>\g<3>%s' % kb.customInjectionMark),
+                                       conf.data)
+                    conf.data = re.sub(r'("(?P<name>[^"]+)"\s*:\s*)((true|false|null))\b',
+                                       functools.partial(process, repl=r'\g<1>\g<3>%s' % kb.customInjectionMark),
+                                       conf.data)
                     match = re.search(r'(?P<name>[^"]+)"\s*:\s*\[([^\]]+)\]', conf.data)
                     if match and not (conf.testParameter and match.group("name") not in conf.testParameter):
                         _ = match.group(2)
@@ -169,8 +176,10 @@ def _setRequestParams():
                 if not (kb.processUserMarks and kb.customInjectionMark in conf.data):
                     conf.data = getattr(conf.data, UNENCODED_ORIGINAL_VALUE, conf.data)
                     conf.data = conf.data.replace(kb.customInjectionMark, ASTERISK_MARKER)
-                    conf.data = re.sub(r"('(?P<name>[^']+)'\s*:\s*'[^']+)'", functools.partial(process, repl=r"\g<1>%s'" % kb.customInjectionMark), conf.data)
-                    conf.data = re.sub(r"('(?P<name>[^']+)'\s*:\s*)(-?\d[\d\.]*\b)", functools.partial(process, repl=r"\g<0>%s" % kb.customInjectionMark), conf.data)
+                    conf.data = re.sub(r"('(?P<name>[^']+)'\s*:\s*'[^']+)'",
+                                       functools.partial(process, repl=r"\g<1>%s'" % kb.customInjectionMark), conf.data)
+                    conf.data = re.sub(r"('(?P<name>[^']+)'\s*:\s*)(-?\d[\d\.]*\b)",
+                                       functools.partial(process, repl=r"\g<0>%s" % kb.customInjectionMark), conf.data)
 
                 kb.postHint = POST_HINT.JSON_LIKE
 
@@ -184,7 +193,8 @@ def _setRequestParams():
             elif choice == 'Y':
                 if not (kb.processUserMarks and kb.customInjectionMark in conf.data):
                     conf.data = conf.data.replace(kb.customInjectionMark, ASTERISK_MARKER)
-                    conf.data = re.sub(r"(=[^%s]+)" % DEFAULT_GET_POST_DELIMITER, r"\g<1>%s" % kb.customInjectionMark, conf.data)
+                    conf.data = re.sub(r"(=[^%s]+)" % DEFAULT_GET_POST_DELIMITER, r"\g<1>%s" % kb.customInjectionMark,
+                                       conf.data)
 
                 kb.postHint = POST_HINT.ARRAY_LIKE
 
@@ -199,7 +209,9 @@ def _setRequestParams():
                 if not (kb.processUserMarks and kb.customInjectionMark in conf.data):
                     conf.data = getattr(conf.data, UNENCODED_ORIGINAL_VALUE, conf.data)
                     conf.data = conf.data.replace(kb.customInjectionMark, ASTERISK_MARKER)
-                    conf.data = re.sub(r"(<(?P<name>[^>]+)( [^<]*)?>)([^<]+)(</\2)", functools.partial(process, repl=r"\g<1>\g<4>%s\g<5>" % kb.customInjectionMark), conf.data)
+                    conf.data = re.sub(r"(<(?P<name>[^>]+)( [^<]*)?>)([^<]+)(</\2)",
+                                       functools.partial(process, repl=r"\g<1>\g<4>%s\g<5>" % kb.customInjectionMark),
+                                       conf.data)
 
                 kb.postHint = POST_HINT.SOAP if "soap" in conf.data.lower() else POST_HINT.XML
 
@@ -214,7 +226,10 @@ def _setRequestParams():
                 if not (kb.processUserMarks and kb.customInjectionMark in conf.data):
                     conf.data = getattr(conf.data, UNENCODED_ORIGINAL_VALUE, conf.data)
                     conf.data = conf.data.replace(kb.customInjectionMark, ASTERISK_MARKER)
-                    conf.data = re.sub(r"(?si)((Content-Disposition[^\n]+?name\s*=\s*[\"']?(?P<name>[^\"'\r\n]+)[\"']?).+?)((%s)+--)" % ("\r\n" if "\r\n" in conf.data else '\n'), functools.partial(process, repl=r"\g<1>%s\g<4>" % kb.customInjectionMark), conf.data)
+                    conf.data = re.sub(
+                        r"(?si)((Content-Disposition[^\n]+?name\s*=\s*[\"']?(?P<name>[^\"'\r\n]+)[\"']?).+?)((%s)+--)" % (
+                            "\r\n" if "\r\n" in conf.data else '\n'),
+                        functools.partial(process, repl=r"\g<1>%s\g<4>" % kb.customInjectionMark), conf.data)
 
                 kb.postHint = POST_HINT.MULTIPART
 
@@ -236,7 +251,9 @@ def _setRequestParams():
 
     kb.processUserMarks = True if (kb.postHint and kb.customInjectionMark in (conf.data or "")) else kb.processUserMarks
 
-    if re.search(URI_INJECTABLE_REGEX, conf.url, re.I) and not any(place in conf.parameters for place in (PLACE.GET, PLACE.POST)) and not kb.postHint and kb.customInjectionMark not in (conf.data or "") and conf.url.startswith("http"):
+    if re.search(URI_INJECTABLE_REGEX, conf.url, re.I) and not any(place in conf.parameters for place in (
+    PLACE.GET, PLACE.POST)) and not kb.postHint and kb.customInjectionMark not in (
+            conf.data or "") and conf.url.startswith("http"):
         warnMsg = "you've provided target URL without any GET "
         warnMsg += "parameters (e.g. 'http://www.site.com/article.php?id=1') "
         warnMsg += "and without providing any POST parameters "
@@ -253,11 +270,14 @@ def _setRequestParams():
             conf.url = "%s%s" % (conf.url, kb.customInjectionMark)
             kb.processUserMarks = True
 
-    for place, value in ((PLACE.URI, conf.url), (PLACE.CUSTOM_POST, conf.data), (PLACE.CUSTOM_HEADER, str(conf.httpHeaders))):
-        _ = re.sub(PROBLEMATIC_CUSTOM_INJECTION_PATTERNS, "", value or "") if place == PLACE.CUSTOM_HEADER else value or ""
+    for place, value in (
+    (PLACE.URI, conf.url), (PLACE.CUSTOM_POST, conf.data), (PLACE.CUSTOM_HEADER, str(conf.httpHeaders))):
+        _ = re.sub(PROBLEMATIC_CUSTOM_INJECTION_PATTERNS, "",
+                   value or "") if place == PLACE.CUSTOM_HEADER else value or ""
         if kb.customInjectionMark in _:
             if kb.processUserMarks is None:
-                lut = {PLACE.URI: '-u', PLACE.CUSTOM_POST: '--data', PLACE.CUSTOM_HEADER: '--headers/--user-agent/--referer/--cookie'}
+                lut = {PLACE.URI: '-u', PLACE.CUSTOM_POST: '--data',
+                       PLACE.CUSTOM_HEADER: '--headers/--user-agent/--referer/--cookie'}
                 message = "custom injection marker ('%s') found in option " % kb.customInjectionMark
                 message += "'%s'. Do you want to process it? [Y/n/q] " % lut[place]
                 choice = readInput(message, default='Y').upper()
@@ -305,7 +325,10 @@ def _setRequestParams():
                         if kb.customInjectionMark in re.sub(PROBLEMATIC_CUSTOM_INJECTION_PATTERNS, "", value):
                             parts = value.split(kb.customInjectionMark)
                             for i in xrange(len(parts) - 1):
-                                conf.paramDict[place]["%s #%d%s" % (header, i + 1, kb.customInjectionMark)] = "%s,%s" % (header, "".join("%s%s" % (parts[j], kb.customInjectionMark if i == j else "") for j in xrange(len(parts))))
+                                conf.paramDict[place][
+                                    "%s #%d%s" % (header, i + 1, kb.customInjectionMark)] = "%s,%s" % (header, "".join(
+                                    "%s%s" % (parts[j], kb.customInjectionMark if i == j else "") for j in
+                                    xrange(len(parts))))
                             conf.httpHeaders[index] = (header, value.replace(kb.customInjectionMark, ""))
                 else:
                     parts = value.split(kb.customInjectionMark)
@@ -318,8 +341,10 @@ def _setRequestParams():
                                     name = "%s %s" % (kb.postHint, _)
                                     break
                         if name is None:
-                            name = "%s#%s%s" % (("%s " % kb.postHint) if kb.postHint else "", i + 1, kb.customInjectionMark)
-                        conf.paramDict[place][name] = "".join("%s%s" % (parts[j], kb.customInjectionMark if i == j else "") for j in xrange(len(parts)))
+                            name = "%s#%s%s" % (
+                            ("%s " % kb.postHint) if kb.postHint else "", i + 1, kb.customInjectionMark)
+                        conf.paramDict[place][name] = "".join(
+                            "%s%s" % (parts[j], kb.customInjectionMark if i == j else "") for j in xrange(len(parts)))
 
                     if place == PLACE.URI and PLACE.GET in conf.paramDict:
                         del conf.paramDict[PLACE.GET]
@@ -380,7 +405,8 @@ def _setRequestParams():
 
                 if condition:
                     conf.parameters[PLACE.CUSTOM_HEADER] = str(conf.httpHeaders)
-                    conf.paramDict[PLACE.CUSTOM_HEADER] = {httpHeader: "%s,%s%s" % (httpHeader, headerValue, kb.customInjectionMark)}
+                    conf.paramDict[PLACE.CUSTOM_HEADER] = {
+                        httpHeader: "%s,%s%s" % (httpHeader, headerValue, kb.customInjectionMark)}
                     conf.httpHeaders = [(_[0], _[1].replace(kb.customInjectionMark, "")) for _ in conf.httpHeaders]
                     testableParameters = True
 
@@ -395,7 +421,10 @@ def _setRequestParams():
         raise SqlmapGenericException(errMsg)
 
     if conf.csrfToken:
-        if not any(re.search(conf.csrfToken, ' '.join(_), re.I) for _ in (conf.paramDict.get(PLACE.GET, {}), conf.paramDict.get(PLACE.POST, {}))) and not re.search(r"\b%s\b" % conf.csrfToken, conf.data or "") and conf.csrfToken not in set(_[0].lower() for _ in conf.httpHeaders) and conf.csrfToken not in conf.paramDict.get(PLACE.COOKIE, {}):
+        if not any(re.search(conf.csrfToken, ' '.join(_), re.I) for _ in
+                   (conf.paramDict.get(PLACE.GET, {}), conf.paramDict.get(PLACE.POST, {}))) and not re.search(
+                r"\b%s\b" % conf.csrfToken, conf.data or "") and conf.csrfToken not in set(
+                _[0].lower() for _ in conf.httpHeaders) and conf.csrfToken not in conf.paramDict.get(PLACE.COOKIE, {}):
             errMsg = "anti-CSRF token parameter '%s' not " % conf.csrfToken._original
             errMsg += "found in provided GET, POST, Cookie or header values"
             raise SqlmapGenericException(errMsg)
@@ -412,9 +441,11 @@ def _setRequestParams():
                     if readInput(message, default='N', boolean=True):
                         class _(six.text_type):
                             pass
+
                         conf.csrfToken = _(re.escape(getUnicode(parameter)))
                         conf.csrfToken._original = getUnicode(parameter)
                         break
+
 
 def _setHashDB():
     """
@@ -434,6 +465,7 @@ def _setHashDB():
                 raise SqlmapFilePathException(errMsg)
 
     conf.hashDB = HashDB(conf.hashDBFile)
+
 
 def _resumeHashDBValues():
     """
@@ -456,7 +488,8 @@ def _resumeHashDBValues():
     conf.tmpPath = conf.tmpPath or hashDBRetrieve(HASHDB_KEYS.CONF_TMP_PATH)
 
     for injection in hashDBRetrieve(HASHDB_KEYS.KB_INJECTIONS, True) or []:
-        if isinstance(injection, InjectionDict) and injection.place in conf.paramDict and injection.parameter in conf.paramDict[injection.place]:
+        if isinstance(injection, InjectionDict) and injection.place in conf.paramDict and injection.parameter in \
+                conf.paramDict[injection.place]:
             if not conf.tech or intersect(conf.tech, injection.data.keys()):
                 if intersect(conf.tech, injection.data.keys()):
                     injection.data = dict(_ for _ in injection.data.items() if _[0] in conf.tech)
@@ -465,6 +498,7 @@ def _resumeHashDBValues():
 
     _resumeDBMS()
     _resumeOS()
+
 
 def _resumeDBMS():
     """
@@ -516,6 +550,7 @@ def _resumeDBMS():
         Backend.setDbms(dbms)
         Backend.setVersionList(dbmsVersion)
 
+
 def _resumeOS():
     """
     Resume stored OS information from HashDB
@@ -546,6 +581,7 @@ def _resumeOS():
             conf.os = os
 
         Backend.setOs(conf.os)
+
 
 def _setResultsFile():
     """
@@ -579,6 +615,7 @@ def _setResultsFile():
 
         logger.info("using '%s' as the CSV results file in multiple targets mode" % conf.resultsFilename)
 
+
 def _createFilesDir():
     """
     Create the file directory.
@@ -600,6 +637,7 @@ def _createFilesDir():
             logger.warn(warnMsg)
 
             conf.filePath = tempDir
+
 
 def _createDumpDir():
     """
@@ -623,9 +661,11 @@ def _createDumpDir():
 
             conf.dumpPath = tempDir
 
+
 def _configureDumper():
     conf.dumper = dumper
     conf.dumper.setOutputFile()
+
 
 def _createTargetDirs():
     """
@@ -676,12 +716,14 @@ def _createTargetDirs():
     _createFilesDir()
     _configureDumper()
 
+
 def _setAuxOptions():
     """
     Setup auxiliary (host-dependent) options
     """
 
     kb.aliasName = randomStr(seed=hash(conf.hostname or ""))
+
 
 def _restoreMergedOptions():
     """
@@ -691,6 +733,7 @@ def _restoreMergedOptions():
 
     for option in RESTORE_MERGED_OPTIONS:
         conf[option] = mergedOptions[option]
+
 
 def initTargetEnv():
     """
@@ -731,6 +774,7 @@ def initTargetEnv():
 
     match = re.search(INJECT_HERE_REGEX, "%s %s %s" % (conf.url, conf.data, conf.httpHeaders))
     kb.customInjectionMark = match.group(0) if match else CUSTOM_INJECTION_MARK_CHAR
+
 
 def setupTargetEnv():
     _createTargetDirs()

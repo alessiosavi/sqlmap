@@ -20,6 +20,7 @@ __author__ = 'Marcel Hellkamp'
 __version__ = '0.13-dev'
 __license__ = 'MIT'
 
+
 ###############################################################################
 # Command-line interface ########################################################
 ###############################################################################
@@ -67,8 +68,8 @@ if __name__ == '__main__':
 ###############################################################################
 
 
-import base64, cgi, email.utils, functools, hmac, imp, itertools, mimetypes,\
-        os, re, tempfile, threading, time, warnings
+import base64, cgi, email.utils, functools, hmac, imp, itertools, mimetypes, \
+    os, re, tempfile, threading, time, warnings
 
 from types import FunctionType
 from datetime import date as datedate, datetime, timedelta
@@ -80,6 +81,8 @@ from unicodedata import normalize
 # Signature-based version where we can (Python 3.3+)
 try:
     from inspect import signature
+
+
     def getargspec(func):
         params = signature(func).parameters
         args, varargs, keywords, defaults = [], None, None, []
@@ -110,6 +113,7 @@ except ImportError:  # pragma: no cover
                 raise ImportError(
                     "JSON support requires Python 2.6 or simplejson.")
 
+
             json_lds = json_dumps
 
 # We now try to fix 2.5/2.6/3.1/3.2 incompatibilities.
@@ -117,12 +121,14 @@ except ImportError:  # pragma: no cover
 
 py = sys.version_info
 py3k = py >= (3, 0, 0)
-py25 = py <  (2, 6, 0)
+py25 = py < (2, 6, 0)
 py31 = (3, 1, 0) <= py < (3, 2, 0)
+
 
 # Workaround for the missing "as" keyword in py3k.
 def _e():
     return sys.exc_info()[1]
+
 
 # Workaround for the "print is a keyword/function" Python 2/3 dilemma
 # and a fallback for mod_wsgi (resticts stdout/err attribute access)
@@ -138,17 +144,20 @@ if py3k:
     import _thread as thread
     from urllib.parse import urljoin, SplitResult as UrlSplitResult
     from urllib.parse import urlencode, quote as urlquote, unquote as urlunquote
+
     urlunquote = functools.partial(urlunquote, encoding='latin1')
     from http.cookies import SimpleCookie
     from collections import MutableMapping as DictMixin
     import pickle
     from io import BytesIO
     from configparser import ConfigParser, Error as ConfigParserError
+
     basestring = str
     unicode = str
     json_loads = lambda s: json_lds(touni(s))
     callable = lambda x: hasattr(x, '__call__')
     imap = map
+
 
     def _raise(*a):
         raise a[0](a[1]).with_traceback(a[2])
@@ -162,14 +171,17 @@ else:  # 2.x
     import cPickle as pickle
     from StringIO import StringIO as BytesIO
     from ConfigParser import SafeConfigParser as ConfigParser, \
-                             Error as ConfigParserError
+        Error as ConfigParserError
+
     if py25:
         msg = "Python 2.5 support may be dropped in future versions of Bottle."
         warnings.warn(msg, DeprecationWarning)
         from UserDict import DictMixin
 
+
         def next(it):
             return it.next()
+
 
         bytes = str
     else:  # 2.6, 2.7
@@ -198,6 +210,7 @@ tonat = touni if py3k else tob
 if py31:
     from io import TextIOWrapper
 
+
     class NCTextIOWrapper(TextIOWrapper):
         def close(self):
             pass  # Keep wrapped buffer open.
@@ -209,6 +222,7 @@ def update_wrapper(wrapper, wrapped, *a, **ka):
         functools.update_wrapper(wrapper, wrapped, *a, **ka)
     except AttributeError:
         pass
+
 
 # These helpers are used at module level and need to be defined first.
 # And yes, I know PEP-8, but sometimes a lower-case classname makes more sense.
@@ -280,6 +294,7 @@ class lazy_attribute(object):
         setattr(cls, self.__name__, value)
         return value
 
+
 ###############################################################################
 # Exceptions and Events ########################################################
 ###############################################################################
@@ -288,6 +303,7 @@ class lazy_attribute(object):
 class BottleException(Exception):
     """ A base class for exceptions used by bottle. """
     pass
+
 
 ###############################################################################
 # Routing ######################################################################
@@ -304,7 +320,6 @@ class RouteReset(BottleException):
 
 
 class RouterUnknownModeError(RouteError):
-
     pass
 
 
@@ -322,7 +337,7 @@ def _re_flatten(p):
     if '(' not in p:
         return p
     return re.sub(r'(\\*)(\(\?P<[^>]+>|\((?!\?))', lambda m: m.group(0) if
-                  len(m.group(1)) % 2 else m.group(1) + '(?:', p)
+    len(m.group(1)) % 2 else m.group(1) + '(?:', p)
 
 
 class Router(object):
@@ -368,9 +383,9 @@ class Router(object):
         self.filters[name] = func
 
     rule_syntax = re.compile('(\\\\*)'
-        '(?:(?::([a-zA-Z_][a-zA-Z_0-9]*)?()(?:#(.*?)#)?)'
-          '|(?:<([a-zA-Z_][a-zA-Z_0-9]*)?(?::([a-zA-Z_]*)'
-            '(?::((?:\\\\.|[^\\\\>]+)+)?)?)?>))')
+                             '(?:(?::([a-zA-Z_][a-zA-Z_0-9]*)?()(?:#(.*?)#)?)'
+                             '|(?:<([a-zA-Z_][a-zA-Z_0-9]*)?(?::([a-zA-Z_]*)'
+                             '(?::((?:\\\\.|[^\\\\>]+)+)?)?)?>))')
 
     def _itertokens(self, rule):
         offset, prefix = 0, ''
@@ -632,6 +647,7 @@ class Route(object):
         cb = self.get_undecorated_callback()
         return '<%s %r %r>' % (self.method, self.rule, cb)
 
+
 ###############################################################################
 # Application Object ###########################################################
 ###############################################################################
@@ -789,7 +805,7 @@ class Bottle(object):
         removed, remove = [], plugin
         for i, plugin in list(enumerate(self.plugins))[::-1]:
             if remove is True or remove is plugin or remove is type(plugin) \
-            or getattr(plugin, 'name', True) == remove:
+                    or getattr(plugin, 'name', True) == remove:
                 removed.append(plugin)
                 del self.plugins[i]
                 if hasattr(plugin, 'close'): plugin.close()
@@ -800,9 +816,12 @@ class Bottle(object):
         """ Reset all routes (force plugins to be re-applied) and clear all
             caches. If an ID or route object is given, only that specific route
             is affected. """
-        if route is None: routes = self.routes
-        elif isinstance(route, Route): routes = [route]
-        else: routes = [self.routes[route]]
+        if route is None:
+            routes = self.routes
+        elif isinstance(route, Route):
+            routes = [route]
+        else:
+            routes = [self.routes[route]]
         for route in routes:
             route.reset()
         if DEBUG:
@@ -972,8 +991,8 @@ class Bottle(object):
                 response['Content-Length'] = 0
             return []
         # Join lists of byte or unicode strings. Mixed lists are NOT supported
-        if isinstance(out, (tuple, list))\
-        and isinstance(out[0], (bytes, unicode)):
+        if isinstance(out, (tuple, list)) \
+                and isinstance(out[0], (bytes, unicode)):
             out = out[0][0:0].join(out)  # b'abc'[0:0] -> b''
         # Encode unicode strings
         if isinstance(out, unicode):
@@ -1037,8 +1056,8 @@ class Bottle(object):
         try:
             out = self._cast(self._handle(environ))
             # rfc2616 section 4.3
-            if response._status_code in (100, 101, 204, 304)\
-            or environ['REQUEST_METHOD'] == 'HEAD':
+            if response._status_code in (100, 101, 204, 304) \
+                    or environ['REQUEST_METHOD'] == 'HEAD':
                 if hasattr(out, 'close'): out.close()
                 out = []
             start_response(response._status_line, response.headerlist)
@@ -1090,7 +1109,7 @@ class BaseRequest(object):
         way to store and access request-specific data.
     """
 
-    __slots__ = ('environ', )
+    __slots__ = ('environ',)
 
     #: Maximum size of memory buffer for :attr:`body` in bytes.
     MEMFILE_MAX = 102400
@@ -1334,7 +1353,7 @@ class BaseRequest(object):
         elif py3k:
             args['encoding'] = 'utf8'
         data = cgi.FieldStorage(**args)
-        self['_cgi.FieldStorage'] = data  #http://bugs.python.org/issue18394
+        self['_cgi.FieldStorage'] = data  # http://bugs.python.org/issue18394
         data = data.list or []
         for item in data:
             if item.filename:
@@ -1360,7 +1379,7 @@ class BaseRequest(object):
             server. """
         env = self.environ
         http = env.get('HTTP_X_FORWARDED_PROTO') \
-             or env.get('wsgi.url_scheme', 'http')
+               or env.get('wsgi.url_scheme', 'http')
         host = env.get('HTTP_X_FORWARDED_HOST') or env.get('HTTP_HOST')
         if not host:
             # HTTP 1.1 requires a Host-header. This is for HTTP/1.0 clients.
@@ -1524,6 +1543,7 @@ class BaseRequest(object):
         except KeyError:
             raise AttributeError("Attribute not defined: %s" % name)
 
+
 def _hkey(s):
     return s.title().replace('_', '-')
 
@@ -1568,7 +1588,7 @@ class BaseResponse(object):
     # Header blacklist for specific response codes
     # (rfc2616 section 10.2.3 and 10.3.5)
     bad_headers = {
-        204: set(('Content-Type', )),
+        204: set(('Content-Type',)),
         304: set(('Allow', 'Content-Encoding', 'Content-Language',
                   'Content-Length', 'Content-Range', 'Content-Type',
                   'Content-Md5', 'Last-Modified'))
@@ -1672,7 +1692,7 @@ class BaseResponse(object):
         """ Create a new response header, replacing any previously defined
             headers with the same name. """
         self._headers[_hkey(name)] = [value if isinstance(value, unicode)
-                                            else str(value)]
+                                      else str(value)]
 
     def add_header(self, name, value):
         """ Add an additional response header, not removing duplicates. """
@@ -1863,6 +1883,7 @@ class HTTPError(HTTPResponse):
         self.traceback = traceback
         super(HTTPError, self).__init__(body, status, **more_headers)
 
+
 ###############################################################################
 # Plugins ######################################################################
 ###############################################################################
@@ -1890,9 +1911,9 @@ class JSONPlugin(object):
                 rv = _e()
 
             if isinstance(rv, dict):
-                #Attempt to serialize, raises exception on failure
+                # Attempt to serialize, raises exception on failure
                 json_response = dumps(rv)
-                #Set content type only if serialization successful
+                # Set content type only if serialization successful
                 response.content_type = 'application/json'
                 return json_response
             elif isinstance(rv, HTTPResponse) and isinstance(rv.body, dict):
@@ -1954,6 +1975,7 @@ class _ImportRedirect(object):
         setattr(self.module, modname, module)
         module.__loader__ = self
         return module
+
 
 ###############################################################################
 # Common Utilities #############################################################
@@ -2231,7 +2253,7 @@ class ConfigDict(dict):
         """
         config_obj = __import__(path)
         obj = dict([(key, getattr(config_obj, key))
-                for key in dir(config_obj) if key.isupper()])
+                    for key in dir(config_obj) if key.isupper()])
         if squash:
             self.load_dict(obj)
         else:
@@ -2422,8 +2444,10 @@ class ResourceManager(object):
             if not os.path.isdir(path): continue
             for name in os.listdir(path):
                 full = os.path.join(path, name)
-                if os.path.isdir(full): search.append(full)
-                else: yield full
+                if os.path.isdir(full):
+                    search.append(full)
+                else:
+                    yield full
 
     def lookup(self, name):
         """ Search for a resource and return an absolute file path, or `None`.
@@ -2510,6 +2534,7 @@ class FileUpload(object):
                 self._copy_file(fp, chunk_size)
         else:
             self._copy_file(destination, chunk_size)
+
 
 ###############################################################################
 # Application Helper ###########################################################
@@ -2621,6 +2646,7 @@ def static_file(filename, root,
         return HTTPResponse(body, status=206, **headers)
     return HTTPResponse(body, **headers)
 
+
 ###############################################################################
 # HTTP Utilities and MISC (TODO) ###############################################
 ###############################################################################
@@ -2648,7 +2674,7 @@ def parse_date(ims):
     """ Parse rfc1123, rfc850 and asctime timestamps and return UTC epoch. """
     try:
         ts = email.utils.parsedate_tz(ims)
-        return time.mktime(ts[:8] + (0, )) - (ts[9] or 0) - time.timezone
+        return time.mktime(ts[:8] + (0,)) - (ts[9] or 0) - time.timezone
     except (TypeError, ValueError, IndexError, OverflowError):
         return None
 
@@ -2726,14 +2752,14 @@ def cookie_is_encoded(data):
 
 def html_escape(string):
     """ Escape HTML special characters ``&<>`` and quotes ``'"``. """
-    return string.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')\
-                 .replace('"', '&quot;').replace("'", '&#039;')
+    return string.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;') \
+        .replace('"', '&quot;').replace("'", '&#039;')
 
 
 def html_quote(string):
     """ Escape and quote a string to be used as an HTTP attribute."""
-    return '"%s"' % html_escape(string).replace('\n', '&#10;')\
-                    .replace('\r', '&#13;').replace('\t', '&#9;')
+    return '"%s"' % html_escape(string).replace('\n', '&#10;') \
+        .replace('\r', '&#13;').replace('\t', '&#9;')
 
 
 def yieldroutes(func):
@@ -2792,7 +2818,6 @@ def auth_basic(check, realm="private", text="Access denied"):
         TODO: Add route(check_auth=...) parameter. """
 
     def decorator(func):
-
         @functools.wraps(func)
         def wrapper(*a, **ka):
             user, password = request.auth or (None, None)
@@ -2805,6 +2830,7 @@ def auth_basic(check, realm="private", text="Access denied"):
         return wrapper
 
     return decorator
+
 
 # Shortcuts for common Bottle methods.
 # They all refer to the current default application.
@@ -2820,18 +2846,19 @@ def make_default_app_wrapper(name):
     return wrapper
 
 
-route     = make_default_app_wrapper('route')
-get       = make_default_app_wrapper('get')
-post      = make_default_app_wrapper('post')
-put       = make_default_app_wrapper('put')
-delete    = make_default_app_wrapper('delete')
-patch     = make_default_app_wrapper('patch')
-error     = make_default_app_wrapper('error')
-mount     = make_default_app_wrapper('mount')
-hook      = make_default_app_wrapper('hook')
-install   = make_default_app_wrapper('install')
+route = make_default_app_wrapper('route')
+get = make_default_app_wrapper('get')
+post = make_default_app_wrapper('post')
+put = make_default_app_wrapper('put')
+delete = make_default_app_wrapper('delete')
+patch = make_default_app_wrapper('patch')
+error = make_default_app_wrapper('error')
+mount = make_default_app_wrapper('mount')
+hook = make_default_app_wrapper('hook')
+install = make_default_app_wrapper('install')
 uninstall = make_default_app_wrapper('uninstall')
-url       = make_default_app_wrapper('get_url')
+url = make_default_app_wrapper('get_url')
+
 
 ###############################################################################
 # Server Adapter ###############################################################
@@ -2894,7 +2921,6 @@ class WSGIRefServer(ServerAdapter):
 
         if ':' in self.host:  # Fix wsgiref for IPv6 addresses.
             if getattr(server_cls, 'address_family') == socket.AF_INET:
-
                 class server_cls(server_cls):
                     address_family = socket.AF_INET6
 
@@ -3193,6 +3219,7 @@ server_names = {
     'auto': AutoServer,
 }
 
+
 ###############################################################################
 # Application Control ##########################################################
 ###############################################################################
@@ -3364,8 +3391,8 @@ class FileCheckerThread(threading.Thread):
             if path and exists(path): files[path] = mtime(path)
 
         while not self.status:
-            if not exists(self.lockfile)\
-            or mtime(self.lockfile) < time.time() - self.interval - 5:
+            if not exists(self.lockfile) \
+                    or mtime(self.lockfile) < time.time() - self.interval - 5:
                 self.status = 'error'
                 thread.interrupt_main()
             for path, lmtime in list(files.items()):
@@ -3383,6 +3410,7 @@ class FileCheckerThread(threading.Thread):
         self.join()
         return exc_type is not None and issubclass(exc_type, KeyboardInterrupt)
 
+
 ###############################################################################
 # Template Adapters ############################################################
 ###############################################################################
@@ -3396,8 +3424,8 @@ class TemplateError(HTTPError):
 class BaseTemplate(object):
     """ Base class and minimal API for template adapters """
     extensions = ['tpl', 'html', 'thtml', 'stpl']
-    settings = {}  #used in prepare()
-    defaults = {}  #used in render()
+    settings = {}  # used in prepare()
+    defaults = {}  # used in render()
 
     def __init__(self,
                  source=None,
@@ -3435,11 +3463,11 @@ class BaseTemplate(object):
         First without, then with common extensions. Return first hit. """
         if not lookup:
             depr('The template lookup path list should not be empty.',
-                 True)  #0.12
+                 True)  # 0.12
             lookup = ['.']
 
         if os.path.isabs(name) and os.path.isfile(name):
-            depr('Absolute template path names are deprecated.', True)  #0.12
+            depr('Absolute template path names are deprecated.', True)  # 0.12
             return os.path.abspath(name)
 
         for spath in lookup:
@@ -3572,7 +3600,7 @@ class SimpleTemplate(BaseTemplate):
         try:
             source, encoding = touni(source), 'utf8'
         except UnicodeError:
-            depr('Template encodings other than utf8 are not supported.')  #0.11
+            depr('Template encodings other than utf8 are not supported.')  # 0.11
             source, encoding = touni(source, 'latin1'), 'latin1'
         parser = StplParser(source, encoding=encoding, syntax=self.syntax)
         code = parser.translate()
@@ -3607,7 +3635,7 @@ class SimpleTemplate(BaseTemplate):
         eval(self.co, env)
         if env.get('_rebase'):
             subtpl, rargs = env.pop('_rebase')
-            rargs['base'] = ''.join(_stdout)  #copy stdout
+            rargs['base'] = ''.join(_stdout)  # copy stdout
             del _stdout[:]  # clear stdout
             return self._include(env, subtpl, **rargs)
         return env
@@ -3624,7 +3652,6 @@ class SimpleTemplate(BaseTemplate):
 
 
 class StplSyntaxError(TemplateError):
-
     pass
 
 
@@ -3767,8 +3794,10 @@ class StplParser(object):
             elif _end:  # The non-standard 'end'-keyword (ends a block)
                 self.indent -= 1
             elif _cend:  # The end-code-block template token (usually '%>')
-                if multiline: multiline = False
-                else: code_line += _cend
+                if multiline:
+                    multiline = False
+                else:
+                    code_line += _cend
             else:  # \n
                 self.write_code(code_line.strip(), comment)
                 self.lineno += 1
@@ -3792,8 +3821,10 @@ class StplParser(object):
         if pos < len(text):
             prefix = text[pos:]
             lines = prefix.splitlines(True)
-            if lines[-1].endswith('\\\\\n'): lines[-1] = lines[-1][:-3]
-            elif lines[-1].endswith('\\\\\r\n'): lines[-1] = lines[-1][:-4]
+            if lines[-1].endswith('\\\\\n'):
+                lines[-1] = lines[-1][:-3]
+            elif lines[-1].endswith('\\\\\r\n'):
+                lines[-1] = lines[-1][:-4]
             parts.append(nl.join(map(repr, lines)))
         code = '_printlist((%s,))' % ', '.join(parts)
         self.lineno += code.count('\n') + 1
@@ -3953,15 +3984,15 @@ app.push()
 ext = _ImportRedirect('bottle.ext' if __name__ == '__main__' else
                       __name__ + ".ext", 'bottle_%s').module
 
-
-
 if __name__ == '__main__':
     opt, args, parser = _cli_parse(sys.argv)
+
 
     def _cli_error(msg):
         parser.print_help()
         _stderr('\nError: %s\n' % msg)
         sys.exit(1)
+
 
     if opt.version:
         _stdout('Bottle %s\n' % __version__)

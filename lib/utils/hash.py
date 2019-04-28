@@ -94,6 +94,7 @@ from thirdparty.pydes.pyDes import des
 from thirdparty.pydes.pyDes import CBC
 from thirdparty.six.moves import queue as _queue
 
+
 def mysql_passwd(password, uppercase=True):
     """
     Reference(s):
@@ -108,6 +109,7 @@ def mysql_passwd(password, uppercase=True):
     retVal = "*%s" % sha1(sha1(password).digest()).hexdigest()
 
     return retVal.upper() if uppercase else retVal.lower()
+
 
 def mysql_old_passwd(password, uppercase=True):  # prior to version '4.1'
     """
@@ -134,6 +136,7 @@ def mysql_old_passwd(password, uppercase=True):  # prior to version '4.1'
 
     return retVal.upper() if uppercase else retVal.lower()
 
+
 def postgres_passwd(password, username, uppercase=False):
     """
     Reference(s):
@@ -149,6 +152,7 @@ def postgres_passwd(password, username, uppercase=False):
     retVal = "md5%s" % md5(password + username).hexdigest()
 
     return retVal.upper() if uppercase else retVal.lower()
+
 
 def mssql_passwd(password, salt, uppercase=False):
     """
@@ -166,6 +170,7 @@ def mssql_passwd(password, salt, uppercase=False):
     retVal = "0100%s%s" % (salt, sha1(unistr + binsalt).hexdigest())
 
     return "0x%s" % (retVal.upper() if uppercase else retVal.lower())
+
 
 def mssql_old_passwd(password, salt, uppercase=True):  # prior to version '2005'
     """
@@ -185,6 +190,7 @@ def mssql_old_passwd(password, salt, uppercase=True):  # prior to version '2005'
 
     return "0x%s" % (retVal.upper() if uppercase else retVal.lower())
 
+
 def mssql_new_passwd(password, salt, uppercase=False):
     """
     Reference(s):
@@ -200,6 +206,7 @@ def mssql_new_passwd(password, salt, uppercase=False):
     retVal = "0200%s%s" % (salt, sha512(unistr + binsalt).hexdigest())
 
     return "0x%s" % (retVal.upper() if uppercase else retVal.lower())
+
 
 def oracle_passwd(password, salt, uppercase=True):
     """
@@ -217,6 +224,7 @@ def oracle_passwd(password, salt, uppercase=True):
     retVal = "s:%s%s" % (sha1(utf8encode(password) + binsalt).hexdigest(), salt)
 
     return retVal.upper() if uppercase else retVal.lower()
+
 
 def oracle_old_passwd(password, username, uppercase=True):  # prior to version '11g'
     """
@@ -243,6 +251,7 @@ def oracle_old_passwd(password, username, uppercase=True):  # prior to version '
 
     return retVal.upper() if uppercase else retVal.lower()
 
+
 def md5_generic_passwd(password, uppercase=False):
     """
     >>> md5_generic_passwd(password='testpass', uppercase=False)
@@ -254,6 +263,7 @@ def md5_generic_passwd(password, uppercase=False):
     retVal = md5(password).hexdigest()
 
     return retVal.upper() if uppercase else retVal.lower()
+
 
 def sha1_generic_passwd(password, uppercase=False):
     """
@@ -267,6 +277,7 @@ def sha1_generic_passwd(password, uppercase=False):
 
     return retVal.upper() if uppercase else retVal.lower()
 
+
 def apache_sha1_passwd(password, **kwargs):
     """
     >>> apache_sha1_passwd(password='testpass')
@@ -276,6 +287,7 @@ def apache_sha1_passwd(password, **kwargs):
     password = getBytes(password)
 
     return "{SHA}%s" % base64.b64encode(sha1(password).digest())
+
 
 def ssha_passwd(password, salt, **kwargs):
     """
@@ -288,6 +300,7 @@ def ssha_passwd(password, salt, **kwargs):
 
     return "{SSHA}%s" % base64.b64encode(sha1(password + salt).digest() + salt)
 
+
 def ssha256_passwd(password, salt, **kwargs):
     """
     >>> ssha256_passwd(password='testpass', salt='salt')
@@ -299,6 +312,7 @@ def ssha256_passwd(password, salt, **kwargs):
 
     return "{SSHA256}%s" % base64.b64encode(sha256(password + salt).digest() + salt)
 
+
 def ssha512_passwd(password, salt, **kwargs):
     """
     >>> ssha512_passwd(password='testpass', salt='salt')
@@ -309,6 +323,7 @@ def ssha512_passwd(password, salt, **kwargs):
     salt = getBytes(salt)
 
     return "{SSHA512}%s" % base64.b64encode(sha512(password + salt).digest() + salt)
+
 
 def sha224_generic_passwd(password, uppercase=False):
     """
@@ -322,6 +337,7 @@ def sha224_generic_passwd(password, uppercase=False):
 
     return retVal.upper() if uppercase else retVal.lower()
 
+
 def sha256_generic_passwd(password, uppercase=False):
     """
     >>> sha256_generic_passwd(password='testpass', uppercase=False)
@@ -333,6 +349,7 @@ def sha256_generic_passwd(password, uppercase=False):
     retVal = sha256(password).hexdigest()
 
     return retVal.upper() if uppercase else retVal.lower()
+
 
 def sha384_generic_passwd(password, uppercase=False):
     """
@@ -346,6 +363,7 @@ def sha384_generic_passwd(password, uppercase=False):
 
     return retVal.upper() if uppercase else retVal.lower()
 
+
 def sha512_generic_passwd(password, uppercase=False):
     """
     >>> sha512_generic_passwd(password='testpass', uppercase=False)
@@ -357,6 +375,7 @@ def sha512_generic_passwd(password, uppercase=False):
     retVal = sha512(password).hexdigest()
 
     return retVal.upper() if uppercase else retVal.lower()
+
 
 def crypt_generic_passwd(password, salt, **kwargs):
     """
@@ -374,6 +393,7 @@ def crypt_generic_passwd(password, salt, **kwargs):
     salt = getBytes(salt)
 
     return crypt(password, salt)
+
 
 def unix_md5_passwd(password, salt, magic="$1$", **kwargs):
     """
@@ -448,6 +468,7 @@ def unix_md5_passwd(password, salt, magic="$1$", **kwargs):
 
     return "%s%s$%s" % (magic, salt.decode(UNICODE_ENCODING), hash_.decode(UNICODE_ENCODING))
 
+
 def joomla_passwd(password, salt, **kwargs):
     """
     Reference: https://stackoverflow.com/a/10428239
@@ -460,6 +481,7 @@ def joomla_passwd(password, salt, **kwargs):
     salt = getBytes(salt)
 
     return "%s:%s" % (md5("%s%s" % (password, salt)).hexdigest(), salt)
+
 
 def django_md5_passwd(password, salt, **kwargs):
     """
@@ -474,6 +496,7 @@ def django_md5_passwd(password, salt, **kwargs):
 
     return "md5$%s$%s" % (salt, md5("%s%s" % (salt, password)).hexdigest())
 
+
 def django_sha1_passwd(password, salt, **kwargs):
     """
     Reference: https://github.com/jay0lee/GAM/blob/master/src/passlib/handlers/django.py
@@ -487,6 +510,7 @@ def django_sha1_passwd(password, salt, **kwargs):
 
     return "sha1$%s$%s" % (salt, sha1("%s%s" % (salt, password)).hexdigest())
 
+
 def vbulletin_passwd(password, salt, **kwargs):
     """
     Reference: https://stackoverflow.com/a/2202810
@@ -499,6 +523,7 @@ def vbulletin_passwd(password, salt, **kwargs):
     salt = getBytes(salt)
 
     return "%s:%s" % (md5("%s%s" % (md5(password).hexdigest(), salt)).hexdigest(), salt)
+
 
 def wordpress_passwd(password, salt, count, prefix, **kwargs):
     """
@@ -554,6 +579,7 @@ def wordpress_passwd(password, salt, count, prefix, **kwargs):
 
     return "%s%s" % (prefix, _encode64(hash_, 16))
 
+
 __functions__ = {
     HASH.MYSQL: mysql_passwd,
     HASH.MYSQL_OLD: mysql_old_passwd,
@@ -587,6 +613,7 @@ __functions__ = {
     HASH.SHA256_BASE64: sha256_generic_passwd,
     HASH.SHA512_BASE64: sha512_generic_passwd,
 }
+
 
 def storeHashesToFile(attack_dict):
     if not attack_dict:
@@ -624,6 +651,7 @@ def storeHashesToFile(attack_dict):
             for item in items:
                 f.write(item)
 
+
 def attackCachedUsersPasswords():
     if kb.data.cachedUsersPasswords:
         results = dictionaryAttack(kb.data.cachedUsersPasswords)
@@ -637,7 +665,9 @@ def attackCachedUsersPasswords():
                 if (kb.data.cachedUsersPasswords[user][i] or "").strip():
                     value = kb.data.cachedUsersPasswords[user][i].lower().split()[0]
                     if value in lut:
-                        kb.data.cachedUsersPasswords[user][i] += "%s    clear-text password: %s" % ('\n' if kb.data.cachedUsersPasswords[user][i][-1] != '\n' else '', lut[value])
+                        kb.data.cachedUsersPasswords[user][i] += "%s    clear-text password: %s" % (
+                        '\n' if kb.data.cachedUsersPasswords[user][i][-1] != '\n' else '', lut[value])
+
 
 def attackDumpedTable():
     if kb.data.dumpedTable:
@@ -694,7 +724,8 @@ def attackDumpedTable():
 
             storeHashesToFile(attack_dict)
 
-            message = "do you want to crack them via a dictionary-based attack? %s" % ("[y/N/q]" if conf.multipleTargets else "[Y/n/q]")
+            message = "do you want to crack them via a dictionary-based attack? %s" % (
+                "[y/N/q]" if conf.multipleTargets else "[Y/n/q]")
             choice = readInput(message, default='N' if conf.multipleTargets else 'Y').upper()
 
             if choice == 'N':
@@ -718,8 +749,11 @@ def attackDumpedTable():
                         value = table[column]['values'][i]
 
                         if value and value.lower() in lut:
-                            table[column]['values'][i] = "%s (%s)" % (getUnicode(table[column]['values'][i]), getUnicode(lut[value.lower()] or HASH_EMPTY_PASSWORD_MARKER))
+                            table[column]['values'][i] = "%s (%s)" % (getUnicode(table[column]['values'][i]),
+                                                                      getUnicode(lut[
+                                                                                     value.lower()] or HASH_EMPTY_PASSWORD_MARKER))
                             table[column]['length'] = max(table[column]['length'], len(table[column]['values'][i]))
+
 
 def hashRecognition(value):
     retVal = None
@@ -740,7 +774,9 @@ def hashRecognition(value):
 
     return retVal
 
-def _bruteProcessVariantA(attack_info, hash_regex, suffix, retVal, proc_id, proc_count, wordlists, custom_wordlist, api):
+
+def _bruteProcessVariantA(attack_info, hash_regex, suffix, retVal, proc_id, proc_count, wordlists, custom_wordlist,
+                          api):
     if IS_WIN:
         coloramainit()
 
@@ -786,7 +822,8 @@ def _bruteProcessVariantA(attack_info, hash_regex, suffix, retVal, proc_id, proc
 
                             attack_info.remove(item)
 
-                elif (proc_id == 0 or getattr(proc_count, "value", 0) == 1) and count % HASH_MOD_ITEM_DISPLAY == 0 or hash_regex == HASH.ORACLE_OLD or hash_regex == HASH.CRYPT_GENERIC and IS_WIN:
+                elif (proc_id == 0 or getattr(proc_count, "value",
+                                              0) == 1) and count % HASH_MOD_ITEM_DISPLAY == 0 or hash_regex == HASH.ORACLE_OLD or hash_regex == HASH.CRYPT_GENERIC and IS_WIN:
                     rotator += 1
 
                     if rotator >= len(ROTATING_CHARS):
@@ -816,7 +853,9 @@ def _bruteProcessVariantA(attack_info, hash_regex, suffix, retVal, proc_id, proc
             with proc_count.get_lock():
                 proc_count.value -= 1
 
-def _bruteProcessVariantB(user, hash_, kwargs, hash_regex, suffix, retVal, found, proc_id, proc_count, wordlists, custom_wordlist, api):
+
+def _bruteProcessVariantB(user, hash_, kwargs, hash_regex, suffix, retVal, found, proc_id, proc_count, wordlists,
+                          custom_wordlist, api):
     if IS_WIN:
         coloramainit()
 
@@ -893,6 +932,7 @@ def _bruteProcessVariantB(user, hash_, kwargs, hash_regex, suffix, retVal, found
             with proc_count.get_lock():
                 proc_count.value -= 1
 
+
 def dictionaryAttack(attack_dict):
     suffix_list = [""]
     custom_wordlist = [""]
@@ -932,12 +972,18 @@ def dictionaryAttack(attack_dict):
                     try:
                         item = None
 
-                        if hash_regex not in (HASH.CRYPT_GENERIC, HASH.JOOMLA, HASH.WORDPRESS, HASH.UNIX_MD5_CRYPT, HASH.APACHE_MD5_CRYPT, HASH.APACHE_SHA1, HASH.VBULLETIN, HASH.VBULLETIN_OLD, HASH.SSHA, HASH.SSHA256, HASH.SSHA512, HASH.DJANGO_MD5, HASH.DJANGO_SHA1, HASH.MD5_BASE64, HASH.SHA1_BASE64, HASH.SHA256_BASE64, HASH.SHA512_BASE64):
+                        if hash_regex not in (
+                        HASH.CRYPT_GENERIC, HASH.JOOMLA, HASH.WORDPRESS, HASH.UNIX_MD5_CRYPT, HASH.APACHE_MD5_CRYPT,
+                        HASH.APACHE_SHA1, HASH.VBULLETIN, HASH.VBULLETIN_OLD, HASH.SSHA, HASH.SSHA256, HASH.SSHA512,
+                        HASH.DJANGO_MD5, HASH.DJANGO_SHA1, HASH.MD5_BASE64, HASH.SHA1_BASE64, HASH.SHA256_BASE64,
+                        HASH.SHA512_BASE64):
                             hash_ = hash_.lower()
 
                         if hash_regex in (HASH.MD5_BASE64, HASH.SHA1_BASE64, HASH.SHA256_BASE64, HASH.SHA512_BASE64):
                             item = [(user, hash_.decode("base64").encode("hex")), {}]
-                        elif hash_regex in (HASH.MYSQL, HASH.MYSQL_OLD, HASH.MD5_GENERIC, HASH.SHA1_GENERIC, HASH.SHA224_GENERIC, HASH.SHA256_GENERIC, HASH.SHA384_GENERIC, HASH.SHA512_GENERIC, HASH.APACHE_SHA1):
+                        elif hash_regex in (
+                        HASH.MYSQL, HASH.MYSQL_OLD, HASH.MD5_GENERIC, HASH.SHA1_GENERIC, HASH.SHA224_GENERIC,
+                        HASH.SHA256_GENERIC, HASH.SHA384_GENERIC, HASH.SHA512_GENERIC, HASH.APACHE_SHA1):
                             item = [(user, hash_), {}]
                         elif hash_regex in (HASH.SSHA,):
                             item = [(user, hash_), {"salt": hash_.decode("base64")[20:]}]
@@ -961,7 +1007,8 @@ def dictionaryAttack(attack_dict):
                             item = [(user, hash_), {"salt": hash_.split('$')[1]}]
                         elif hash_regex in (HASH.WORDPRESS,):
                             if ITOA64.index(hash_[3]) < 32:
-                                item = [(user, hash_), {"salt": hash_[4:12], "count": 1 << ITOA64.index(hash_[3]), "prefix": hash_[:12]}]
+                                item = [(user, hash_), {"salt": hash_[4:12], "count": 1 << ITOA64.index(hash_[3]),
+                                                        "prefix": hash_[:12]}]
                             else:
                                 warnMsg = "invalid hash '%s'" % hash_
                                 logger.warn(warnMsg)
@@ -1050,7 +1097,9 @@ def dictionaryAttack(attack_dict):
                 custom_wordlist.append(normalizeUnicode(user))
 
         # Algorithms without extra arguments (e.g. salt and/or username)
-        if hash_regex in (HASH.MYSQL, HASH.MYSQL_OLD, HASH.MD5_GENERIC, HASH.SHA1_GENERIC, HASH.SHA224_GENERIC, HASH.SHA256_GENERIC, HASH.SHA384_GENERIC, HASH.SHA512_GENERIC, HASH.APACHE_SHA1, HASH.VBULLETIN, HASH.VBULLETIN_OLD):
+        if hash_regex in (
+        HASH.MYSQL, HASH.MYSQL_OLD, HASH.MD5_GENERIC, HASH.SHA1_GENERIC, HASH.SHA224_GENERIC, HASH.SHA256_GENERIC,
+        HASH.SHA384_GENERIC, HASH.SHA512_GENERIC, HASH.APACHE_SHA1, HASH.VBULLETIN, HASH.VBULLETIN_OLD):
             for suffix in suffix_list:
                 if not attack_info or processException:
                     break
@@ -1075,7 +1124,8 @@ def dictionaryAttack(attack_dict):
                         count = _multiprocessing.Value('i', _multiprocessing.cpu_count())
 
                         for i in xrange(_multiprocessing.cpu_count()):
-                            process = _multiprocessing.Process(target=_bruteProcessVariantA, args=(attack_info, hash_regex, suffix, retVal, i, count, kb.wordlists, custom_wordlist, conf.api))
+                            process = _multiprocessing.Process(target=_bruteProcessVariantA, args=(
+                            attack_info, hash_regex, suffix, retVal, i, count, kb.wordlists, custom_wordlist, conf.api))
                             processes.append(process)
 
                         for process in processes:
@@ -1091,7 +1141,8 @@ def dictionaryAttack(attack_dict):
                         singleTimeWarnMessage(warnMsg)
 
                         retVal = _queue.Queue()
-                        _bruteProcessVariantA(attack_info, hash_regex, suffix, retVal, 0, 1, kb.wordlists, custom_wordlist, conf.api)
+                        _bruteProcessVariantA(attack_info, hash_regex, suffix, retVal, 0, 1, kb.wordlists,
+                                              custom_wordlist, conf.api)
 
                 except KeyboardInterrupt:
                     print()
@@ -1161,7 +1212,9 @@ def dictionaryAttack(attack_dict):
                             count = _multiprocessing.Value('i', _multiprocessing.cpu_count())
 
                             for i in xrange(_multiprocessing.cpu_count()):
-                                process = _multiprocessing.Process(target=_bruteProcessVariantB, args=(user, hash_, kwargs, hash_regex, suffix, retVal, found_, i, count, kb.wordlists, custom_wordlist, conf.api))
+                                process = _multiprocessing.Process(target=_bruteProcessVariantB, args=(
+                                user, hash_, kwargs, hash_regex, suffix, retVal, found_, i, count, kb.wordlists,
+                                custom_wordlist, conf.api))
                                 processes.append(process)
 
                             for process in processes:
@@ -1185,7 +1238,8 @@ def dictionaryAttack(attack_dict):
                             found_ = Value()
                             found_.value = False
 
-                            _bruteProcessVariantB(user, hash_, kwargs, hash_regex, suffix, retVal, found_, 0, 1, kb.wordlists, custom_wordlist, conf.api)
+                            _bruteProcessVariantB(user, hash_, kwargs, hash_regex, suffix, retVal, found_, 0, 1,
+                                                  kb.wordlists, custom_wordlist, conf.api)
 
                             found = found_.value
 
@@ -1231,6 +1285,7 @@ def dictionaryAttack(attack_dict):
         logger.warn(warnMsg)
 
     return results
+
 
 def crackHashFile(hashFile):
     i = 0

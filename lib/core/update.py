@@ -30,6 +30,7 @@ from lib.core.settings import VERSION
 from lib.core.settings import ZIPBALL_PAGE
 from lib.core.settings import UNICODE_ENCODING
 
+
 def update():
     if not conf.updateAll:
         return
@@ -94,7 +95,8 @@ def update():
                             try:
                                 os.chmod(os.path.join(directory, "sqlmap.py"), attrs)
                             except OSError:
-                                logger.warning("could not set the file attributes of '%s'" % os.path.join(directory, "sqlmap.py"))
+                                logger.warning(
+                                    "could not set the file attributes of '%s'" % os.path.join(directory, "sqlmap.py"))
     else:
         infoMsg = "updating sqlmap to the latest development revision from the "
         infoMsg += "GitHub repository"
@@ -106,7 +108,10 @@ def update():
         dataToStdout("\r[%s] [INFO] update in progress" % time.strftime("%X"))
 
         try:
-            process = subprocess.Popen("git checkout . && git pull %s HEAD" % GIT_REPOSITORY, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=paths.SQLMAP_ROOT_PATH.encode(sys.getfilesystemencoding() or UNICODE_ENCODING))
+            process = subprocess.Popen("git checkout . && git pull %s HEAD" % GIT_REPOSITORY, shell=True,
+                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       cwd=paths.SQLMAP_ROOT_PATH.encode(
+                                           sys.getfilesystemencoding() or UNICODE_ENCODING))
             pollProcess(process, True)
             stdout, stderr = process.communicate()
             success = not process.returncode
@@ -115,7 +120,8 @@ def update():
             stderr = getSafeExString(ex)
 
         if success:
-            logger.info("%s the latest revision '%s'" % ("already at" if "Already" in stdout else "updated to", getRevisionNumber()))
+            logger.info("%s the latest revision '%s'" % (
+            "already at" if "Already" in stdout else "updated to", getRevisionNumber()))
         else:
             if "Not a git repository" in stderr:
                 errMsg = "not a valid git repository. Please checkout the 'sqlmapproject/sqlmap' repository "

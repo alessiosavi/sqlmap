@@ -12,6 +12,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Bluedon Web Application Firewall (Bluedon Information Security Technology)"
 
+
 def detect(get_page):
     retval = False
 

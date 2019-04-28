@@ -40,12 +40,15 @@ from lib.core.optiondict import optDict
 from lib.core.settings import UNICODE_ENCODING
 from lib.parse.cmdline import cmdLineParser
 
+
 class Failures(object):
     failedItems = None
     failedParseOn = None
     failedTraceBack = None
 
+
 _failures = Failures()
+
 
 def vulnTest():
     """
@@ -64,14 +67,18 @@ def vulnTest():
     thread.start()
 
     for options, checks in (
-        ("--version", ("1.", "#")),
-        ("--flush-session", ("Type: boolean-based blind", "Type: time-based blind", "Type: UNION query", "back-end DBMS: SQLite", "3 columns")),
-        ("--banner --schema --dump -T users --binary-fields=surname --where 'id>3'", ("banner: '3", "INTEGER", "TEXT", "id", "name", "surname", "2 entries", "6E616D6569736E756C6C")),
-        ("--all", ("5 entries", "luther", "blisset", "fluffy", "ming", "NULL", "nameisnull")),
-        ("--technique=B --hex --fresh-queries --sql-query='SELECT 987654321'", ("single-thread", ": '987654321'",)),
-        ("--technique=T --fresh-queries --sql-query='SELECT 987654321'", (": '987654321'",)),
+            ("--version", ("1.", "#")),
+            ("--flush-session", (
+            "Type: boolean-based blind", "Type: time-based blind", "Type: UNION query", "back-end DBMS: SQLite",
+            "3 columns")),
+            ("--banner --schema --dump -T users --binary-fields=surname --where 'id>3'",
+             ("banner: '3", "INTEGER", "TEXT", "id", "name", "surname", "2 entries", "6E616D6569736E756C6C")),
+            ("--all", ("5 entries", "luther", "blisset", "fluffy", "ming", "NULL", "nameisnull")),
+            ("--technique=B --hex --fresh-queries --sql-query='SELECT 987654321'", ("single-thread", ": '987654321'",)),
+            ("--technique=T --fresh-queries --sql-query='SELECT 987654321'", (": '987654321'",)),
     ):
-        output = shellExec("python sqlmap.py -u http://%s:%d/?id=1 --batch %s" % (vulnserver.LISTEN_ADDRESS, vulnserver.LISTEN_PORT, options))
+        output = shellExec("python sqlmap.py -u http://%s:%d/?id=1 --batch %s" % (
+        vulnserver.LISTEN_ADDRESS, vulnserver.LISTEN_PORT, options))
         if not all(check in output for check in checks):
             retVal = False
 
@@ -86,6 +93,7 @@ def vulnTest():
         logger.error("vuln test final result: FAILED")
 
     return retVal
+
 
 def smokeTest():
     """
@@ -121,7 +129,8 @@ def smokeTest():
                 except Exception as ex:
                     retVal = False
                     dataToStdout("\r")
-                    errMsg = "smoke test failed at importing module '%s' (%s):\n%s" % (path, os.path.join(root, filename), ex)
+                    errMsg = "smoke test failed at importing module '%s' (%s):\n%s" % (
+                    path, os.path.join(root, filename), ex)
                     logger.error(errMsg)
                 else:
                     # Run doc tests
@@ -142,6 +151,7 @@ def smokeTest():
 
     return retVal
 
+
 def adjustValueType(tagName, value):
     for family in optDict.keys():
         for name, type_ in optDict[family].items():
@@ -156,6 +166,7 @@ def adjustValueType(tagName, value):
                     value = float(value)
                 break
     return value
+
 
 def liveTest():
     """
@@ -198,7 +209,8 @@ def liveTest():
         if case.hasAttribute("name"):
             name = case.getAttribute("name")
 
-        if conf.runCase and ((conf.runCase.isdigit() and conf.runCase != count) or not re.search(conf.runCase, name, re.DOTALL)):
+        if conf.runCase and (
+                (conf.runCase.isdigit() and conf.runCase != count) or not re.search(conf.runCase, name, re.DOTALL)):
             continue
 
         if case.getElementsByTagName("switches"):
@@ -255,7 +267,8 @@ def liveTest():
             test_case_fd.write("%s\n" % errMsg)
 
             if _failures.failedParseOn:
-                console_output_fd = codecs.open(os.path.join(paths.SQLMAP_OUTPUT_PATH, "console_output"), "wb", UNICODE_ENCODING)
+                console_output_fd = codecs.open(os.path.join(paths.SQLMAP_OUTPUT_PATH, "console_output"), "wb",
+                                                UNICODE_ENCODING)
                 console_output_fd.write(_failures.failedParseOn)
                 console_output_fd.close()
 
@@ -281,6 +294,7 @@ def liveTest():
 
     return retVal
 
+
 def initCase(switches, count):
     _failures.failedItems = []
     _failures.failedParseOn = None
@@ -304,8 +318,10 @@ def initCase(switches, count):
     initOptions(cmdLineOptions, True)
     init()
 
+
 def cleanCase():
     shutil.rmtree(paths.SQLMAP_OUTPUT_PATH, True)
+
 
 def runCase(parse):
     retVal = True
@@ -361,6 +377,7 @@ def runCase(parse):
         _failures.failedParseOn = console
 
     return retVal
+
 
 def replaceVars(item, vars_):
     retVal = item

@@ -12,6 +12,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Yunsuo Web Application Firewall (Yunsuo)"
 
+
 def detect(get_page):
     retval = False
 

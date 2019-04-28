@@ -22,11 +22,14 @@ from thirdparty.six.moves import urllib as _urllib
 ssl = None
 try:
     import ssl as _ssl
+
     ssl = _ssl
 except ImportError:
     pass
 
-_protocols = filterNone(getattr(ssl, _, None) for _ in ("PROTOCOL_TLSv1_2", "PROTOCOL_TLSv1_1", "PROTOCOL_TLSv1", "PROTOCOL_SSLv3", "PROTOCOL_SSLv23", "PROTOCOL_SSLv2"))
+_protocols = filterNone(getattr(ssl, _, None) for _ in (
+"PROTOCOL_TLSv1_2", "PROTOCOL_TLSv1_1", "PROTOCOL_TLSv1", "PROTOCOL_SSLv3", "PROTOCOL_SSLv23", "PROTOCOL_SSLv2"))
+
 
 class HTTPSConnection(_http_client.HTTPSConnection):
     """
@@ -50,7 +53,8 @@ class HTTPSConnection(_http_client.HTTPSConnection):
 
         # Reference(s): https://docs.python.org/2/library/ssl.html#ssl.SSLContext
         #               https://www.mnot.net/blog/2014/12/27/python_2_and_tls_sni
-        if re.search(r"\A[\d.]+\Z", self.host) is None and kb.tlsSNI.get(self.host) is not False and not any((conf.proxy, conf.tor)) and hasattr(ssl, "SSLContext"):
+        if re.search(r"\A[\d.]+\Z", self.host) is None and kb.tlsSNI.get(self.host) is not False and not any(
+                (conf.proxy, conf.tor)) and hasattr(ssl, "SSLContext"):
             for protocol in filter(lambda _: _ >= ssl.PROTOCOL_TLSv1, _protocols):
                 try:
                     sock = create_sock()
@@ -94,6 +98,7 @@ class HTTPSConnection(_http_client.HTTPSConnection):
             if distutils.version.LooseVersion(PYVERSION) < distutils.version.LooseVersion("2.7.9"):
                 errMsg += " (please retry with Python >= 2.7.9)"
             raise SqlmapConnectionException(errMsg)
+
 
 class HTTPSHandler(_urllib.request.HTTPSHandler):
     def https_open(self, req):

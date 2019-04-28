@@ -18,6 +18,7 @@ from lib.core.settings import MSSQL_ALIASES
 from lib.request import inject
 from plugins.generic.fingerprint import Fingerprint as GenericFingerprint
 
+
 class Fingerprint(GenericFingerprint):
     def __init__(self):
         GenericFingerprint.__init__(self, DBMS.MSSQL)
@@ -89,12 +90,12 @@ class Fingerprint(GenericFingerprint):
             logger.info(infoMsg)
 
             for version, check in (
-                ("2000", "HOST_NAME()=HOST_NAME()"),
-                ("2005", "XACT_STATE()=XACT_STATE()"),
-                ("2008", "SYSDATETIME()=SYSDATETIME()"),
-                ("2012", "CONCAT(NULL,NULL)=CONCAT(NULL,NULL)"),
-                ("2014", "CHARINDEX('12.0.2000',@@version)>0"),
-                ("2016", "ISJSON(NULL) IS NULL")
+                    ("2000", "HOST_NAME()=HOST_NAME()"),
+                    ("2005", "XACT_STATE()=XACT_STATE()"),
+                    ("2008", "SYSDATETIME()=SYSDATETIME()"),
+                    ("2012", "CONCAT(NULL,NULL)=CONCAT(NULL,NULL)"),
+                    ("2014", "CHARINDEX('12.0.2000',@@version)>0"),
+                    ("2016", "ISJSON(NULL) IS NULL")
             ):
                 result = inject.checkBooleanExpression(check)
 

@@ -24,6 +24,7 @@ from lib.core.settings import BIGARRAY_COMPRESS_LEVEL
 
 DEFAULT_SIZE_OF = sys.getsizeof(object())
 
+
 def _size_of(object_):
     """
     Returns total size of a given object_ (in bytes)
@@ -38,6 +39,7 @@ def _size_of(object_):
 
     return retval
 
+
 class Cache(object):
     """
     Auxiliary class used for storing cached chunks
@@ -47,6 +49,7 @@ class Cache(object):
         self.index = index
         self.data = data
         self.dirty = dirty
+
 
 class BigArray(list):
     """
@@ -179,4 +182,5 @@ class BigArray(list):
             yield self[i]
 
     def __len__(self):
-        return len(self.chunks[-1]) if len(self.chunks) == 1 else (len(self.chunks) - 1) * self.chunk_length + len(self.chunks[-1])
+        return len(self.chunks[-1]) if len(self.chunks) == 1 else (len(self.chunks) - 1) * self.chunk_length + len(
+            self.chunks[-1])

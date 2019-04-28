@@ -12,6 +12,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Zenedge Web Application Firewall (Zenedge)"
 
+
 def detect(get_page):
     retval = False
 

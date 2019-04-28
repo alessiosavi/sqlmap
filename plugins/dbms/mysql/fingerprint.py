@@ -24,6 +24,7 @@ from lib.core.settings import MYSQL_ALIASES
 from lib.request import inject
 from plugins.generic.fingerprint import Fingerprint as GenericFingerprint
 
+
 class Fingerprint(GenericFingerprint):
     def __init__(self):
         GenericFingerprint.__init__(self, DBMS.MYSQL)
@@ -179,7 +180,8 @@ class Fingerprint(GenericFingerprint):
                 return False
 
             if hashDBRetrieve(HASHDB_KEYS.DBMS_FORK) is None:
-                hashDBWrite(HASHDB_KEYS.DBMS_FORK, inject.checkBooleanExpression("VERSION() LIKE '%MariaDB%'") and "MariaDB" or "")
+                hashDBWrite(HASHDB_KEYS.DBMS_FORK,
+                            inject.checkBooleanExpression("VERSION() LIKE '%MariaDB%'") and "MariaDB" or "")
 
             # reading information_schema on some platforms is causing annoying timeout exits
             # Reference: http://bugs.mysql.com/bug.php?id=15855
@@ -218,13 +220,17 @@ class Fingerprint(GenericFingerprint):
 
                 # Check if it is MySQL >= 5.1.2 and < 5.5.0
                 elif inject.checkBooleanExpression("@@table_open_cache=@@table_open_cache"):
-                    if inject.checkBooleanExpression("[RANDNUM]=(SELECT [RANDNUM] FROM information_schema.GLOBAL_STATUS LIMIT 0, 1)"):
+                    if inject.checkBooleanExpression(
+                            "[RANDNUM]=(SELECT [RANDNUM] FROM information_schema.GLOBAL_STATUS LIMIT 0, 1)"):
                         Backend.setVersionList([">= 5.1.12", "< 5.5.0"])
-                    elif inject.checkBooleanExpression("[RANDNUM]=(SELECT [RANDNUM] FROM information_schema.PROCESSLIST LIMIT 0, 1)"):
+                    elif inject.checkBooleanExpression(
+                            "[RANDNUM]=(SELECT [RANDNUM] FROM information_schema.PROCESSLIST LIMIT 0, 1)"):
                         Backend.setVersionList([">= 5.1.7", "< 5.1.12"])
-                    elif inject.checkBooleanExpression("[RANDNUM]=(SELECT [RANDNUM] FROM information_schema.PARTITIONS LIMIT 0, 1)"):
+                    elif inject.checkBooleanExpression(
+                            "[RANDNUM]=(SELECT [RANDNUM] FROM information_schema.PARTITIONS LIMIT 0, 1)"):
                         Backend.setVersion("= 5.1.6")
-                    elif inject.checkBooleanExpression("[RANDNUM]=(SELECT [RANDNUM] FROM information_schema.PLUGINS LIMIT 0, 1)"):
+                    elif inject.checkBooleanExpression(
+                            "[RANDNUM]=(SELECT [RANDNUM] FROM information_schema.PLUGINS LIMIT 0, 1)"):
                         Backend.setVersionList([">= 5.1.5", "< 5.1.6"])
                     else:
                         Backend.setVersionList([">= 5.1.2", "< 5.1.5"])
@@ -234,7 +240,8 @@ class Fingerprint(GenericFingerprint):
                     Backend.setVersionList([">= 5.0.38", "< 5.1.2"])
                 elif inject.checkBooleanExpression("@@character_set_filesystem=@@character_set_filesystem"):
                     Backend.setVersionList([">= 5.0.19", "< 5.0.38"])
-                elif not inject.checkBooleanExpression("[RANDNUM]=(SELECT [RANDNUM] FROM DUAL WHERE [RANDNUM1]!=[RANDNUM2])"):
+                elif not inject.checkBooleanExpression(
+                        "[RANDNUM]=(SELECT [RANDNUM] FROM DUAL WHERE [RANDNUM1]!=[RANDNUM2])"):
                     Backend.setVersionList([">= 5.0.11", "< 5.0.19"])
                 elif inject.checkBooleanExpression("@@div_precision_increment=@@div_precision_increment"):
                     Backend.setVersionList([">= 5.0.6", "< 5.0.11"])

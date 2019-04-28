@@ -9,6 +9,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Anquanbao Web Application Firewall (Anquanbao)"
 
+
 def detect(get_page):
     retval = False
 

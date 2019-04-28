@@ -11,6 +11,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Palo Alto Firewall (Palo Alto Networks)"
 
+
 def detect(get_page):
     retval = False
 

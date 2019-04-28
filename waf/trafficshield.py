@@ -12,6 +12,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "TrafficShield (F5 Networks)"
 
+
 def detect(get_page):
     retval = False
 

@@ -9,6 +9,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "SiteGround Web Application Firewall (SiteGround)"
 
+
 def detect(get_page):
     retval = False
 

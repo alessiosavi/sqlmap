@@ -23,6 +23,7 @@ from lib.utils.pivotdumptable import pivotDumpTable
 from plugins.generic.enumeration import Enumeration as GenericEnumeration
 from thirdparty import six
 
+
 class Enumeration(GenericEnumeration):
     def __init__(self):
         GenericEnumeration.__init__(self)
@@ -72,7 +73,8 @@ class Enumeration(GenericEnumeration):
             dbs[dbs.index(db)] = safeSQLIdentificatorNaming(db)
 
         infoMsg = "fetching tables for database"
-        infoMsg += "%s: %s" % ("s" if len(dbs) > 1 else "", ", ".join(db if isinstance(db, six.string_types) else db[0] for db in sorted(dbs)))
+        infoMsg += "%s: %s" % (
+        "s" if len(dbs) > 1 else "", ", ".join(db if isinstance(db, six.string_types) else db[0] for db in sorted(dbs)))
         logger.info(infoMsg)
 
         rootQuery = queries[DBMS.MAXDB].tables
@@ -163,9 +165,11 @@ class Enumeration(GenericEnumeration):
                             columns[colName] = colType
 
                     if conf.db in kb.data.cachedColumns:
-                        kb.data.cachedColumns[safeSQLIdentificatorNaming(conf.db)][safeSQLIdentificatorNaming(tbl, True)] = columns
+                        kb.data.cachedColumns[safeSQLIdentificatorNaming(conf.db)][
+                            safeSQLIdentificatorNaming(tbl, True)] = columns
                     else:
-                        kb.data.cachedColumns[safeSQLIdentificatorNaming(conf.db)] = {safeSQLIdentificatorNaming(tbl, True): columns}
+                        kb.data.cachedColumns[safeSQLIdentificatorNaming(conf.db)] = {
+                            safeSQLIdentificatorNaming(tbl, True): columns}
 
                 return kb.data.cachedColumns
 
@@ -182,7 +186,8 @@ class Enumeration(GenericEnumeration):
         rootQuery = queries[DBMS.MAXDB].columns
 
         for tbl in tblList:
-            if conf.db is not None and len(kb.data.cachedColumns) > 0 and conf.db in kb.data.cachedColumns and tbl in kb.data.cachedColumns[conf.db]:
+            if conf.db is not None and len(kb.data.cachedColumns) > 0 and conf.db in kb.data.cachedColumns and tbl in \
+                    kb.data.cachedColumns[conf.db]:
                 infoMsg = "fetched tables' columns on "
                 infoMsg += "database '%s'" % unsafeSQLIdentificatorNaming(conf.db)
                 logger.info(infoMsg)
@@ -200,14 +205,20 @@ class Enumeration(GenericEnumeration):
             infoMsg += "on database '%s'" % unsafeSQLIdentificatorNaming(conf.db)
             logger.info(infoMsg)
 
-            query = rootQuery.inband.query % (unsafeSQLIdentificatorNaming(tbl), ("'%s'" % unsafeSQLIdentificatorNaming(conf.db)) if unsafeSQLIdentificatorNaming(conf.db) != "USER" else 'USER')
-            retVal = pivotDumpTable("(%s) AS %s" % (query, kb.aliasName), ['%s.columnname' % kb.aliasName, '%s.datatype' % kb.aliasName, '%s.len' % kb.aliasName], blind=True)
+            query = rootQuery.inband.query % (unsafeSQLIdentificatorNaming(tbl), (
+                        "'%s'" % unsafeSQLIdentificatorNaming(conf.db)) if unsafeSQLIdentificatorNaming(
+                conf.db) != "USER" else 'USER')
+            retVal = pivotDumpTable("(%s) AS %s" % (query, kb.aliasName),
+                                    ['%s.columnname' % kb.aliasName, '%s.datatype' % kb.aliasName,
+                                     '%s.len' % kb.aliasName], blind=True)
 
             if retVal:
                 table = {}
                 columns = {}
 
-                for columnname, datatype, length in zip(retVal[0]["%s.columnname" % kb.aliasName], retVal[0]["%s.datatype" % kb.aliasName], retVal[0]["%s.len" % kb.aliasName]):
+                for columnname, datatype, length in zip(retVal[0]["%s.columnname" % kb.aliasName],
+                                                        retVal[0]["%s.datatype" % kb.aliasName],
+                                                        retVal[0]["%s.len" % kb.aliasName]):
                     columns[safeSQLIdentificatorNaming(columnname)] = "%s(%s)" % (datatype, length)
 
                 table[tbl] = columns

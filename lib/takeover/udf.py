@@ -29,6 +29,7 @@ from lib.core.exception import SqlmapUserQuitException
 from lib.core.unescaper import unescaper
 from lib.request import inject
 
+
 class UDF:
     """
     This class defines methods to deal with User-Defined Functions for
@@ -103,7 +104,9 @@ class UDF:
             cmd = unescaper.escape(self.udfForgeCmd(cmd))
 
             inject.goStacked("INSERT INTO %s(%s) VALUES (%s(%s))" % (self.cmdTblName, self.tblField, udfName, cmd))
-            output = unArrayizeValue(inject.getValue("SELECT %s FROM %s" % (self.tblField, self.cmdTblName), resumeValue=False, firstChar=first, lastChar=last, safeCharEncode=False))
+            output = unArrayizeValue(
+                inject.getValue("SELECT %s FROM %s" % (self.tblField, self.cmdTblName), resumeValue=False,
+                                firstChar=first, lastChar=last, safeCharEncode=False))
             inject.goStacked("DELETE FROM %s" % self.cmdTblName)
 
         return output
@@ -339,7 +342,8 @@ class UDF:
 
                 if choice == 'Q':
                     break
-                elif hasattr(choice, "isdigit") and choice.isdigit() and int(choice) > 0 and int(choice) <= len(udfList):
+                elif hasattr(choice, "isdigit") and choice.isdigit() and int(choice) > 0 and int(choice) <= len(
+                        udfList):
                     choice = int(choice)
                     break
                 elif isinstance(choice, int) and choice > 0 and choice <= len(udfList):

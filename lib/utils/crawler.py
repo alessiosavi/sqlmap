@@ -37,6 +37,7 @@ from thirdparty.beautifulsoup.beautifulsoup import BeautifulSoup
 from thirdparty.six.moves import http_client as _http_client
 from thirdparty.six.moves import urllib as _urllib
 
+
 def crawl(target):
     try:
         visited = set()
@@ -96,7 +97,8 @@ def crawl(target):
                             href = tag.get("href") if hasattr(tag, "get") else tag.group("href")
 
                             if href:
-                                if threadData.lastRedirectURL and threadData.lastRedirectURL[0] == threadData.lastRequestUID:
+                                if threadData.lastRedirectURL and threadData.lastRedirectURL[
+                                    0] == threadData.lastRequestUID:
                                     current = threadData.lastRedirectURL[1]
                                 url = _urllib.parse.urljoin(current, href)
 
@@ -116,7 +118,7 @@ def crawl(target):
                                             threadData.shared.value.add(url)
                     except UnicodeEncodeError:  # for non-HTML files
                         pass
-                    except ValueError:          # for non-valid links
+                    except ValueError:  # for non-valid links
                         pass
                     finally:
                         if conf.forms:
@@ -124,7 +126,8 @@ def crawl(target):
 
                 if conf.verbose in (1, 2):
                     threadData.shared.count += 1
-                    status = '%d/%d links visited (%d%%)' % (threadData.shared.count, threadData.shared.length, round(100.0 * threadData.shared.count / threadData.shared.length))
+                    status = '%d/%d links visited (%d%%)' % (threadData.shared.count, threadData.shared.length, round(
+                        100.0 * threadData.shared.count / threadData.shared.length))
                     dataToStdout("\r[%s] [INFO] %s" % (time.strftime("%X"), status), True)
 
         threadData.shared.deeper = set()
@@ -193,6 +196,7 @@ def crawl(target):
                 kb.targets.add((urldecode(url, kb.pageEncoding), None, None, None, None))
 
         storeResultsToFile(kb.targets)
+
 
 def storeResultsToFile(results):
     if not results:

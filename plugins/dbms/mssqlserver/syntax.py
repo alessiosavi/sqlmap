@@ -8,6 +8,7 @@ See the file 'LICENSE' for copying permission
 from lib.core.compat import xrange
 from plugins.generic.syntax import Syntax as GenericSyntax
 
+
 class Syntax(GenericSyntax):
     @staticmethod
     def escape(expression, quote=True):
@@ -17,6 +18,7 @@ class Syntax(GenericSyntax):
         """
 
         def escaper(value):
-            return "+".join("%s(%d)" % ("CHAR" if ord(value[i]) < 256 else "NCHAR", ord(value[i])) for i in xrange(len(value)))
+            return "+".join(
+                "%s(%d)" % ("CHAR" if ord(value[i]) < 256 else "NCHAR", ord(value[i])) for i in xrange(len(value)))
 
         return Syntax._escape(expression, quote, escaper)

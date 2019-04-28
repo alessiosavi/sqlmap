@@ -9,13 +9,15 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Distil Web Application Firewall Security (Distil Networks)"
 
+
 def detect(get_page):
     retval = False
 
     for vector in WAF_ATTACK_VECTORS:
         page, headers, _ = get_page(get=vector)
         retval |= headers.get("x-distil-cs") is not None
-        retval |= any(_ in (page or "") for _ in ("distilCaptchaForm", "distilCallbackGuard", "cdn.distilnetworks.com/images/anomaly-detected.png"))
+        retval |= any(_ in (page or "") for _ in (
+        "distilCaptchaForm", "distilCallbackGuard", "cdn.distilnetworks.com/images/anomaly-detected.png"))
         if retval:
             break
 

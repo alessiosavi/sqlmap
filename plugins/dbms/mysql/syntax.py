@@ -10,6 +10,7 @@ import binascii
 from lib.core.convert import utf8encode
 from plugins.generic.syntax import Syntax as GenericSyntax
 
+
 class Syntax(GenericSyntax):
     @staticmethod
     def escape(expression, quote=True):

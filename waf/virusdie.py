@@ -9,12 +9,15 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Virusdie (Virusdie LLC)"
 
+
 def detect(get_page):
     retval = False
 
     for vector in WAF_ATTACK_VECTORS:
         page, _, _ = get_page(get=vector)
-        retval |= any(_ in (page or "") for _ in ("| Virusdie</title>", "http://cdn.virusdie.ru/splash/firewallstop.png", "&copy; Virusdie.ru</p>", '<meta name="FW_BLOCK"'))
+        retval |= any(_ in (page or "") for _ in (
+        "| Virusdie</title>", "http://cdn.virusdie.ru/splash/firewallstop.png", "&copy; Virusdie.ru</p>",
+        '<meta name="FW_BLOCK"'))
         if retval:
             break
 

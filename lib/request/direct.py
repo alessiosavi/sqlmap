@@ -29,6 +29,7 @@ from lib.core.settings import TAKEOVER_TABLE_PREFIX
 from lib.core.settings import UNICODE_ENCODING
 from lib.utils.timeout import timeout
 
+
 def direct(query, content=True):
     select = True
     query = agent.payloadDirect(query)
@@ -54,7 +55,8 @@ def direct(query, content=True):
 
     if not select and "EXEC " not in query.upper():
         timeout(func=conf.dbmsConnector.execute, args=(query,), duration=conf.timeout, default=None)
-    elif not (output and ("%soutput" % TAKEOVER_TABLE_PREFIX) not in query and ("%sfile" % TAKEOVER_TABLE_PREFIX) not in query):
+    elif not (output and ("%soutput" % TAKEOVER_TABLE_PREFIX) not in query and (
+            "%sfile" % TAKEOVER_TABLE_PREFIX) not in query):
         output, state = timeout(func=conf.dbmsConnector.select, args=(query,), duration=conf.timeout, default=None)
         if state == TIMEOUT_STATE.NORMAL:
             hashDBWrite(query, output, True)

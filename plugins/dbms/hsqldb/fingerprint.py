@@ -19,6 +19,7 @@ from lib.core.settings import HSQLDB_ALIASES
 from lib.request import inject
 from plugins.generic.fingerprint import Fingerprint as GenericFingerprint
 
+
 class Fingerprint(GenericFingerprint):
     def __init__(self):
         GenericFingerprint.__init__(self, DBMS.HSQLDB)
@@ -106,7 +107,8 @@ class Fingerprint(GenericFingerprint):
 
                 return False
             else:
-                result = inject.checkBooleanExpression("ZERO() IS 0")   # Note: check for H2 DBMS (sharing majority of same functions)
+                result = inject.checkBooleanExpression(
+                    "ZERO() IS 0")  # Note: check for H2 DBMS (sharing majority of same functions)
                 if result:
                     warnMsg = "the back-end DBMS is not %s" % DBMS.HSQLDB
                     logger.warn(warnMsg)
@@ -124,7 +126,9 @@ class Fingerprint(GenericFingerprint):
                     if inject.checkBooleanExpression("(SELECT [RANDNUM] FROM (VALUES(0)))=[RANDNUM]"):
                         Backend.setVersionList([">= 2.0.0", "< 2.3.0"])
                     else:
-                        banner = unArrayizeValue(inject.getValue("\"org.hsqldbdb.Library.getDatabaseFullProductVersion\"()", safeCharEncode=True))
+                        banner = unArrayizeValue(
+                            inject.getValue("\"org.hsqldbdb.Library.getDatabaseFullProductVersion\"()",
+                                            safeCharEncode=True))
                         if banner:
                             Backend.setVersion("= %s" % banner)
                         else:

@@ -42,6 +42,7 @@ HEX_ENCODED_PREFIX_MARKER = "__HEX_ENCODED_PREFIX__"
 # String used for temporary marking of slash characters
 SLASH_MARKER = "__SLASH__"
 
+
 def safecharencode(value):
     """
     Returns safe representation of a given basestring value
@@ -62,7 +63,9 @@ def safecharencode(value):
             for char in SAFE_ENCODE_SLASH_REPLACEMENTS:
                 retVal = retVal.replace(char, repr(char).strip('\''))
 
-            retVal = reduce(lambda x, y: x + (y if (y in string.printable or isinstance(value, text_type) and ord(y) >= 160) else '\\x%02x' % ord(y)), retVal, type(value)())
+            retVal = reduce(lambda x, y: x + (
+                y if (y in string.printable or isinstance(value, text_type) and ord(y) >= 160) else '\\x%02x' % ord(y)),
+                            retVal, type(value)())
 
             retVal = retVal.replace(SLASH_MARKER, "\\\\")
             retVal = retVal.replace(HEX_ENCODED_PREFIX_MARKER, HEX_ENCODED_PREFIX)
@@ -71,6 +74,7 @@ def safecharencode(value):
             retVal[i] = safecharencode(value[i])
 
     return retVal
+
 
 def safechardecode(value, binary=False):
     """
@@ -84,7 +88,8 @@ def safechardecode(value, binary=False):
         while True:
             match = re.search(HEX_ENCODED_CHAR_REGEX, retVal)
             if match:
-                retVal = retVal.replace(match.group("result"), (unichr if isinstance(value, text_type) else chr)(ord(binascii.unhexlify(match.group("result").lstrip("\\x")))))
+                retVal = retVal.replace(match.group("result"), (unichr if isinstance(value, text_type) else chr)(
+                    ord(binascii.unhexlify(match.group("result").lstrip("\\x")))))
             else:
                 break
 
@@ -102,6 +107,7 @@ def safechardecode(value, binary=False):
             retVal[i] = safechardecode(value[i])
 
     return retVal
+
 
 def main():
     usage = '%s -i <input file> [-o <output file>]' % sys.argv[0]
@@ -133,6 +139,7 @@ def main():
     f = open(args.outputFile, 'wb')
     f.write(safechardecode(data))
     f.close()
+
 
 if __name__ == '__main__':
     main()

@@ -12,8 +12,10 @@ from lib.core.settings import UNICODE_ENCODING
 
 __priority__ = PRIORITY.LOW
 
+
 def dependencies():
     pass
+
 
 def tamper(payload, **kwargs):
     """

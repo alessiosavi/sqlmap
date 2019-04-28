@@ -12,6 +12,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Comodo Web Application Firewall (Comodo)"
 
+
 def detect(get_page):
     retval = False
 

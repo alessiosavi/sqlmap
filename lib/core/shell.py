@@ -19,6 +19,7 @@ from lib.core.settings import MAX_HISTORY_LENGTH
 try:
     import rlcompleter
 
+
     class CompleterNG(rlcompleter.Completer):
         def global_matches(self, text):
             """
@@ -39,6 +40,7 @@ try:
 except:
     readline._readline = None
 
+
 def readlineAvailable():
     """
     Check if the readline is available. By default
@@ -47,11 +49,13 @@ def readlineAvailable():
 
     return readline._readline is not None
 
+
 def clearHistory():
     if not readlineAvailable():
         return
 
     readline.clear_history()
+
 
 def saveHistory(completion=None):
     try:
@@ -82,6 +86,7 @@ def saveHistory(completion=None):
     except KeyboardInterrupt:
         pass
 
+
 def loadHistory(completion=None):
     if not readlineAvailable():
         return
@@ -103,6 +108,7 @@ def loadHistory(completion=None):
         except IOError as ex:
             warnMsg = "there was a problem loading the history file '%s' (%s)" % (historyPath, getSafeExString(ex))
             logger.warn(warnMsg)
+
 
 def autoCompletion(completion=None, os=None, commands=None):
     if not readlineAvailable():

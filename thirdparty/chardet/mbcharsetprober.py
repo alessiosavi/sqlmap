@@ -34,6 +34,7 @@ from .charsetprober import CharSetProber
 if sys.version_info >= (3, 0):
     xrange = range
 
+
 class MultiByteCharSetProber(CharSetProber):
     def __init__(self):
         CharSetProber.__init__(self)

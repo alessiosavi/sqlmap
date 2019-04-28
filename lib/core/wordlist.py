@@ -12,6 +12,7 @@ from lib.core.common import getSafeExString
 from lib.core.exception import SqlmapDataException
 from lib.core.exception import SqlmapInstallationException
 
+
 class Wordlist(object):
     """
     Iterator for looping over a large dictionaries

@@ -9,6 +9,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Shield Security (One Dollar Plugin)"
 
+
 def detect(get_page):
     retval = False
 

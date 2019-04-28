@@ -60,6 +60,7 @@ from lib.request.connect import Connect as Request
 from lib.utils.progress import ProgressBar
 from thirdparty import six
 
+
 def _oneShotErrorUse(expression, field=None, chunkTest=False):
     offset = 1
     rotator = 0
@@ -74,7 +75,8 @@ def _oneShotErrorUse(expression, field=None, chunkTest=False):
 
     threadData.resumed = retVal is not None and not partialValue
 
-    if any(Backend.isDbms(dbms) for dbms in (DBMS.MYSQL, DBMS.MSSQL)) and kb.errorChunkLength is None and not chunkTest and not kb.testMode:
+    if any(Backend.isDbms(dbms) for dbms in
+           (DBMS.MYSQL, DBMS.MSSQL)) and kb.errorChunkLength is None and not chunkTest and not kb.testMode:
         debugMsg = "searching for error chunk length..."
         logger.debug(debugMsg)
 
@@ -112,12 +114,14 @@ def _oneShotErrorUse(expression, field=None, chunkTest=False):
                 if field:
                     nulledCastedField = agent.nullAndCastField(field)
 
-                    if any(Backend.isDbms(dbms) for dbms in (DBMS.MYSQL, DBMS.MSSQL)) and not any(_ in field for _ in ("COUNT", "CASE")) and kb.errorChunkLength and not chunkTest:
+                    if any(Backend.isDbms(dbms) for dbms in (DBMS.MYSQL, DBMS.MSSQL)) and not any(
+                            _ in field for _ in ("COUNT", "CASE")) and kb.errorChunkLength and not chunkTest:
                         extendedField = re.search(r"[^ ,]*%s[^ ,]*" % re.escape(field), expression).group(0)
                         if extendedField != field:  # e.g. MIN(surname)
                             nulledCastedField = extendedField.replace(field, nulledCastedField)
                             field = extendedField
-                        nulledCastedField = queries[Backend.getIdentifiedDbms()].substring.query % (nulledCastedField, offset, kb.errorChunkLength)
+                        nulledCastedField = queries[Backend.getIdentifiedDbms()].substring.query % (
+                        nulledCastedField, offset, kb.errorChunkLength)
 
                 # Forge the error-based SQL injection request
                 vector = kb.injection.data[kb.technique].vector
@@ -134,15 +138,19 @@ def _oneShotErrorUse(expression, field=None, chunkTest=False):
                 incrementCounter(kb.technique)
 
                 if page and conf.noEscape:
-                    page = re.sub(r"('|\%%27)%s('|\%%27).*?('|\%%27)%s('|\%%27)" % (kb.chars.start, kb.chars.stop), "", page)
+                    page = re.sub(r"('|\%%27)%s('|\%%27).*?('|\%%27)%s('|\%%27)" % (kb.chars.start, kb.chars.stop), "",
+                                  page)
 
                 # Parse the returned page to get the exact error-based
                 # SQL injection output
                 output = firstNotNone(
                     extractRegexResult(check, page),
                     extractRegexResult(check, threadData.lastHTTPError[2] if wasLastResponseHTTPError() else None),
-                    extractRegexResult(check, listToStrValue((headers[header] for header in headers if header.lower() != HTTP_HEADER.URI.lower()) if headers else None)),
-                    extractRegexResult(check, threadData.lastRedirectMsg[1] if threadData.lastRedirectMsg and threadData.lastRedirectMsg[0] == threadData.lastRequestUID else None)
+                    extractRegexResult(check, listToStrValue((headers[header] for header in headers if
+                                                              header.lower() != HTTP_HEADER.URI.lower()) if headers else None)),
+                    extractRegexResult(check, threadData.lastRedirectMsg[1] if threadData.lastRedirectMsg and
+                                                                               threadData.lastRedirectMsg[
+                                                                                   0] == threadData.lastRequestUID else None)
                 )
 
                 if output is not None:
@@ -150,9 +158,13 @@ def _oneShotErrorUse(expression, field=None, chunkTest=False):
                 else:
                     trimmed = firstNotNone(
                         extractRegexResult(trimCheck, page),
-                        extractRegexResult(trimCheck, threadData.lastHTTPError[2] if wasLastResponseHTTPError() else None),
-                        extractRegexResult(trimCheck, listToStrValue((headers[header] for header in headers if header.lower() != HTTP_HEADER.URI.lower()) if headers else None)),
-                        extractRegexResult(trimCheck, threadData.lastRedirectMsg[1] if threadData.lastRedirectMsg and threadData.lastRedirectMsg[0] == threadData.lastRequestUID else None)
+                        extractRegexResult(trimCheck,
+                                           threadData.lastHTTPError[2] if wasLastResponseHTTPError() else None),
+                        extractRegexResult(trimCheck, listToStrValue((headers[header] for header in headers if
+                                                                      header.lower() != HTTP_HEADER.URI.lower()) if headers else None)),
+                        extractRegexResult(trimCheck, threadData.lastRedirectMsg[1] if threadData.lastRedirectMsg and
+                                                                                       threadData.lastRedirectMsg[
+                                                                                           0] == threadData.lastRequestUID else None)
                     )
 
                     if trimmed:
@@ -217,6 +229,7 @@ def _oneShotErrorUse(expression, field=None, chunkTest=False):
 
     return safecharencode(retVal) if kb.safeCharEncode else retVal
 
+
 def _errorFields(expression, expressionFields, expressionFieldsList, num=None, emptyFields=None, suppressOutput=False):
     values = []
     origExpr = None
@@ -247,8 +260,11 @@ def _errorFields(expression, expressionFields, expressionFieldsList, num=None, e
         if not suppressOutput:
             if kb.fileReadMode and output and output.strip():
                 print()
-            elif output is not None and not (threadData.resumed and kb.suppressResumeInfo) and not (emptyFields and field in emptyFields):
-                status = "[%s] [INFO] %s: '%s'" % (time.strftime("%X"), "resumed" if threadData.resumed else "retrieved", output if kb.safeCharEncode else safecharencode(output))
+            elif output is not None and not (threadData.resumed and kb.suppressResumeInfo) and not (
+                    emptyFields and field in emptyFields):
+                status = "[%s] [INFO] %s: '%s'" % (
+                time.strftime("%X"), "resumed" if threadData.resumed else "retrieved",
+                output if kb.safeCharEncode else safecharencode(output))
 
                 if len(status) > width:
                     status = "%s..." % status[:width - 3]
@@ -262,6 +278,7 @@ def _errorFields(expression, expressionFields, expressionFieldsList, num=None, e
 
     return values
 
+
 def _errorReplaceChars(value):
     """
     Restores safely replaced characters
@@ -270,9 +287,11 @@ def _errorReplaceChars(value):
     retVal = value
 
     if value:
-        retVal = retVal.replace(kb.chars.space, " ").replace(kb.chars.dollar, "$").replace(kb.chars.at, "@").replace(kb.chars.hash_, "#")
+        retVal = retVal.replace(kb.chars.space, " ").replace(kb.chars.dollar, "$").replace(kb.chars.at, "@").replace(
+            kb.chars.hash_, "#")
 
     return retVal
+
 
 def _formatPartialContent(value):
     """
@@ -288,6 +307,7 @@ def _formatPartialContent(value):
             value = safecharencode(value)
 
     return value
+
 
 def errorUse(expression, dump=False):
     """
@@ -315,12 +335,19 @@ def errorUse(expression, dump=False):
     # entry at a time
     # NOTE: we assume that only queries that get data from a table can
     # return multiple entries
-    if (dump and (conf.limitStart or conf.limitStop)) or (" FROM " in expression.upper() and ((Backend.getIdentifiedDbms() not in FROM_DUMMY_TABLE) or (Backend.getIdentifiedDbms() in FROM_DUMMY_TABLE and not expression.upper().endswith(FROM_DUMMY_TABLE[Backend.getIdentifiedDbms()]))) and ("(CASE" not in expression.upper() or ("(CASE" in expression.upper() and "WHEN use" in expression))) and not re.search(SQL_SCALAR_REGEX, expression, re.I):
+    if (dump and (conf.limitStart or conf.limitStop)) or (" FROM " in expression.upper() and (
+            (Backend.getIdentifiedDbms() not in FROM_DUMMY_TABLE) or (
+            Backend.getIdentifiedDbms() in FROM_DUMMY_TABLE and not expression.upper().endswith(
+            FROM_DUMMY_TABLE[Backend.getIdentifiedDbms()]))) and ("(CASE" not in expression.upper() or (
+            "(CASE" in expression.upper() and "WHEN use" in expression))) and not re.search(SQL_SCALAR_REGEX,
+                                                                                            expression, re.I):
         expression, limitCond, topLimit, startLimit, stopLimit = agent.limitCondition(expression, dump)
 
         if limitCond:
             # Count the number of SQL query entries output
-            countedExpression = expression.replace(expressionFields, queries[Backend.getIdentifiedDbms()].count.query % ('*' if len(expressionFieldsList) > 1 else expressionFields), 1)
+            countedExpression = expression.replace(expressionFields,
+                                                   queries[Backend.getIdentifiedDbms()].count.query % (
+                                                       '*' if len(expressionFieldsList) > 1 else expressionFields), 1)
 
             if " ORDER BY " in countedExpression.upper():
                 _ = countedExpression.upper().rindex(" ORDER BY ")
@@ -385,7 +412,8 @@ def errorUse(expression, dump=False):
                 if threadData.shared.showEta:
                     threadData.shared.progress = ProgressBar(maxValue=(stopLimit - startLimit))
 
-                if kb.dumpTable and (len(expressionFieldsList) < (stopLimit - startLimit) > CHECK_ZERO_COLUMNS_THRESHOLD):
+                if kb.dumpTable and (
+                        len(expressionFieldsList) < (stopLimit - startLimit) > CHECK_ZERO_COLUMNS_THRESHOLD):
                     for field in expressionFieldsList:
                         if _oneShotErrorUse("SELECT COUNT(%s) FROM %s" % (field, kb.dumpTable)) == '0':
                             emptyFields.append(field)
@@ -411,7 +439,8 @@ def errorUse(expression, dump=False):
                                 except StopIteration:
                                     break
 
-                            output = _errorFields(expression, expressionFields, expressionFieldsList, num, emptyFields, threadData.shared.showEta)
+                            output = _errorFields(expression, expressionFields, expressionFieldsList, num, emptyFields,
+                                                  threadData.shared.showEta)
 
                             if not kb.threadContinue:
                                 break
@@ -424,10 +453,12 @@ def errorUse(expression, dump=False):
                                 if threadData.shared.showEta:
                                     threadData.shared.progress.progress(threadData.shared.counter)
                                 for index in xrange(1 + len(threadData.shared.buffered)):
-                                    if index < len(threadData.shared.buffered) and threadData.shared.buffered[index][0] >= num:
+                                    if index < len(threadData.shared.buffered) and threadData.shared.buffered[index][
+                                        0] >= num:
                                         break
                                 threadData.shared.buffered.insert(index or 0, (num, output))
-                                while threadData.shared.buffered and threadData.shared.lastFlushed + 1 == threadData.shared.buffered[0][0]:
+                                while threadData.shared.buffered and threadData.shared.lastFlushed + 1 == \
+                                        threadData.shared.buffered[0][0]:
                                     threadData.shared.lastFlushed += 1
                                     threadData.shared.value.append(threadData.shared.buffered[0][1])
                                     del threadData.shared.buffered[0]

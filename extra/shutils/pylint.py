@@ -14,6 +14,7 @@ count = 0
 
 __RATING__ = False
 
+
 def check(module):
     global total, count
 
@@ -29,6 +30,7 @@ def check(module):
                 score = re.findall(r"\d.\d\d", line)[0]
                 total += float(score)
                 count += 1
+
 
 if __name__ == "__main__":
     try:

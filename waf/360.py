@@ -9,6 +9,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "360 Web Application Firewall (360)"
 
+
 def detect(get_page):
     retval = False
 

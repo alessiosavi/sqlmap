@@ -16,8 +16,11 @@ from lib.core.enums import PRIORITY
 
 __priority__ = PRIORITY.HIGHEST
 
+
 def dependencies():
-    singleTimeWarnMessage("tamper script '%s' is only meant to be run against %s" % (os.path.basename(__file__).split(".")[0], DBMS.MSSQL))
+    singleTimeWarnMessage("tamper script '%s' is only meant to be run against %s" % (
+    os.path.basename(__file__).split(".")[0], DBMS.MSSQL))
+
 
 def tamper(payload, **kwargs):
     """
@@ -43,7 +46,8 @@ def tamper(payload, **kwargs):
     retVal = payload
 
     if payload:
-        prefix, suffix = '+' * len(re.search(r"\A(\+*)", payload).group(0)), '+' * len(re.search(r"(\+*)\Z", payload).group(0))
+        prefix, suffix = '+' * len(re.search(r"\A(\+*)", payload).group(0)), '+' * len(
+            re.search(r"(\+*)\Z", payload).group(0))
         retVal = retVal.strip('+')
 
         while True:
@@ -58,7 +62,9 @@ def tamper(payload, **kwargs):
                         last = i
 
                 start = retVal[:indexes[first]].rfind(' ') + 1
-                end = (retVal[indexes[last] + 1:].find(' ') + indexes[last] + 1) if ' ' in retVal[indexes[last] + 1:] else len(retVal) - 1
+                end = (retVal[indexes[last] + 1:].find(' ') + indexes[last] + 1) if ' ' in retVal[
+                                                                                           indexes[last] + 1:] else len(
+                    retVal) - 1
 
                 count = 0
                 chars = [char for char in retVal]
@@ -69,7 +75,8 @@ def tamper(payload, **kwargs):
                         chars[index] = '\x01'
                     count += 1
 
-                retVal = "%s%s%s)}%s" % (retVal[:start], "{fn CONCAT(" * count, ''.join(chars)[start:end].replace('\x01', ")},"), retVal[end:])
+                retVal = "%s%s%s)}%s" % (
+                retVal[:start], "{fn CONCAT(" * count, ''.join(chars)[start:end].replace('\x01', ")},"), retVal[end:])
             else:
                 match = re.search(r"\((CHAR\(\d+.+\bCHAR\(\d+\))\)", retVal)
                 if match:

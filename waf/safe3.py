@@ -12,6 +12,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Safe3 Web Application Firewall"
 
+
 def detect(get_page):
     retval = False
 

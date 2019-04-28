@@ -24,6 +24,7 @@ from lib.core.exception import SqlmapNoneDataException
 from lib.request import inject
 from plugins.generic.enumeration import Enumeration as GenericEnumeration
 
+
 class Enumeration(GenericEnumeration):
     def getRoles(self, query2=False):
         infoMsg = "fetching database users roles"
@@ -39,7 +40,8 @@ class Enumeration(GenericEnumeration):
         # Set containing the list of DBMS administrators
         areAdmins = set()
 
-        if any(isTechniqueAvailable(_) for _ in (PAYLOAD.TECHNIQUE.UNION, PAYLOAD.TECHNIQUE.ERROR, PAYLOAD.TECHNIQUE.QUERY)) or conf.direct:
+        if any(isTechniqueAvailable(_) for _ in
+               (PAYLOAD.TECHNIQUE.UNION, PAYLOAD.TECHNIQUE.ERROR, PAYLOAD.TECHNIQUE.QUERY)) or conf.direct:
             if query2:
                 query = rootQuery.inband.query2
                 condition = rootQuery.inband.condition2
@@ -112,7 +114,8 @@ class Enumeration(GenericEnumeration):
                     query = rootQuery.blind.count2 % queryUser
                 else:
                     query = rootQuery.blind.count % queryUser
-                count = inject.getValue(query, union=False, error=False, expected=EXPECTED.INT, charsetType=CHARSET_TYPE.DIGITS)
+                count = inject.getValue(query, union=False, error=False, expected=EXPECTED.INT,
+                                        charsetType=CHARSET_TYPE.DIGITS)
 
                 if not isNumPosStrValue(count):
                     if count != 0 and not query2:

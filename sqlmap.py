@@ -15,7 +15,8 @@ try:
     try:
         __import__("lib.utils.versioncheck")  # this has to be the first non-standard import
     except ImportError:
-        sys.exit("[!] wrong installation detected (missing modules). Visit 'https://github.com/sqlmapproject/sqlmap/#installation' for further details")
+        sys.exit(
+            "[!] wrong installation detected (missing modules). Visit 'https://github.com/sqlmapproject/sqlmap/#installation' for further details")
 
     import bdb
     import distutils
@@ -80,7 +81,9 @@ except KeyboardInterrupt:
         raise SystemExit
     else:
         import time
+
         sys.exit("\r[%s] [CRITICAL] %s" % (time.strftime("%X"), errMsg))
+
 
 def modulePath():
     """
@@ -94,6 +97,7 @@ def modulePath():
         _ = inspect.getsourcefile(modulePath)
 
     return getUnicode(os.path.dirname(os.path.realpath(_)), encoding=sys.getfilesystemencoding() or UNICODE_ENCODING)
+
 
 def checkEnvironment():
     try:
@@ -117,8 +121,10 @@ def checkEnvironment():
         for _ in ("cmdLineOptions", "conf", "kb"):
             globals()[_] = getattr(sys.modules["lib.core.data"], _)
 
-        for _ in ("SqlmapBaseException", "SqlmapShellQuitException", "SqlmapSilentQuitException", "SqlmapUserQuitException"):
+        for _ in (
+        "SqlmapBaseException", "SqlmapShellQuitException", "SqlmapSilentQuitException", "SqlmapUserQuitException"):
             globals()[_] = getattr(sys.modules["lib.core.exception"], _)
+
 
 def main():
     """
@@ -309,7 +315,8 @@ def main():
             logger.critical(errMsg)
             raise SystemExit
 
-        elif "'DictObject' object has no attribute '" in excMsg and all(_ in errMsg for _ in ("(fingerprinted)", "(identified)")):
+        elif "'DictObject' object has no attribute '" in excMsg and all(
+                _ in errMsg for _ in ("(fingerprinted)", "(identified)")):
             errMsg = "there has been a problem in enumeration. "
             errMsg += "Because of a considerable chance of false-positive case "
             errMsg += "you are advised to rerun with switch '--flush-session'"
@@ -369,13 +376,15 @@ def main():
         kb.threadException = True
 
         if kb.get("tempDir"):
-            for prefix in (MKSTEMP_PREFIX.IPC, MKSTEMP_PREFIX.TESTING, MKSTEMP_PREFIX.COOKIE_JAR, MKSTEMP_PREFIX.BIG_ARRAY):
+            for prefix in (
+            MKSTEMP_PREFIX.IPC, MKSTEMP_PREFIX.TESTING, MKSTEMP_PREFIX.COOKIE_JAR, MKSTEMP_PREFIX.BIG_ARRAY):
                 for filepath in glob.glob(os.path.join(kb.tempDir, "%s*" % prefix)):
                     try:
                         os.remove(filepath)
                     except OSError:
                         pass
-            if not filterNone(filepath for filepath in glob.glob(os.path.join(kb.tempDir, '*')) if not any(filepath.endswith(_) for _ in ('.lock', '.exe', '_'))):
+            if not filterNone(filepath for filepath in glob.glob(os.path.join(kb.tempDir, '*')) if
+                              not any(filepath.endswith(_) for _ in ('.lock', '.exe', '_'))):
                 shutil.rmtree(kb.tempDir, ignore_errors=True)
 
         if conf.get("hashDB"):
@@ -402,6 +411,7 @@ def main():
             kb.clear()
             conf.disableBanner = True
             main()
+
 
 if __name__ == "__main__":
     try:

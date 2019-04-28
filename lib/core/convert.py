@@ -19,6 +19,7 @@ from lib.core.settings import IS_WIN
 from lib.core.settings import UNICODE_ENCODING
 from thirdparty import six
 
+
 def base64decode(value):
     """
     Decodes string value from Base64 to plain format
@@ -29,6 +30,7 @@ def base64decode(value):
 
     return base64.b64decode(unicodeencode(value))
 
+
 def base64encode(value):
     """
     Encodes string value from plain to Base64 format
@@ -38,6 +40,7 @@ def base64encode(value):
     """
 
     return base64.b64encode(unicodeencode(value))
+
 
 def base64pickle(value):
     """
@@ -63,6 +66,7 @@ def base64pickle(value):
 
     return retVal
 
+
 def base64unpickle(value):
     """
     Decodes value from Base64 to plain format and deserializes (with pickle) its content
@@ -79,6 +83,7 @@ def base64unpickle(value):
         retVal = pickle.loads(base64decode(bytes(value)))
 
     return retVal
+
 
 def hexdecode(value):
     """
@@ -98,6 +103,7 @@ def hexdecode(value):
 
     return retVal
 
+
 def hexencode(value, encoding=None):
     """
     Encodes string value from plain to hex format
@@ -114,6 +120,7 @@ def hexencode(value, encoding=None):
         retVal = retVal.hex()
 
     return retVal
+
 
 def unicodeencode(value, encoding=None):
     """
@@ -133,6 +140,7 @@ def unicodeencode(value, encoding=None):
 
     return retVal
 
+
 def utf8encode(value):
     """
     Returns 8-bit string representation of the supplied UTF-8 value
@@ -143,6 +151,7 @@ def utf8encode(value):
 
     return unicodeencode(value, "utf-8")
 
+
 def utf8decode(value):
     """
     Returns UTF-8 representation of the supplied 8-bit string representation
@@ -152,6 +161,7 @@ def utf8decode(value):
     """
 
     return value.decode("utf-8")
+
 
 def htmlunescape(value):
     """
@@ -171,10 +181,12 @@ def htmlunescape(value):
             pass
     return retVal
 
+
 def singleTimeWarnMessage(message):  # Cross-referenced function
     sys.stdout.write(message)
     sys.stdout.write("\n")
     sys.stdout.flush()
+
 
 def stdoutencode(data):
     retVal = None
@@ -199,6 +211,7 @@ def stdoutencode(data):
 
     return retVal
 
+
 def jsonize(data):
     """
     Returns JSON serialized data
@@ -208,6 +221,7 @@ def jsonize(data):
     """
 
     return json.dumps(data, sort_keys=False, indent=4)
+
 
 def dejsonize(data):
     """

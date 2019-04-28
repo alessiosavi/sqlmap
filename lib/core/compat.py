@@ -11,12 +11,13 @@ import random
 import uuid
 import sys
 
+
 class WichmannHill(random.Random):
     """
     Reference: https://svn.python.org/projects/python/trunk/Lib/random.py
     """
 
-    VERSION = 1     # used by getstate/setstate
+    VERSION = 1  # used by getstate/setstate
 
     def seed(self, a=None):
         """Initialize internal state from hashable object.
@@ -162,9 +163,11 @@ class WichmannHill(random.Random):
         z = (z + a) % 256 or 1
         self.__whseed(x, y, z)
 
+
 # Reference: https://github.com/urllib3/urllib3/blob/master/src/urllib3/filepost.py
 def choose_boundary():
     return uuid.uuid4().hex
+
 
 if sys.version_info >= (3, 0):
     xrange = range

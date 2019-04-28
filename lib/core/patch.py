@@ -10,6 +10,7 @@ import codecs
 from lib.core.settings import IS_WIN
 from thirdparty.six.moves import http_client as _http_client
 
+
 def dirtyPatches():
     """
     Place for "dirty" Python related patches

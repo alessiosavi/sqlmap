@@ -15,6 +15,7 @@ from lib.core.settings import LOBLKSIZE
 from lib.request import inject
 from plugins.generic.filesystem import Filesystem as GenericFilesystem
 
+
 class Filesystem(GenericFilesystem):
     def __init__(self):
         self.oid = None
@@ -63,7 +64,8 @@ class Filesystem(GenericFilesystem):
             for sqlQuery in sqlQueries:
                 inject.goStacked(sqlQuery)
 
-            inject.goStacked("INSERT INTO pg_largeobject VALUES (%d, %d, DECODE((SELECT %s FROM %s), 'base64'))" % (self.oid, self.page, self.tblField, self.fileTblName))
+            inject.goStacked("INSERT INTO pg_largeobject VALUES (%d, %d, DECODE((SELECT %s FROM %s), 'base64'))" % (
+            self.oid, self.page, self.tblField, self.fileTblName))
             inject.goStacked("DELETE FROM %s" % self.fileTblName)
 
             self.page += 1

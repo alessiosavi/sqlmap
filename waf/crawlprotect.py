@@ -9,6 +9,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "CrawlProtect (Jean-Denis Brun)"
 
+
 def detect(get_page):
     retval = False
 

@@ -11,6 +11,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "MalCare (Inactiv.com Media Solutions Pvt Ltd.)"
 
+
 def detect(get_page):
     retval = False
 

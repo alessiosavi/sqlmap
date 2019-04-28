@@ -8,6 +8,7 @@ See the file 'LICENSE' for copying permission
 from lib.core.data import conf
 from thirdparty.six.moves import urllib as _urllib
 
+
 class ChunkedHandler(_urllib.request.HTTPHandler):
     """
     Ensures that HTTPHandler is working properly in case of Chunked Transfer-Encoding

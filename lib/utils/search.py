@@ -35,6 +35,7 @@ from thirdparty.six.moves import http_client as _http_client
 from thirdparty.six.moves import urllib as _urllib
 from thirdparty.socks import socks
 
+
 def _search(dork):
     """
     This method performs the effective search on Google providing
@@ -99,7 +100,8 @@ def _search(dork):
         errMsg = "unable to connect to Google"
         raise SqlmapConnectionException(errMsg)
 
-    retVal = [_urllib.parse.unquote(match.group(1) or match.group(2)) for match in re.finditer(GOOGLE_REGEX, page, re.I)]
+    retVal = [_urllib.parse.unquote(match.group(1) or match.group(2)) for match in
+              re.finditer(GOOGLE_REGEX, page, re.I)]
 
     if not retVal and "detected unusual traffic" in page:
         warnMsg = "Google has detected 'unusual' traffic from "
@@ -162,7 +164,8 @@ def _search(dork):
             errMsg = "unable to connect"
             raise SqlmapConnectionException(errMsg)
 
-        retVal = [_urllib.parse.unquote(match.group(1).replace("&amp;", "&")) for match in re.finditer(regex, page, re.I | re.S)]
+        retVal = [_urllib.parse.unquote(match.group(1).replace("&amp;", "&")) for match in
+                  re.finditer(regex, page, re.I | re.S)]
 
         if not retVal and "issue with the Tor Exit Node you are currently using" in page:
             warnMsg = "DuckDuckGo has detected 'unusual' traffic from "
@@ -174,6 +177,7 @@ def _search(dork):
                 logger.critical(warnMsg)
 
     return retVal
+
 
 @stackedmethod
 def search(dork):
@@ -197,6 +201,7 @@ def search(dork):
             raise
     finally:
         kb.redirectChoice = popValue()
+
 
 def setHTTPHandlers():  # Cross-referenced function
     raise NotImplementedError

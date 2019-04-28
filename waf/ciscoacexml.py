@@ -12,6 +12,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "Cisco ACE XML Gateway (Cisco Systems)"
 
+
 def detect(get_page):
     retval = False
 

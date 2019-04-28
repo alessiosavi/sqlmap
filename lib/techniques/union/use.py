@@ -64,8 +64,10 @@ from lib.utils.progress import ProgressBar
 from thirdparty import six
 from thirdparty.odict import OrderedDict
 
+
 def _oneShotUnionUse(expression, unpack=True, limited=False):
-    retVal = hashDBRetrieve("%s%s" % (conf.hexConvert or False, expression), checkConf=True)  # as UNION data is stored raw unconverted
+    retVal = hashDBRetrieve("%s%s" % (conf.hexConvert or False, expression),
+                            checkConf=True)  # as UNION data is stored raw unconverted
 
     threadData = getCurrentThreadData()
     threadData.resumed = retVal is not None
@@ -77,11 +79,13 @@ def _oneShotUnionUse(expression, unpack=True, limited=False):
             injExpression = unescaper.escape(agent.concatQuery(expression, unpack))
             kb.unionDuplicates = vector[7]
             kb.forcePartialUnion = vector[8]
-            query = agent.forgeUnionQuery(injExpression, vector[0], vector[1], vector[2], vector[3], vector[4], vector[5], vector[6], None, limited)
+            query = agent.forgeUnionQuery(injExpression, vector[0], vector[1], vector[2], vector[3], vector[4],
+                                          vector[5], vector[6], None, limited)
             where = PAYLOAD.WHERE.NEGATIVE if conf.limitStart or conf.limitStop else vector[6]
         else:
             where = vector[6]
-            query = agent.forgeUnionQuery(expression, vector[0], vector[1], vector[2], vector[3], vector[4], vector[5], vector[6], None, False)
+            query = agent.forgeUnionQuery(expression, vector[0], vector[1], vector[2], vector[3], vector[4], vector[5],
+                                          vector[6], None, False)
 
         payload = agent.payload(newValue=query, where=where)
 
@@ -96,7 +100,9 @@ def _oneShotUnionUse(expression, unpack=True, limited=False):
             def _(regex):
                 return firstNotNone(
                     extractRegexResult(regex, removeReflectiveValues(page, payload), re.DOTALL | re.IGNORECASE),
-                    extractRegexResult(regex, removeReflectiveValues(listToStrValue((_ for _ in headers.headers if not _.startswith(HTTP_HEADER.URI)) if headers else None), payload, True), re.DOTALL | re.IGNORECASE)
+                    extractRegexResult(regex, removeReflectiveValues(listToStrValue(
+                        (_ for _ in headers.headers if not _.startswith(HTTP_HEADER.URI)) if headers else None),
+                                                                     payload, True), re.DOTALL | re.IGNORECASE)
                 )
 
             # Automatically patching last char trimming cases
@@ -164,6 +170,7 @@ def _oneShotUnionUse(expression, unpack=True, limited=False):
 
     return retVal
 
+
 def configUnion(char=None, columns=None):
     def _configUnionChar(char):
         if not isinstance(char, six.string_types):
@@ -196,6 +203,7 @@ def configUnion(char=None, columns=None):
 
     _configUnionChar(char)
     _configUnionCols(conf.uCols or columns)
+
 
 def unionUse(expression, unpack=True, dump=False):
     """
@@ -240,12 +248,20 @@ def unionUse(expression, unpack=True, dump=False):
     # SQL limiting the query output one entry at a time
     # NOTE: we assume that only queries that get data from a table can
     # return multiple entries
-    if value is None and (kb.injection.data[PAYLOAD.TECHNIQUE.UNION].where == PAYLOAD.WHERE.NEGATIVE or kb.forcePartialUnion or (dump and (conf.limitStart or conf.limitStop)) or "LIMIT " in expression.upper()) and " FROM " in expression.upper() and ((Backend.getIdentifiedDbms() not in FROM_DUMMY_TABLE) or (Backend.getIdentifiedDbms() in FROM_DUMMY_TABLE and not expression.upper().endswith(FROM_DUMMY_TABLE[Backend.getIdentifiedDbms()]))) and not re.search(SQL_SCALAR_REGEX, expression, re.I):
+    if value is None and (
+            kb.injection.data[PAYLOAD.TECHNIQUE.UNION].where == PAYLOAD.WHERE.NEGATIVE or kb.forcePartialUnion or (
+            dump and (
+            conf.limitStart or conf.limitStop)) or "LIMIT " in expression.upper()) and " FROM " in expression.upper() and (
+            (Backend.getIdentifiedDbms() not in FROM_DUMMY_TABLE) or (
+            Backend.getIdentifiedDbms() in FROM_DUMMY_TABLE and not expression.upper().endswith(
+            FROM_DUMMY_TABLE[Backend.getIdentifiedDbms()]))) and not re.search(SQL_SCALAR_REGEX, expression, re.I):
         expression, limitCond, topLimit, startLimit, stopLimit = agent.limitCondition(expression, dump)
 
         if limitCond:
             # Count the number of SQL query entries output
-            countedExpression = expression.replace(expressionFields, queries[Backend.getIdentifiedDbms()].count.query % ('*' if len(expressionFieldsList) > 1 else expressionFields), 1)
+            countedExpression = expression.replace(expressionFields,
+                                                   queries[Backend.getIdentifiedDbms()].count.query % (
+                                                       '*' if len(expressionFieldsList) > 1 else expressionFields), 1)
 
             if " ORDER BY " in countedExpression.upper():
                 _ = countedExpression.upper().rindex(" ORDER BY ")
@@ -343,7 +359,8 @@ def unionUse(expression, unpack=True, dump=False):
                                         if isListLike(items):
                                             # in case that we requested N columns and we get M!=N then we have to filter a bit
                                             if len(items) > 1 and len(expressionFieldsList) > 1:
-                                                items = [item for item in items if isListLike(item) and len(item) == len(expressionFieldsList)]
+                                                items = [item for item in items if
+                                                         isListLike(item) and len(item) == len(expressionFieldsList)]
                                             items = [_ for _ in flattenValue(items)]
                                             if len(items) > len(expressionFieldsList):
                                                 filtered = OrderedDict()
@@ -355,7 +372,8 @@ def unionUse(expression, unpack=True, dump=False):
                                             items = [items]
                                         index = None
                                         for index in xrange(1 + len(threadData.shared.buffered)):
-                                            if index < len(threadData.shared.buffered) and threadData.shared.buffered[index][0] >= num:
+                                            if index < len(threadData.shared.buffered) and \
+                                                    threadData.shared.buffered[index][0] >= num:
                                                 break
                                         threadData.shared.buffered.insert(index or 0, (num, items))
                                     else:
@@ -363,21 +381,31 @@ def unionUse(expression, unpack=True, dump=False):
                                         if threadData.shared.showEta:
                                             threadData.shared.progress.progress(threadData.shared.counter)
                                         for index in xrange(1 + len(threadData.shared.buffered)):
-                                            if index < len(threadData.shared.buffered) and threadData.shared.buffered[index][0] >= num:
+                                            if index < len(threadData.shared.buffered) and \
+                                                    threadData.shared.buffered[index][0] >= num:
                                                 break
                                         threadData.shared.buffered.insert(index or 0, (num, None))
 
-                                        items = output.replace(kb.chars.start, "").replace(kb.chars.stop, "").split(kb.chars.delimiter)
+                                        items = output.replace(kb.chars.start, "").replace(kb.chars.stop, "").split(
+                                            kb.chars.delimiter)
 
-                                    while threadData.shared.buffered and (threadData.shared.lastFlushed + 1 >= threadData.shared.buffered[0][0] or len(threadData.shared.buffered) > MAX_BUFFERED_PARTIAL_UNION_LENGTH):
+                                    while threadData.shared.buffered and (
+                                            threadData.shared.lastFlushed + 1 >= threadData.shared.buffered[0][
+                                        0] or len(threadData.shared.buffered) > MAX_BUFFERED_PARTIAL_UNION_LENGTH):
                                         threadData.shared.lastFlushed, _ = threadData.shared.buffered[0]
                                         if not isNoneValue(_):
                                             threadData.shared.value.extend(arrayizeValue(_))
                                         del threadData.shared.buffered[0]
 
-                                if conf.verbose == 1 and not (threadData.resumed and kb.suppressResumeInfo) and not threadData.shared.showEta:
-                                    _ = ','.join("'%s'" % _ for _ in (flattenValue(arrayizeValue(items)) if not isinstance(items, six.string_types) else [items]))
-                                    status = "[%s] [INFO] %s: %s" % (time.strftime("%X"), "resumed" if threadData.resumed else "retrieved", _ if kb.safeCharEncode else safecharencode(_))
+                                if conf.verbose == 1 and not (
+                                        threadData.resumed and kb.suppressResumeInfo) and not threadData.shared.showEta:
+                                    _ = ','.join("'%s'" % _ for _ in (
+                                        flattenValue(arrayizeValue(items)) if not isinstance(items,
+                                                                                             six.string_types) else [
+                                            items]))
+                                    status = "[%s] [INFO] %s: %s" % (
+                                    time.strftime("%X"), "resumed" if threadData.resumed else "retrieved",
+                                    _ if kb.safeCharEncode else safecharencode(_))
 
                                     if len(status) > width:
                                         status = "%s..." % status[:width - 3]

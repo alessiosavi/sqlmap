@@ -12,6 +12,7 @@ from lib.core.data import conf
 from lib.core.data import logger
 from lib.core.enums import REGISTRY_OPERATION
 
+
 class Registry:
     """
     This class defines methods to read and write Windows registry keys

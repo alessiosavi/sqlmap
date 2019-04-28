@@ -11,6 +11,7 @@ from lib.core.settings import WAF_ATTACK_VECTORS
 
 __product__ = "SecureIIS Web Server Security (BeyondTrust)"
 
+
 def detect(get_page):
     retval = False
 

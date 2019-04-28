@@ -28,6 +28,7 @@ from lib.core.exception import SqlmapNoneDataException
 from lib.core.exception import SqlmapUnsupportedFeatureException
 from lib.request import inject
 
+
 class Miscellaneous:
     """
     This class defines miscellaneous functionalities for plugins.
@@ -95,13 +96,15 @@ class Miscellaneous:
         else:
             raise SqlmapUnsupportedFeatureException("unsupported DBMS")
 
-        query = queries[Backend.getIdentifiedDbms()].substring.query % (queries[Backend.getIdentifiedDbms()].banner.query, first, last)
+        query = queries[Backend.getIdentifiedDbms()].substring.query % (
+        queries[Backend.getIdentifiedDbms()].banner.query, first, last)
 
         if conf.direct:
             query = "SELECT %s" % query
 
         kb.bannerFp["dbmsVersion"] = unArrayizeValue(inject.getValue(query))
-        kb.bannerFp["dbmsVersion"] = (kb.bannerFp["dbmsVersion"] or "").replace(',', "").replace('-', "").replace(' ', "")
+        kb.bannerFp["dbmsVersion"] = (kb.bannerFp["dbmsVersion"] or "").replace(',', "").replace('-', "").replace(' ',
+                                                                                                                  "")
 
     def delRemoteFile(self, filename):
         if not filename:

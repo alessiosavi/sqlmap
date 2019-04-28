@@ -33,6 +33,7 @@ from lib.core.settings import TAKEOVER_TABLE_PREFIX
 from lib.core.settings import UNICODE_ENCODING
 from lib.request import inject
 
+
 class Filesystem:
     """
     This class defines generic OS file system functionalities for plugins.
@@ -51,7 +52,8 @@ class Filesystem:
 
         elif Backend.isDbms(DBMS.MSSQL):
             self.createSupportTbl(self.fileTblName, self.tblField, "VARBINARY(MAX)")
-            inject.goStacked("INSERT INTO %s(%s) SELECT %s FROM OPENROWSET(BULK '%s', SINGLE_BLOB) AS %s(%s)" % (self.fileTblName, self.tblField, self.tblField, remoteFile, self.fileTblName, self.tblField))
+            inject.goStacked("INSERT INTO %s(%s) SELECT %s FROM OPENROWSET(BULK '%s', SINGLE_BLOB) AS %s(%s)" % (
+            self.fileTblName, self.tblField, self.tblField, remoteFile, self.fileTblName, self.tblField))
 
             lengthQuery = "SELECT DATALENGTH(%s) FROM %s" % (self.tblField, self.fileTblName)
 
@@ -67,7 +69,8 @@ class Filesystem:
             sameFile = True
         else:
             logger.debug("checking the length of the remote file '%s'" % remoteFile)
-            remoteFileSize = inject.getValue(lengthQuery, resumeValue=False, expected=EXPECTED.INT, charsetType=CHARSET_TYPE.DIGITS)
+            remoteFileSize = inject.getValue(lengthQuery, resumeValue=False, expected=EXPECTED.INT,
+                                             charsetType=CHARSET_TYPE.DIGITS)
             sameFile = None
 
             if isNumPosStrValue(remoteFileSize):

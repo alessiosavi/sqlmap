@@ -13,6 +13,7 @@ import wave
 
 BEEP_WAV_FILENAME = os.path.join(os.path.dirname(__file__), "beep.wav")
 
+
 def beep():
     try:
         if sys.platform == "nt":
@@ -26,6 +27,7 @@ def beep():
     except:
         _speaker_beep()
 
+
 def _speaker_beep():
     sys.stdout.write('\a')  # doesn't work on modern Linux systems
 
@@ -34,14 +36,17 @@ def _speaker_beep():
     except IOError:
         pass
 
+
 def _mac_beep():
     import Carbon.Snd
     Carbon.Snd.SysBeep(1)
+
 
 def _win_wav_play(filename):
     import winsound
 
     winsound.PlaySound(filename, winsound.SND_FILENAME)
+
 
 def _linux_wav_play(filename):
     for _ in ("aplay", "paplay", "play"):
@@ -68,7 +73,8 @@ def _linux_wav_play(filename):
 
     error = ctypes.c_int(0)
 
-    pa_stream = pa.pa_simple_new(None, filename, PA_STREAM_PLAYBACK, None, "playback", ctypes.byref(pa_sample_spec), None, None, ctypes.byref(error))
+    pa_stream = pa.pa_simple_new(None, filename, PA_STREAM_PLAYBACK, None, "playback", ctypes.byref(pa_sample_spec),
+                                 None, None, ctypes.byref(error))
     if not pa_stream:
         raise Exception("Could not create pulse audio stream: %s" % pa.strerror(ctypes.byref(error)))
 
@@ -90,6 +96,7 @@ def _linux_wav_play(filename):
         raise Exception("Could not simple drain")
 
     pa.pa_simple_free(pa_stream)
+
 
 if __name__ == "__main__":
     beep()
