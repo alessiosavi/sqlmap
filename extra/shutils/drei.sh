@@ -4,4 +4,4 @@
 # See the file 'LICENSE' for copying permission
 
 # Stress test against Python3
-for i in $(find . -iname "*.py" | grep -v __init__); do python3 -c 'import '`echo $i | cut -d '.' -f 2 | cut -d '/' -f 2- | sed 's/\//./g'`''; done
+for i in "$(find . -iname "*.py" | grep -v __init__)"; do python3 -c 'import '`echo "$i" | cut -d '.' -f "2" | cut -d '/' -f 2- | sed 's/\//./g'`''; done

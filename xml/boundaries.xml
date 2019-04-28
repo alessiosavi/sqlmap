@@ -146,8 +146,8 @@ Formats:
         <clause>0</clause>
         <where>1,2,3</where>
         <ptype>1</ptype>
-        <prefix></prefix>
-        <suffix></suffix>
+        <prefix/>
+        <suffix/>
     </boundary>
 
     <boundary>
@@ -299,7 +299,7 @@ Formats:
         <clause>1</clause>
         <where>1,2</where>
         <ptype>1</ptype>
-        <prefix></prefix>
+        <prefix/>
         <suffix>[GENERIC_SQL_COMMENT]</suffix>
     </boundary>
 
@@ -308,7 +308,7 @@ Formats:
         <clause>1</clause>
         <where>1,2</where>
         <ptype>1</ptype>
-        <prefix></prefix>
+        <prefix/>
         <suffix># [RANDSTR]</suffix>
     </boundary>
 

@@ -10,6 +10,6 @@
 # python ../../../../../extra/cloak/cloak.py -i lib_postgresqludf_sys.so
 # rm lib_postgresqludf_sys.so
 
-strip -S --strip-unneeded --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag $*
-sstrip $*
+strip -S --strip-unneeded --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "$*"
+sstrip "$*"
 

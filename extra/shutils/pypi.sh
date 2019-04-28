@@ -2,17 +2,17 @@
 
 if [ ! -f ~/.pypirc ]; then
     echo "File ~/.pypirc is missing"
-    exit 1
+    exit "1"
 fi
 
 declare -x SCRIPTPATH="${0}"
 SETTINGS="${SCRIPTPATH%/*}/../../lib/core/settings.py"
-VERSION=$(cat $SETTINGS | grep -E "^VERSION =" | cut -d '"' -f 2 | cut -d '.' -f 1-3)
+VERSION="$(cat "$SETTINGS" | grep -E "^VERSION =" | cut -d '"' -f "2" | cut -d '.' -f 1-3)"
 TYPE=pip
 TMP_DIR=/tmp/pypi
-mkdir $TMP_DIR
-cd $TMP_DIR
-cat > $TMP_DIR/setup.py << EOF
+mkdir "$TMP_DIR"
+cd "$TMP_DIR"
+cat > ${TMP_DIR}/setup.py << EOF
 #!/usr/bin/env python
 
 """
@@ -24,7 +24,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sqlmap',
-    version='$VERSION',
+    version='${VERSION}',
     description='Automatic SQL injection and database takeover tool',
     long_description=open('README.rst').read(),
     long_description_content_type='text/x-rst',
@@ -36,7 +36,7 @@ setup(
         'Source': 'https://github.com/sqlmapproject/sqlmap/',
         'Tracker': 'https://github.com/sqlmapproject/sqlmap/issues',
     },
-    download_url='https://github.com/sqlmapproject/sqlmap/archive/$VERSION.zip',
+    download_url='https://github.com/sqlmapproject/sqlmap/archive/${VERSION}.zip',
     license='GNU General Public License v2 (GPLv2)',
     packages=find_packages(),
     include_package_data=True,
@@ -177,6 +177,6 @@ Links
 EOF
 sed -i "s/^VERSION =.*/VERSION = \"$VERSION\"/g" sqlmap/lib/core/settings.py
 sed -i "s/^TYPE =.*/TYPE = \"$TYPE\"/g" sqlmap/lib/core/settings.py
-for file in $(find sqlmap -type f | grep -v -E "\.(git|yml)"); do echo include $file >> MANIFEST.in; done
+for file in "$(find sqlmap -type f | grep -v -E "\.(git|yml)")"; do echo include "$file" >> MANIFEST.in; done
 python setup.py sdist upload
-rm -rf $TMP_DIR
+rm -rf "$TMP_DIR"
