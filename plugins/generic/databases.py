@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -966,7 +967,8 @@ class Databases:
 
         return kb.data.cachedColumns
 
-    def _tableGetCount(self, db, table):
+    @staticmethod
+    def _tableGetCount(db, table):
         if not db or not table:
             return None
 

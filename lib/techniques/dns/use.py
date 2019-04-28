@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -83,7 +84,7 @@ def dnsUse(payload, expression):
                 else:
                     forgedPayload = safeStringFormat(payload, (expressionUnescaped, randomInt(1), randomInt(3)))
 
-                Request.queryPage(forgedPayload, content=False, noteResponseTime=False, raise404=False)
+                Request.queryPage(forgedPayload, noteResponseTime=False, raise404=False)
 
                 _ = conf.dnsServer.pop(prefix, suffix)
 

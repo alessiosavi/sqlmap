@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -38,7 +39,8 @@ class Fingerprint:
     def forceDbmsEnum(self):
         pass
 
-    def userChooseDbmsOs(self):
+    @staticmethod
+    def userChooseDbmsOs():
         warnMsg = "for some reason sqlmap was unable to fingerprint "
         warnMsg += "the back-end DBMS operating system"
         logger.warn(warnMsg)

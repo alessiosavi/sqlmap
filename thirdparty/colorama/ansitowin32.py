@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import re
 import sys
@@ -187,12 +188,13 @@ class AnsiToWin32(object):
             params = self.extract_params(command, paramstring)
             self.call_win32(command, params)
 
-    def extract_params(self, command, paramstring):
+    @staticmethod
+    def extract_params(command, paramstring):
         if command in 'Hf':
             params = tuple(int(p) if len(p) != 0 else 1 for p in paramstring.split(';'))
             while len(params) < 2:
                 # defaults:
-                params = params + (1,)
+                params += 1,
         else:
             params = tuple(int(p) for p in paramstring.split(';') if len(p) != 0)
             if len(params) == 0:

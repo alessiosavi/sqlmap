@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -128,7 +129,7 @@ def _selectInjection():
         message += "[q] Quit"
         choice = readInput(message, default='0').upper()
 
-        if choice.isdigit() and int(choice) < len(kb.injections) and int(choice) >= 0:
+        if choice.isdigit() and len(kb.injections) > int(choice) >= 0:
             index = int(choice)
         elif choice == 'Q':
             raise SqlmapUserQuitException

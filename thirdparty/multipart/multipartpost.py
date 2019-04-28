@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 02/2006 Will Holcomb <wholcomb@gmail.com>

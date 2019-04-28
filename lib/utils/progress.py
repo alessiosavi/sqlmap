@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -28,7 +29,8 @@ class ProgressBar(object):
         self._start = None
         self.update()
 
-    def _convertSeconds(self, value):
+    @staticmethod
+    def _convertSeconds(value):
         seconds = value
         minutes = seconds // 60
         seconds = seconds - (minutes * 60)

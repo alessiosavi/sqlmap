@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 # Copyright (c) 2010, Chris Hall <chris.hall@mod10.net>
 # All rights reserved.
@@ -74,7 +75,7 @@ def _writexml_element(self, writer, indent="", addindent="", newl=""):
         if self.childNodes[0].nodeType == Node.TEXT_NODE and len(self.childNodes[0].data) > 0:
             writer.write(">")
         else:
-            writer.write(">%s" % (newl))
+            writer.write(">%s" % newl)
         for node in self.childNodes:
             node.writexml(writer, indent + addindent, addindent, newl)
         if self.childNodes[-1].nodeType == Node.TEXT_NODE and len(self.childNodes[0].data) > 0:
@@ -82,7 +83,7 @@ def _writexml_element(self, writer, indent="", addindent="", newl=""):
         else:
             writer.write("%s</%s>%s" % (indent, self.tagName, newl))
     else:
-        writer.write("/>%s" % (newl))
+        writer.write("/>%s" % newl)
 
 
 def _toprettyxml_node(self, indent="\t", newl="\n", encoding=None):

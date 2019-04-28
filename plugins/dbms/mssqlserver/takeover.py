@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -34,7 +35,7 @@ class Takeover(GenericTakeover):
 
         returns = {
             # 2003 Service Pack 0
-            "2003-0": (""),
+            "2003-0": "",
 
             # 2003 Service Pack 1
             "2003-1": ("CHAR(0xab)+CHAR(0x2e)+CHAR(0xe6)+CHAR(0x7c)", "CHAR(0xee)+CHAR(0x60)+CHAR(0xa8)+CHAR(0x7c)",

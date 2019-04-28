@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -34,7 +35,8 @@ class Custom:
     def __init__(self):
         pass
 
-    def sqlQuery(self, query):
+    @staticmethod
+    def sqlQuery(query):
         output = None
         sqlType = None
         query = query.rstrip(';')

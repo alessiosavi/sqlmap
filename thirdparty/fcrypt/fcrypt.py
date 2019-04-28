@@ -1,3 +1,4 @@
+# coding=utf-8
 # fcrypt.py
 
 """Unix crypt(3) password hash algorithm.
@@ -469,7 +470,7 @@ def _set_key(password):
     # Any sign-extended bits are masked off.
     d = (((d & 0x000000ff) << 16) | (d & 0x0000ff00) |
          ((d & 0x00ff0000) >> 16) | ((c >> 4) & 0x0f000000))
-    c = c & 0x0fffffff
+    c &= 0x0fffffff
 
     # Copy globals into local variables for loop.
     shifts2 = _shifts2
@@ -485,8 +486,8 @@ def _set_key(password):
         else:
             c = (c >> 1) | (c << 27)
             d = (d >> 1) | (d << 27)
-        c = c & 0x0fffffff
-        d = d & 0x0fffffff
+        c &= 0x0fffffff
+        d &= 0x0fffffff
 
         s = (skbc0[c & 0x3f] |
              skbc1[((c >> 6) & 0x03) | ((c >> 7) & 0x3c)] |
@@ -527,9 +528,9 @@ def _body(ks, E0, E1):
             t = t ^ (t << 16) ^ r ^ ks[i + 1]
             t = ((t >> 4) & 0x0fffffff) | (t << 28)
 
-            l, r = r, (SP1[(t) & 0x3f] ^ SP3[(t >> 8) & 0x3f] ^
+            l, r = r, (SP1[t & 0x3f] ^ SP3[(t >> 8) & 0x3f] ^
                        SP5[(t >> 16) & 0x3f] ^ SP7[(t >> 24) & 0x3f] ^
-                       SP0[(u) & 0x3f] ^ SP2[(u >> 8) & 0x3f] ^
+                       SP0[u & 0x3f] ^ SP2[(u >> 8) & 0x3f] ^
                        SP4[(u >> 16) & 0x3f] ^ SP6[(u >> 24) & 0x3f] ^ l)
 
     l = ((l >> 1) & 0x7fffffff) | ((l & 0x1) << 31)
@@ -587,7 +588,7 @@ crypt supported by the OpenBSD C library.
     if len(salt) == 0:
         salt = 'AA'
     elif len(salt) == 1:
-        salt = salt + 'A'
+        salt += 'A'
     Eswap0 = _con_salt[ord(salt[0]) & 0x7f]
     Eswap1 = _con_salt[ord(salt[1]) & 0x7f] << 4
 

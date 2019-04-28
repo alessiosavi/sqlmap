@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 # Copyright (c) 2004, Carey Evans <careye@spamcop.net>
 # All rights reserved.

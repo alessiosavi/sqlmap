@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -220,7 +221,7 @@ def jsonize(data):
     '{\\n    "foo": "bar"\\n}'
     """
 
-    return json.dumps(data, sort_keys=False, indent=4)
+    return json.dumps(data, indent=4)
 
 
 def dejsonize(data):

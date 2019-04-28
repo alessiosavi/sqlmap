@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -227,7 +228,7 @@ def _unionPosition(comment, place, parameter, prefix, suffix, count, where=PAYLO
                         # Perform the request
                         page, headers, _ = Request.queryPage(payload, place=place, content=True, raise404=False)
                         content = ("%s%s" % (removeReflectiveValues(page, payload) or "", removeReflectiveValues(listToStrValue(headers.headers if headers else None), payload, True) or "")).lower()
-                        if content.count(phrase) > 0 and content.count(phrase) < LIMITED_ROWS_TEST_NUMBER:
+                        if 0 < content.count(phrase) < LIMITED_ROWS_TEST_NUMBER:
                             warnMsg = "output with limited number of rows detected. Switching to partial mode"
                             logger.warn(warnMsg)
                             vector = (position, count, comment, prefix, suffix, kb.uChar, where, kb.unionDuplicates, True)

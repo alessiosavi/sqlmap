@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 '''
 This module generates ANSI character codes to printing colors to terminals.
@@ -37,19 +38,24 @@ class AnsiCodes(object):
 
 
 class AnsiCursor(object):
-    def UP(self, n=1):
+    @staticmethod
+    def UP(n=1):
         return CSI + str(n) + 'A'
 
-    def DOWN(self, n=1):
+    @staticmethod
+    def DOWN(n=1):
         return CSI + str(n) + 'B'
 
-    def FORWARD(self, n=1):
+    @staticmethod
+    def FORWARD(n=1):
         return CSI + str(n) + 'C'
 
-    def BACK(self, n=1):
+    @staticmethod
+    def BACK(n=1):
         return CSI + str(n) + 'D'
 
-    def POS(self, x=1, y=1):
+    @staticmethod
+    def POS(x=1, y=1):
         return CSI + str(y) + ';' + str(x) + 'H'
 
 

@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (c) 2010-2018 Benjamin Peterson
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -477,7 +478,8 @@ class Module_six_moves_urllib(types.ModuleType):
     response = _importer._get_module("moves.urllib_response")
     robotparser = _importer._get_module("moves.urllib_robotparser")
 
-    def __dir__(self):
+    @staticmethod
+    def __dir__():
         return ['parse', 'error', 'request', 'response', 'robotparser']
 
 
@@ -726,7 +728,7 @@ else:
             del frame
         elif _locs_ is None:
             _locs_ = _globs_
-        exec ("""exec _code_ in _globs_, _locs_""")
+        exec """exec _code_ in _globs_, _locs_"""
 
 
     exec_("""def reraise(tp, value, tb=None):

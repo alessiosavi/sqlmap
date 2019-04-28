@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -243,7 +244,7 @@ class Users:
                 query = rootQuery.inband.query
 
                 retVal = pivotDumpTable("(%s) AS %s" % (query, kb.aliasName),
-                                        ['%s.name' % kb.aliasName, '%s.password' % kb.aliasName], blind=True)
+                                        ['%s.name' % kb.aliasName, '%s.password' % kb.aliasName])
 
                 if retVal:
                     for user, password in filterPairValues(
@@ -653,7 +654,7 @@ class Users:
             if isAdminFromPrivileges(privileges):
                 areAdmins.add(user)
 
-        return (kb.data.cachedUsersPrivileges, areAdmins)
+        return kb.data.cachedUsersPrivileges, areAdmins
 
     def getRoles(self, query2=False):
         warnMsg = "on %s the concept of roles does not " % Backend.getIdentifiedDbms()

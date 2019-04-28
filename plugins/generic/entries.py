@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -376,7 +377,7 @@ class Entries:
 
                         if not entries and not kb.dumpKeyboardInterrupt:
                             try:
-                                retVal = pivotDumpTable(table, colList, count, blind=True)
+                                retVal = pivotDumpTable(table, colList, count)
                             except KeyboardInterrupt:
                                 retVal = None
                                 kb.dumpKeyboardInterrupt = True

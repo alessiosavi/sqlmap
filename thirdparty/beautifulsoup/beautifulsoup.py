@@ -1,3 +1,4 @@
+# coding=utf-8
 """Beautiful Soup
 Elixir and Tonic
 "The Screen-Scraper's Friend"
@@ -172,7 +173,7 @@ class PageElement(object):
                 # Furthermore, it comes before this element. That
                 # means that when we extract it, the index of this
                 # element will change.
-                myIndex = myIndex - 1
+                myIndex -= 1
         self.extract()
         oldParent.insert(myIndex, replaceWith)
 
@@ -237,7 +238,7 @@ class PageElement(object):
                     # list of this object's children. That means that
                     # when we extract this element, our target index
                     # will jump down one.
-                    position = position - 1
+                    position -= 1
             newChild.extract()
 
         newChild.parent = self
@@ -284,77 +285,97 @@ class PageElement(object):
         """Appends the given tag to the contents of this tag."""
         self.insert(len(self.contents), tag)
 
-    def findNext(self, name=None, attrs={}, text=None, **kwargs):
+    def findNext(self, name=None, attrs=None, text=None, **kwargs):
         """Returns the first item that matches the given criteria and
         appears after this Tag in the document."""
+        if attrs is None:
+            attrs = {}
         return self._findOne(self.findAllNext, name, attrs, text, **kwargs)
 
-    def findAllNext(self, name=None, attrs={}, text=None, limit=None,
+    def findAllNext(self, name=None, attrs=None, text=None, limit=None,
                     **kwargs):
         """Returns all items that match the given criteria and appear
         after this Tag in the document."""
+        if attrs is None:
+            attrs = {}
         return self._findAll(name, attrs, text, limit, self.nextGenerator,
                              **kwargs)
 
-    def findNextSibling(self, name=None, attrs={}, text=None, **kwargs):
+    def findNextSibling(self, name=None, attrs=None, text=None, **kwargs):
         """Returns the closest sibling to this Tag that matches the
         given criteria and appears after this Tag in the document."""
+        if attrs is None:
+            attrs = {}
         return self._findOne(self.findNextSiblings, name, attrs, text,
                              **kwargs)
 
-    def findNextSiblings(self, name=None, attrs={}, text=None, limit=None,
+    def findNextSiblings(self, name=None, attrs=None, text=None, limit=None,
                          **kwargs):
         """Returns the siblings of this Tag that match the given
         criteria and appear after this Tag in the document."""
+        if attrs is None:
+            attrs = {}
         return self._findAll(name, attrs, text, limit,
                              self.nextSiblingGenerator, **kwargs)
 
     fetchNextSiblings = findNextSiblings  # Compatibility with pre-3.x
 
-    def findPrevious(self, name=None, attrs={}, text=None, **kwargs):
+    def findPrevious(self, name=None, attrs=None, text=None, **kwargs):
         """Returns the first item that matches the given criteria and
         appears before this Tag in the document."""
+        if attrs is None:
+            attrs = {}
         return self._findOne(self.findAllPrevious, name, attrs, text, **kwargs)
 
-    def findAllPrevious(self, name=None, attrs={}, text=None, limit=None,
+    def findAllPrevious(self, name=None, attrs=None, text=None, limit=None,
                         **kwargs):
         """Returns all items that match the given criteria and appear
         before this Tag in the document."""
+        if attrs is None:
+            attrs = {}
         return self._findAll(name, attrs, text, limit, self.previousGenerator,
                              **kwargs)
 
     fetchPrevious = findAllPrevious  # Compatibility with pre-3.x
 
-    def findPreviousSibling(self, name=None, attrs={}, text=None, **kwargs):
+    def findPreviousSibling(self, name=None, attrs=None, text=None, **kwargs):
         """Returns the closest sibling to this Tag that matches the
         given criteria and appears before this Tag in the document."""
+        if attrs is None:
+            attrs = {}
         return self._findOne(self.findPreviousSiblings, name, attrs, text,
                              **kwargs)
 
-    def findPreviousSiblings(self, name=None, attrs={}, text=None,
+    def findPreviousSiblings(self, name=None, attrs=None, text=None,
                              limit=None, **kwargs):
         """Returns the siblings of this Tag that match the given
         criteria and appear before this Tag in the document."""
+        if attrs is None:
+            attrs = {}
         return self._findAll(name, attrs, text, limit,
                              self.previousSiblingGenerator, **kwargs)
 
     fetchPreviousSiblings = findPreviousSiblings  # Compatibility with pre-3.x
 
-    def findParent(self, name=None, attrs={}, **kwargs):
+    def findParent(self, name=None, attrs=None, **kwargs):
         """Returns the closest parent of this Tag that matches the given
         criteria."""
         # NOTE: We can't use _findOne because findParents takes a different
         # set of arguments.
+        if attrs is None:
+            attrs = {}
         r = None
         l = self.findParents(name, attrs, 1)
         if l:
             r = l[0]
         return r
 
-    def findParents(self, name=None, attrs={}, limit=None, **kwargs):
+    def findParents(self, name=None, attrs=None, limit=None, **kwargs):
         """Returns the parents of this Tag that match the given
         criteria."""
 
+        if attrs is None:
+            attrs = {}
         return self._findAll(name, attrs, None, limit, self.parentGenerator,
                              **kwargs)
 
@@ -362,14 +383,16 @@ class PageElement(object):
 
     # These methods do the real heavy lifting.
 
-    def _findOne(self, method, name, attrs, text, **kwargs):
+    @staticmethod
+    def _findOne(method, name, attrs, text, **kwargs):
         r = None
         l = method(name, attrs, text, 1, **kwargs)
         if l:
             r = l[0]
         return r
 
-    def _findAll(self, name, attrs, text, limit, generator, **kwargs):
+    @staticmethod
+    def _findAll(name, attrs, text, limit, generator, **kwargs):
         "Iterates over a generator looking for things that match."
 
         if isinstance(name, SoupStrainer):
@@ -438,7 +461,8 @@ class PageElement(object):
             yield i
 
     # Utility methods
-    def substituteEncoding(self, str, encoding=None):
+    @staticmethod
+    def substituteEncoding(str, encoding=None):
         encoding = encoding or "utf-8"
         return str.replace("%SOUP-ENCODING%", encoding)
 
@@ -479,7 +503,7 @@ class NavigableString(text_type, PageElement):
         return text_type.__new__(cls, value, DEFAULT_OUTPUT_ENCODING)
 
     def __getnewargs__(self):
-        return (NavigableString.__str__(self),)
+        return NavigableString.__str__(self),
 
     def __getattr__(self, attr):
         """text.string gives you text. This is for backwards
@@ -851,10 +875,12 @@ class Tag(PageElement):
 
     # Soup methods
 
-    def find(self, name=None, attrs={}, recursive=True, text=None,
+    def find(self, name=None, attrs=None, recursive=True, text=None,
              **kwargs):
         """Return only the first child of this Tag matching the given
         criteria."""
+        if attrs is None:
+            attrs = {}
         r = None
         l = self.findAll(name, attrs, recursive, text, 1, **kwargs)
         if l:
@@ -863,7 +889,7 @@ class Tag(PageElement):
 
     findChild = find
 
-    def findAll(self, name=None, attrs={}, recursive=True, text=None,
+    def findAll(self, name=None, attrs=None, recursive=True, text=None,
                 limit=None, **kwargs):
         """Extracts a list of Tag objects that match the given
         criteria.  You can specify the name of the Tag and any
@@ -874,6 +900,8 @@ class Tag(PageElement):
         callable that takes a string and returns whether or not the
         string matches for some custom definition of 'matches'. The
         same is true of the tag name."""
+        if attrs is None:
+            attrs = {}
         generator = self.recursiveChildGenerator
         if not recursive:
             generator = self.childGenerator
@@ -922,7 +950,9 @@ class SoupStrainer:
     """Encapsulates a number of ways of matching a markup element (tag or
     text)."""
 
-    def __init__(self, name=None, attrs={}, text=None, **kwargs):
+    def __init__(self, name=None, attrs=None, text=None, **kwargs):
+        if attrs is None:
+            attrs = {}
         self.name = name
         if isinstance(attrs, basestring):
             kwargs['class'] = _match_css_class(attrs)
@@ -942,7 +972,9 @@ class SoupStrainer:
         else:
             return "%s|%s" % (self.name, self.attrs)
 
-    def searchTag(self, markupName=None, markupAttrs={}):
+    def searchTag(self, markupName=None, markupAttrs=None):
+        if markupAttrs is None:
+            markupAttrs = {}
         found = None
         markup = None
         if isinstance(markupName, Tag):
@@ -1006,7 +1038,8 @@ class SoupStrainer:
                             % markup.__class__)
         return found
 
-    def _matches(self, markup, matchAgainst):
+    @staticmethod
+    def _matches(markup, matchAgainst):
         # print "Matching %s against %s" % (markup, matchAgainst)
         result = False
         if matchAgainst is True:
@@ -1218,7 +1251,7 @@ class BeautifulStoneSoup(Tag, sgmllib.SGMLParser):
                 # Python installations can't copy regexes. If anyone
                 # was relying on the existence of markupMassage, this
                 # might cause problems.
-                del (self.markupMassage)
+                del self.markupMassage
         self.reset()
 
         sgmllib.SGMLParser.feed(self, markup)
@@ -1309,7 +1342,7 @@ class BeautifulStoneSoup(Tag, sgmllib.SGMLParser):
                 numPops = len(self.tagStack) - i
                 break
         if not inclusivePop:
-            numPops = numPops - 1
+            numPops -= 1
 
         for i in xrange(0, numPops):
             mostRecentTag = self.popTag()
@@ -1334,7 +1367,7 @@ class BeautifulStoneSoup(Tag, sgmllib.SGMLParser):
         """
 
         nestingResetTriggers = self.NESTABLE_TAGS.get(name)
-        isNestable = nestingResetTriggers != None
+        isNestable = nestingResetTriggers is not None
         isResetNesting = name in self.RESET_NESTING_TAGS
         popTo = None
         inclusive = True
@@ -1814,8 +1847,10 @@ class UnicodeDammit:
     CHARSET_ALIASES = {"macintosh": "mac-roman",
                        "x-sjis": "shift-jis"}
 
-    def __init__(self, markup, overrideEncodings=[],
+    def __init__(self, markup, overrideEncodings=None,
                  smartQuotesTo='xml', isHTML=False):
+        if overrideEncodings is None:
+            overrideEncodings = []
         self.declaredHTMLEncoding = None
         self.markup, documentEncoding, sniffedEncoding = \
             self._detectEncoding(markup, isHTML)
@@ -1887,7 +1922,8 @@ class UnicodeDammit:
         # print "Correct encoding: %s" % proposed
         return self.markup
 
-    def _toUnicode(self, data, encoding):
+    @staticmethod
+    def _toUnicode(data, encoding):
         '''Given a string and its encoding, decodes the string into Unicode.
         %encoding is a string recognized by encodings.aliases'''
 
@@ -1985,7 +2021,8 @@ class UnicodeDammit:
                or (charset and self._codec(charset.replace("-", "_"))) \
                or charset
 
-    def _codec(self, charset):
+    @staticmethod
+    def _codec(charset):
         if not charset: return charset
         codec = None
         try:

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -46,10 +47,8 @@ def _search(dork):
         return None
 
     data = None
-    headers = {}
-
-    headers[HTTP_HEADER.USER_AGENT] = dict(conf.httpHeaders).get(HTTP_HEADER.USER_AGENT, DUMMY_SEARCH_USER_AGENT)
-    headers[HTTP_HEADER.ACCEPT_ENCODING] = HTTP_ACCEPT_ENCODING_HEADER_VALUE
+    headers = {HTTP_HEADER.USER_AGENT: dict(conf.httpHeaders).get(HTTP_HEADER.USER_AGENT, DUMMY_SEARCH_USER_AGENT),
+               HTTP_HEADER.ACCEPT_ENCODING: HTTP_ACCEPT_ENCODING_HEADER_VALUE}
 
     try:
         req = _urllib.request.Request("https://www.google.com/ncr", headers=headers)

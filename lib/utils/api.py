@@ -79,7 +79,7 @@ class Database(object):
         self.cursor = None
 
     def connect(self, who="server"):
-        self.connection = sqlite3.connect(self.database, timeout=3, isolation_level=None, check_same_thread=False)
+        self.connection = sqlite3.connect(self.database, timeout=3, check_same_thread=False)
         self.cursor = self.connection.cursor()
         logger.debug("REST-JSON API %s connected to IPC database" % who)
 
@@ -166,16 +166,16 @@ class Task(object):
         saveConfig(self.options, configFile)
 
         if os.path.exists("sqlmap.py"):
-            self.process = Popen([sys.executable or "python", "sqlmap.py", "--api", "-c", configFile], shell=False,
+            self.process = Popen([sys.executable or "python", "sqlmap.py", "--api", "-c", configFile],
                                  close_fds=not IS_WIN)
         elif os.path.exists(os.path.join(os.getcwd(), "sqlmap.py")):
-            self.process = Popen([sys.executable or "python", "sqlmap.py", "--api", "-c", configFile], shell=False,
-                                 cwd=os.getcwd(), close_fds=not IS_WIN)
+            self.process = Popen([sys.executable or "python", "sqlmap.py", "--api", "-c", configFile], cwd=os.getcwd(),
+                                 close_fds=not IS_WIN)
         elif os.path.exists(os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), "sqlmap.py")):
-            self.process = Popen([sys.executable or "python", "sqlmap.py", "--api", "-c", configFile], shell=False,
+            self.process = Popen([sys.executable or "python", "sqlmap.py", "--api", "-c", configFile],
                                  cwd=os.path.join(os.path.abspath(os.path.dirname(sys.argv[0]))), close_fds=not IS_WIN)
         else:
-            self.process = Popen(["sqlmap", "--api", "-c", configFile], shell=False, close_fds=not IS_WIN)
+            self.process = Popen(["sqlmap", "--api", "-c", configFile], close_fds=not IS_WIN)
 
     def engine_stop(self):
         if self.process:
@@ -710,7 +710,7 @@ def server(host=RESTAPI_DEFAULT_ADDRESS, port=RESTAPI_DEFAULT_PORT, adapter=REST
     DataStore.username = username
     DataStore.password = password
 
-    _, Database.filepath = tempfile.mkstemp(prefix=MKSTEMP_PREFIX.IPC, text=False)
+    _, Database.filepath = tempfile.mkstemp(prefix=MKSTEMP_PREFIX.IPC)
     os.close(_)
 
     if port == 0:  # random

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -59,7 +60,7 @@ class HTTPSConnection(_http_client.HTTPSConnection):
                 try:
                     sock = create_sock()
                     context = ssl.SSLContext(protocol)
-                    _ = context.wrap_socket(sock, do_handshake_on_connect=True, server_hostname=self.host)
+                    _ = context.wrap_socket(sock, server_hostname=self.host)
                     if _:
                         success = True
                         self.sock = _

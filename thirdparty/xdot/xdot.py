@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 #
 # Copyright 2008 Jose Fonseca
 #
@@ -344,7 +345,7 @@ class Url(object):
         self.item = item
         self.url = url
         if highlight is None:
-            highlight = set([item])
+            highlight = {item}
         self.highlight = highlight
 
 
@@ -355,7 +356,7 @@ class Jump(object):
         self.x = x
         self.y = y
         if highlight is None:
-            highlight = set([item])
+            highlight = {item}
         self.highlight = highlight
 
 
@@ -392,7 +393,7 @@ class Node(Element):
         self.url = url
 
     def is_inside(self, x, y):
-        return self.x1 <= x and x <= self.x2 and self.y1 <= y and y <= self.y2
+        return self.x1 <= x <= self.x2 and self.y1 <= y <= self.y2
 
     def get_url(self, x, y):
         if self.url is None:
@@ -441,9 +442,9 @@ class Edge(Element):
 
     def get_jump(self, x, y):
         if self.is_inside_begin(x, y):
-            return Jump(self, self.dst.x, self.dst.y, highlight=set([self, self.dst]))
+            return Jump(self, self.dst.x, self.dst.y, highlight={self, self.dst})
         if self.is_inside_end(x, y):
-            return Jump(self, self.src.x, self.src.y, highlight=set([self, self.src]))
+            return Jump(self, self.src.x, self.src.y, highlight={self, self.src})
         return None
 
     def __repr__(self):
@@ -593,7 +594,8 @@ class XDotAttrParser:
         else:
             return self.lookup_color(c)
 
-    def lookup_color(self, c):
+    @staticmethod
+    def lookup_color(c):
         try:
             color = gtk.gdk.color_parse(c)
         except ValueError:
@@ -613,9 +615,9 @@ class XDotAttrParser:
             pass
         else:
             s = 1.0 / 255.0
-            r = r * s
-            g = g * s
-            b = b * s
+            r *= s
+            g *= s
+            b *= s
             a = 1.0
             return r, g, b, a
 
@@ -630,7 +632,7 @@ class XDotAttrParser:
             if op == "c":
                 color = s.read_color()
                 if color is not None:
-                    self.handle_color(color, filled=False)
+                    self.handle_color(color)
             elif op == "C":
                 color = s.read_color()
                 if color is not None:
@@ -666,13 +668,13 @@ class XDotAttrParser:
                 x0, y0 = s.read_point()
                 w = s.read_float()
                 h = s.read_float()
-                self.handle_ellipse(x0, y0, w, h, filled=False)
+                self.handle_ellipse(x0, y0, w, h)
             elif op == "L":
                 points = self.read_polygon()
                 self.handle_line(points)
             elif op == "B":
                 points = self.read_polygon()
-                self.handle_bezier(points, filled=False)
+                self.handle_bezier(points)
             elif op == "b":
                 points = self.read_polygon()
                 self.handle_bezier(points, filled=True)
@@ -681,7 +683,7 @@ class XDotAttrParser:
                 self.handle_polygon(points, filled=True)
             elif op == "p":
                 points = self.read_polygon()
-                self.handle_polygon(points, filled=False)
+                self.handle_polygon(points)
             elif op == "I":
                 x0, y0 = s.read_point()
                 w = s.read_float()
@@ -718,7 +720,8 @@ class XDotAttrParser:
         self.pen.fontsize = size
         self.pen.fontname = name
 
-    def handle_font_characteristics(self, flags):
+    @staticmethod
+    def handle_font_characteristics(flags):
         # TODO
         if flags != 0:
             sys.stderr.write("warning: font characteristics not supported yet\n" % op)
@@ -764,7 +767,7 @@ class ParseError(Exception):
         self.col = col
 
     def __str__(self):
-        return ':'.join([str(part) for part in (self.filename, self.line, self.col, self.msg) if part != None])
+        return ':'.join([str(part) for part in (self.filename, self.line, self.col, self.msg) if part is not None])
 
 
 class Scanner:
@@ -866,7 +869,7 @@ class Lexer:
                 continue
             elif type is None:
                 msg = 'unexpected char '
-                if text >= ' ' and text <= '~':
+                if ' ' <= text <= '~':
                     msg += "'%s'" % text
                 else:
                     msg += "0x%X" % ord(text)
@@ -997,7 +1000,8 @@ class DotScanner(Scanner):
 class DotLexer(Lexer):
     scanner = DotScanner()
 
-    def filter(self, type, text):
+    @staticmethod
+    def filter(type, text):
         # TODO: handle charset
         if type == STR_ID:
             text = text[1:-1]
@@ -1298,7 +1302,7 @@ class LinearAnimation(Animation):
     def tick(self):
         t = (time.time() - self.started) / self.duration
         self.animate(max(0, min(t, 1)))
-        return (t < 1)
+        return t < 1
 
     def animate(self, t):
         pass
@@ -1511,14 +1515,8 @@ class DotWidget(gtk.DrawingArea):
     def run_filter(self, dotcode):
         if not self.filter:
             return dotcode
-        p = subprocess.Popen(
-            [self.filter, '-Txdot'],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            shell=False,
-            universal_newlines=True
-        )
+        p = subprocess.Popen([self.filter, '-Txdot'], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE, universal_newlines=True)
         xdotcode, error = p.communicate(dotcode)
         sys.stderr.write(error)
         if p.returncode != 0:
@@ -1738,7 +1736,7 @@ class DotWidget(gtk.DrawingArea):
     def on_print(self, action=None):
         print_op = gtk.PrintOperation()
 
-        if self.print_settings != None:
+        if self.print_settings is not None:
             print_op.set_print_settings(self.print_settings)
 
         print_op.connect("begin_print", self.begin_print)
@@ -1749,7 +1747,8 @@ class DotWidget(gtk.DrawingArea):
         if res == gtk.PRINT_OPERATION_RESULT_APPLY:
             print_settings = print_op.get_print_settings()
 
-    def begin_print(self, operation, context):
+    @staticmethod
+    def begin_print(operation, context):
         operation.set_n_pages(1)
         return True
 
@@ -1763,7 +1762,8 @@ class DotWidget(gtk.DrawingArea):
 
         self.graph.draw(cr, highlight_items=self.highlight)
 
-    def get_drag_action(self, event):
+    @staticmethod
+    def get_drag_action(event):
         state = event.state
         if event.button in (1, 2):  # left or middle button
             if state & gtk.gdk.CONTROL_MASK:
@@ -1797,7 +1797,8 @@ class DotWidget(gtk.DrawingArea):
         return (time.time() < self.presstime + click_timeout
                 and math.hypot(deltax, deltay) < click_fuzz)
 
-    def on_click(self, element, event):
+    @staticmethod
+    def on_click(element, event):
         """Override this method in subclass to process
         click events. Note that element can be None
         (click on empty space)."""
@@ -1998,7 +1999,7 @@ class DotWindow(gtk.Window):
 
         found_items = self.find_text(entry_text)
         dot_widget.set_highlight(found_items)
-        if (len(found_items) == 1):
+        if len(found_items) == 1:
             dot_widget.animate_to(found_items[0].x, found_items[0].y)
 
     def set_filter(self, filter):

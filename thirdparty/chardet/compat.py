@@ -1,3 +1,4 @@
+# coding=utf-8
 ######################## BEGIN LICENSE BLOCK ########################
 # Contributor(s):
 #   Ian Cordasco - port to Python

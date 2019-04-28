@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -15,7 +16,7 @@ class Syntax(GenericSyntax):
         Note: PostgreSQL has a general problem with concenation operator (||) precedence (hence the parentheses enclosing)
               e.g. SELECT 1 WHERE 'a'!='a'||'b' will trigger error ("argument of WHERE must be type boolean, not type text")
 
-        >>> Syntax.escape("SELECT 'abcdefgh' FROM foobar")
+        >>> Syntax.escape()
         'SELECT (CHR(97)||CHR(98)||CHR(99)||CHR(100)||CHR(101)||CHR(102)||CHR(103)||CHR(104)) FROM foobar'
         """
 

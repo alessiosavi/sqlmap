@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -141,7 +142,8 @@ class Web:
             logger.error("sqlmap hasn't got a web backdoor nor a web file stager for %s" % self.webPlatform)
             return False
 
-    def _webFileInject(self, fileContent, fileName, directory):
+    @staticmethod
+    def _webFileInject(fileContent, fileName, directory):
         outFile = posixpath.join(ntToPosixSlashes(directory), fileName)
         uplQuery = getUnicode(fileContent).replace(SHELL_WRITABLE_DIR_TAG,
                                                    directory.replace('/', '\\\\') if Backend.isOs(
@@ -217,7 +219,7 @@ class Web:
 
             if readInput(message, default='Y', boolean=True):
                 headers = {}
-                been = set([conf.url])
+                been = {conf.url}
 
                 for match in re.finditer(r"=['\"]((https?):)?(//[^/'\"]+)?(/[\w/.-]*)\bwp-", kb.originalPage or "",
                                          re.I):

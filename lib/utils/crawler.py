@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -131,7 +132,7 @@ def crawl(target):
                     dataToStdout("\r[%s] [INFO] %s" % (time.strftime("%X"), status), True)
 
         threadData.shared.deeper = set()
-        threadData.shared.unprocessed = set([target])
+        threadData.shared.unprocessed = {target}
 
         if not conf.sitemapUrl:
             message = "do you want to check for the existence of "

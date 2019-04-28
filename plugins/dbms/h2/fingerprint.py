@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -92,6 +93,7 @@ class Fingerprint(GenericFingerprint):
 
             return False
 
-    def getHostname(self):
+    @staticmethod
+    def getHostname():
         warnMsg = "on H2 it is not possible to enumerate the hostname"
         logger.warn(warnMsg)

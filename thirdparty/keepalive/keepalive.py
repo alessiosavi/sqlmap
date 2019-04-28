@@ -468,12 +468,12 @@ class HTTPResponse(_http_client.HTTPResponse):
             new = self._raw_read(self._rbufsize)
             if not new: break
             i = new.find('\n')
-            if i >= 0: i = i + len(self._rbuf)
+            if i >= 0: i += len(self._rbuf)
             self._rbuf = self._rbuf + new
         if i < 0:
             i = len(self._rbuf)
         else:
-            i = i + 1
+            i += 1
         if 0 <= limit < len(self._rbuf): i = limit
         data, self._rbuf = self._rbuf[:i], self._rbuf[i:]
         return data
@@ -602,7 +602,7 @@ def fetch(N, url, delay=0):
 
     j = 0
     for i in lens[1:]:
-        j = j + 1
+        j += 1
         if not i == lens[0]:
             print("WARNING: inconsistent length on read %i: %i" % (j, i))
 
@@ -614,7 +614,8 @@ def test_timeout(url):
     dbbackup = DEBUG
 
     class FakeLogger:
-        def debug(self, msg, *args): print(msg % args)
+        @staticmethod
+        def debug(msg, *args): print(msg % args)
 
         info = warning = error = debug
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -306,7 +307,7 @@ def initCase(switches, count):
 
     logger.debug("using output directory '%s' for this test case" % paths.SQLMAP_OUTPUT_PATH)
 
-    LOGGER_HANDLER.stream = sys.stdout = tempfile.SpooledTemporaryFile(max_size=0, mode="w+b", prefix="sqlmapstdout-")
+    LOGGER_HANDLER.stream = sys.stdout = tempfile.SpooledTemporaryFile(prefix="sqlmapstdout-")
 
     cmdLineOptions = cmdLineParser()
 

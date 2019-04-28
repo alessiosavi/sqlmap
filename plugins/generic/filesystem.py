@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -132,7 +133,8 @@ class Filesystem:
 
         return self.fileContentEncode(content, encoding, single, chunkSize)
 
-    def fileContentEncode(self, content, encoding, single, chunkSize=256):
+    @staticmethod
+    def fileContentEncode(content, encoding, single, chunkSize=256):
         retVal = []
 
         if encoding:

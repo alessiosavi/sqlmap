@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -1457,11 +1458,11 @@ class Connect(object):
             return page, headers, code
 
         if getRatioValue:
-            return comparison(page, headers, code, getRatioValue=False, pageLength=pageLength), comparison(page,
-                                                                                                           headers,
-                                                                                                           code,
-                                                                                                           getRatioValue=True,
-                                                                                                           pageLength=pageLength)
+            return comparison(page, headers, code, pageLength=pageLength), comparison(page,
+                                                                                      headers,
+                                                                                      code,
+                                                                                      getRatioValue=True,
+                                                                                      pageLength=pageLength)
         else:
             return comparison(page, headers, code, getRatioValue, pageLength)
 

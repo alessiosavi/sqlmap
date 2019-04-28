@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -137,8 +138,8 @@ def _comparison(page, headers, code, getRatioValue, pageLength):
                 seq1 = extractRegexResult(HTML_TITLE_REGEX, seqMatcher.a)
                 seq2 = extractRegexResult(HTML_TITLE_REGEX, page)
             else:
-                seq1 = getFilteredPageContent(seqMatcher.a, True) if conf.textOnly else seqMatcher.a
-                seq2 = getFilteredPageContent(page, True) if conf.textOnly else page
+                seq1 = getFilteredPageContent(seqMatcher.a) if conf.textOnly else seqMatcher.a
+                seq2 = getFilteredPageContent(page) if conf.textOnly else page
 
             if seq1 is None or seq2 is None:
                 return None
@@ -158,7 +159,7 @@ def _comparison(page, headers, code, getRatioValue, pageLength):
     # If the url is stable and we did not set yet the match ratio and the
     # current injected value changes the url page content
     if kb.matchRatio is None:
-        if ratio >= LOWER_RATIO_BOUND and ratio <= UPPER_RATIO_BOUND:
+        if LOWER_RATIO_BOUND <= ratio <= UPPER_RATIO_BOUND:
             kb.matchRatio = ratio
             logger.debug("setting match ratio for current parameter to %.3f" % kb.matchRatio)
 

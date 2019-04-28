@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -75,7 +76,8 @@ class DNSServer(object):
         self._running = False
         self._initialized = False
 
-    def _check_localhost(self):
+    @staticmethod
+    def _check_localhost():
         response = ""
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

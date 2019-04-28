@@ -1,3 +1,4 @@
+# coding=utf-8
 """HTML form handling for web clients.
 
 ClientForm is a Python module for handling HTML forms on the client
@@ -415,14 +416,16 @@ class MimeWriter:
         self._fp.writelines(self._headers)
         self._headers = []
 
-    def startbody(self, ctype=None, plist=[], prefix=1,
+    def startbody(self, ctype=None, plist=None, prefix=1,
                   add_to_http_hdrs=0, content_type=1):
         """
         prefix is ignored if add_to_http_hdrs is true.
         """
+        if plist is None:
+            plist = []
         if content_type and ctype:
             for name, value in plist:
-                ctype = ctype + ';\r\n %s=%s' % (name, value)
+                ctype += ';\r\n %s=%s' % (name, value)
             self.addheader("Content-Type", ctype, prefix=prefix,
                            add_to_http_hdrs=add_to_http_hdrs)
         self.flushheaders()
@@ -430,8 +433,10 @@ class MimeWriter:
         self._first_part = True
         return self._fp
 
-    def startmultipartbody(self, subtype, boundary=None, plist=[], prefix=1,
+    def startmultipartbody(self, subtype, boundary=None, plist=None, prefix=1,
                            add_to_http_hdrs=0, content_type=1):
+        if plist is None:
+            plist = []
         boundary = boundary or choose_boundary()
         self._boundary.append(boundary)
         return self.startbody("multipart/" + subtype,
@@ -738,8 +743,7 @@ class _AbstractFormParser:
 
     def do_button(self, attrs):
         debug("%s", attrs)
-        d = {}
-        d["type"] = "submit"  # default
+        d = {"type": "submit"}
         for key, val in attrs:
             d[key] = self.unescape_attr_if_required(val)
         controls = self._current_form[2]
@@ -750,14 +754,13 @@ class _AbstractFormParser:
         # doesn't clash with INPUT TYPE={SUBMIT,RESET,BUTTON}
         # e.g. type for BUTTON/RESET is "resetbutton"
         #     (type for INPUT/RESET is "reset")
-        type = type + "button"
+        type += "button"
         self._add_label(d)
         controls.append((type, name, d))
 
     def do_input(self, attrs):
         debug("%s", attrs)
-        d = {}
-        d["type"] = "text"  # default
+        d = {"type": "text"}
         for key, val in attrs:
             d[key] = self.unescape_attr_if_required(val)
         controls = self._current_form[2]
@@ -862,10 +865,12 @@ else:
             # HTMLParser.HTMLParser's entitydefs.
             return self.unescape_attr(name)
 
-        def unescape_attr_if_required(self, name):
+        @staticmethod
+        def unescape_attr_if_required(name):
             return name  # HTMLParser.HTMLParser already did it
 
-        def unescape_attrs_if_required(self, attrs):
+        @staticmethod
+        def unescape_attrs_if_required(attrs):
             return attrs  # ditto
 
         def close(self):
@@ -889,10 +894,12 @@ class _AbstractSgmllibParser(_AbstractFormParser):
         def convert_charref(self, name):
             return unescape_charref("%s" % name, self._encoding)
 
-        def unescape_attr_if_required(self, name):
+        @staticmethod
+        def unescape_attr_if_required(name):
             return name  # sgmllib already did it
 
-        def unescape_attrs_if_required(self, attrs):
+        @staticmethod
+        def unescape_attrs_if_required(attrs):
             return attrs  # ditto
     else:
         def unescape_attr_if_required(self, name):
@@ -1840,7 +1847,7 @@ class ListControl(Control):
 
     _label = None
 
-    def __init__(self, type, name, attrs={}, select_default=False,
+    def __init__(self, type, name, attrs=None, select_default=False,
                  called_as_base_class=False, index=None):
         """
         select_default: for RADIO and multiple-selection SELECT controls, pick
@@ -1848,6 +1855,8 @@ class ListControl(Control):
          present
 
         """
+        if attrs is None:
+            attrs = {}
         if not called_as_base_class:
             raise NotImplementedError()
 

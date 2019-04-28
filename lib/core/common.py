@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -205,7 +206,7 @@ class UnicodeRawConfigParser(_configparser.RawConfigParser):
             for (key, value) in self._sections[section].items():
                 if key != "__name__":
                     if value is None:
-                        fp.write("%s\n" % (key))
+                        fp.write("%s\n" % key)
                     else:
                         fp.write("%s = %s\n" % (key, getUnicode(value, UNICODE_ENCODING).replace('\n', '\n\t')))
 
@@ -821,7 +822,7 @@ def getManualDirectories():
             checkFile(listPath)
             directories = getFileItems(listPath)
         elif choice == '4':
-            targets = set([conf.hostname])
+            targets = {conf.hostname}
             _ = conf.hostname.split('.')
 
             if _[0] == "www":
@@ -949,7 +950,7 @@ def setColor(message, color=None, bold=False, level=None):
 
     if message and getattr(LOGGER_HANDLER, "is_tty", False):  # colorizing handler
         if bold or color:
-            retVal = colored(message, color=color, on_color=None, attrs=("bold",) if bold else None)
+            retVal = colored(message, color=color, attrs=("bold",) if bold else None)
         elif level:
             try:
                 level = getattr(logging, level, None)
@@ -1714,10 +1715,10 @@ def getLimitRange(count, plusOne=False):
             limitStart = conf.limitStop
             reverse = True
         else:
-            if isinstance(conf.limitStop, int) and conf.limitStop > 0 and conf.limitStop < limitStop:
+            if isinstance(conf.limitStop, int) and 0 < conf.limitStop < limitStop:
                 limitStop = conf.limitStop
 
-            if isinstance(conf.limitStart, int) and conf.limitStart > 0 and conf.limitStart <= limitStop:
+            if isinstance(conf.limitStart, int) and 0 < conf.limitStart <= limitStop:
                 limitStart = conf.limitStart
 
     retVal = xrange(limitStart, limitStop + 1) if plusOne else xrange(limitStart - 1, limitStop)
@@ -2362,7 +2363,7 @@ def initCommonOutputs():
     kb.commonOutputs = {}
     key = None
 
-    with openFile(paths.COMMON_OUTPUTS, 'r') as f:
+    with openFile(paths.COMMON_OUTPUTS) as f:
         for line in f.readlines():  # xreadlines doesn't return unicode strings when codec.open() is used
             if line.find('#') != -1:
                 line = line[:line.find('#')]
@@ -2393,7 +2394,7 @@ def getFileItems(filename, commentPrefix='#', unicoded=True, lowercase=False, un
     checkFile(filename)
 
     try:
-        with openFile(filename, 'r', errors="ignore") if unicoded else open(filename, 'r') as f:
+        with openFile(filename, errors="ignore") if unicoded else open(filename, 'r') as f:
             for line in (
             f.readlines() if unicoded else f.xreadlines()):  # xreadlines doesn't return unicode strings when codec.open() is used
                 if commentPrefix:
@@ -3875,7 +3876,7 @@ def intersect(containerA, containerB, lowerCase=False):
     """
     Returns intersection of the container-ized values
 
-    >>> intersect([1, 2, 3], set([1,3]))
+    >>> intersect([1, 2, 3], {1, 3})
     [1, 3]
     """
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -63,7 +64,7 @@ class Enumeration(GenericEnumeration):
 
             kb.data.cachedUsersPrivileges[user] = None
 
-        return (kb.data.cachedUsersPrivileges, areAdmins)
+        return kb.data.cachedUsersPrivileges, areAdmins
 
     def getTables(self):
         if len(kb.data.cachedTables) > 0:
@@ -408,7 +409,7 @@ class Enumeration(GenericEnumeration):
                     logger.info("%s%s" % (infoMsg, infoMsgTbl))
 
                     query = rootQuery.blind.count
-                    query = query % (db, db, db, db, db, db)
+                    query %= db, db, db, db, db, db
                     query += " AND %s" % colQuery.replace("[DB]", db)
                     query += whereTblsQuery.replace("[DB]", db)
                     count = inject.getValue(query, union=False, error=False, expected=EXPECTED.INT,
@@ -428,7 +429,7 @@ class Enumeration(GenericEnumeration):
 
                     for index in indexRange:
                         query = rootQuery.blind.query
-                        query = query % (db, db, db, db, db, db)
+                        query %= db, db, db, db, db, db
                         query += " AND %s" % colQuery.replace("[DB]", db)
                         query += whereTblsQuery.replace("[DB]", db)
                         query = agent.limitQuery(index, query, colCond.replace("[DB]", db))

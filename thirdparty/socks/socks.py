@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """SocksiPy - Python SOCKS module.
 Version 1.00
@@ -121,7 +122,7 @@ def wrapmodule(module):
     This will only work on modules that import socket directly into the namespace;
     most of the Python Standard Library falls into this category.
     """
-    if _defaultproxy != None:
+    if _defaultproxy is not None:
         module.socket.socket = socksocket
         if _defaultproxy[0] == PROXY_TYPE_SOCKS4:
             # Note: unable to prevent DNS leakage in SOCKS4 (Reference: https://security.stackexchange.com/a/171280)
@@ -146,7 +147,7 @@ class socksocket(socket.socket):
 
     def __init__(self, family=socket.AF_INET, type=socket.SOCK_STREAM, proto=0, _sock=None):
         _orgsocket.__init__(self, family, type, proto, _sock)
-        if _defaultproxy != None:
+        if _defaultproxy is not None:
             self.__proxy = _defaultproxy
         else:
             self.__proxy = (None, None, None, None, None, None)
@@ -162,7 +163,7 @@ class socksocket(socket.socket):
         while len(data) < count:
             d = self.recv(count - len(data))
             if not d: raise GeneralProxyError((0, "connection closed unexpectedly"))
-            data = data + d
+            data += d
         return data
 
     def setproxy(self, proxytype=None, addr=None, port=None, rdns=True, username=None, password=None):
@@ -189,7 +190,7 @@ class socksocket(socket.socket):
         Negotiates a connection through a SOCKS5 server.
         """
         # First we'll send the authentication packages we support.
-        if (self.__proxy[4] != None) and (self.__proxy[5] != None):
+        if (self.__proxy[4] is not None) and (self.__proxy[5] is not None):
             # The username/password details were supplied to the
             # setproxy method so we support the USERNAME/PASSWORD
             # authentication (in addition to the standard none).
@@ -247,7 +248,7 @@ class socksocket(socket.socket):
                 # Resolve locally
                 ipaddr = socket.inet_aton(socket.gethostbyname(destaddr))
                 req = req + chr(0x01).encode() + ipaddr
-        req = req + struct.pack(">H", destport)
+        req += struct.pack(">H", destport)
         self.sendall(req)
         # Get the response
         resp = self.__recvall(4)
@@ -265,14 +266,14 @@ class socksocket(socket.socket):
         elif resp[3:4] == chr(0x01).encode():
             boundaddr = self.__recvall(4)
         elif resp[3:4] == chr(0x03).encode():
-            resp = resp + self.recv(1)
+            resp += self.recv(1)
             boundaddr = self.__recvall(ord(resp[4:5]))
         else:
             self.close()
             raise GeneralProxyError((1, _generalerrors[1]))
         boundport = struct.unpack(">H", self.__recvall(2))[0]
         self.__proxysockname = (boundaddr, boundport)
-        if ipaddr != None:
+        if ipaddr is not None:
             self.__proxypeername = (socket.inet_ntoa(ipaddr), destport)
         else:
             self.__proxypeername = (destaddr, destport)
@@ -314,9 +315,9 @@ class socksocket(socket.socket):
         # Construct the request packet
         req = struct.pack(">BBH", 0x04, 0x01, destport) + ipaddr
         # The username parameter is considered userid for SOCKS4
-        if self.__proxy[4] != None:
+        if self.__proxy[4] is not None:
             req = req + self.__proxy[4]
-        req = req + chr(0x00).encode()
+        req += chr(0x00).encode()
         # DNS name if remote resolving is required
         # NOTE: This is actually an extension to the SOCKS4 protocol
         # called SOCKS4A and may not be supported in all cases.
@@ -339,7 +340,7 @@ class socksocket(socket.socket):
                 raise Socks4Error((94, _socks4errors[4]))
         # Get the bound address/port
         self.__proxysockname = (socket.inet_ntoa(resp[4:]), struct.unpack(">H", resp[2:4])[0])
-        if rmtrslv != None:
+        if rmtrslv is not None:
             self.__proxypeername = (socket.inet_ntoa(ipaddr), destport)
         else:
             self.__proxypeername = (destaddr, destport)
@@ -358,7 +359,7 @@ class socksocket(socket.socket):
         # We read the response until we get the string "\r\n\r\n"
         resp = self.recv(1)
         while resp.find("\r\n\r\n".encode()) == -1:
-            resp = resp + self.recv(1)
+            resp += self.recv(1)
         # We just need the first line to check if the connection
         # was successful
         statusline = resp.splitlines()[0].split(" ".encode(), 2)
@@ -388,27 +389,27 @@ class socksocket(socket.socket):
                 type(destpair[1]) != int):
             raise GeneralProxyError((5, _generalerrors[5]))
         if self.__proxy[0] == PROXY_TYPE_SOCKS5:
-            if self.__proxy[2] != None:
+            if self.__proxy[2] is not None:
                 portnum = self.__proxy[2]
             else:
                 portnum = 1080
             _orgsocket.connect(self, (self.__proxy[1], portnum))
             self.__negotiatesocks5(destpair[0], destpair[1])
         elif self.__proxy[0] == PROXY_TYPE_SOCKS4:
-            if self.__proxy[2] != None:
+            if self.__proxy[2] is not None:
                 portnum = self.__proxy[2]
             else:
                 portnum = 1080
             _orgsocket.connect(self, (self.__proxy[1], portnum))
             self.__negotiatesocks4(destpair[0], destpair[1])
         elif self.__proxy[0] == PROXY_TYPE_HTTP:
-            if self.__proxy[2] != None:
+            if self.__proxy[2] is not None:
                 portnum = self.__proxy[2]
             else:
                 portnum = 8080
             _orgsocket.connect(self, (self.__proxy[1], portnum))
             self.__negotiatehttp(destpair[0], destpair[1])
-        elif self.__proxy[0] == None:
+        elif self.__proxy[0] is None:
             _orgsocket.connect(self, (destpair[0], destpair[1]))
         else:
             raise GeneralProxyError((4, _generalerrors[4]))
@@ -420,7 +421,7 @@ def create_connection(address, timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
     host, port = address
     sock = None
     try:
-        sock = socksocket(socket.AF_INET, socket.SOCK_STREAM)
+        sock = socksocket()
         if timeout is not socket._GLOBAL_DEFAULT_TIMEOUT:
             sock.settimeout(timeout)
         if source_address:

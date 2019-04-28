@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -43,7 +44,7 @@ class Wordlist(object):
             self.current = self.filenames[self.index]
             if os.path.splitext(self.current)[1].lower() == ".zip":
                 try:
-                    _ = zipfile.ZipFile(self.current, 'r')
+                    _ = zipfile.ZipFile(self.current)
                 except zipfile.error as ex:
                     errMsg = "something appears to be wrong with "
                     errMsg += "the file '%s' ('%s'). Please make " % (self.current, getSafeExString(ex))

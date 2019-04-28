@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -77,7 +78,8 @@ class Miscellaneous:
 
         return conf.tmpPath
 
-    def getVersionFromBanner(self):
+    @staticmethod
+    def getVersionFromBanner():
         if "dbmsVersion" in kb.bannerFp:
             return
 
@@ -198,7 +200,8 @@ class Miscellaneous:
             warnMsg += "manually"
             logger.warn(warnMsg)
 
-    def likeOrExact(self, what):
+    @staticmethod
+    def likeOrExact(what):
         message = "do you want sqlmap to consider provided %s(s):\n" % what
         message += "[1] as LIKE %s names (default)\n" % what
         message += "[2] as exact %s names" % what

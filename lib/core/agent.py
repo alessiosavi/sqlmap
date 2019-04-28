@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -315,7 +316,8 @@ class Agent(object):
 
         return re.sub(r";\W*;", ";", expression)
 
-    def cleanupPayload(self, payload, origValue=None):
+    @staticmethod
+    def cleanupPayload(payload, origValue=None):
         if payload is None:
             return
 
@@ -365,7 +367,8 @@ class Agent(object):
 
         return payload
 
-    def adjustLateValues(self, payload):
+    @staticmethod
+    def adjustLateValues(payload):
         """
         Returns payload with a replaced late tags (e.g. SLEEPTIME)
         """
@@ -382,14 +385,16 @@ class Agent(object):
 
         return payload
 
-    def getComment(self, request):
+    @staticmethod
+    def getComment(request):
         """
         Returns comment form for the given request
         """
 
         return request.comment if "comment" in request else ""
 
-    def hexConvertField(self, field):
+    @staticmethod
+    def hexConvertField(field):
         """
         Returns hex converted field string
         """
@@ -505,7 +510,8 @@ class Agent(object):
 
         return nulledCastedConcatFields
 
-    def getFields(self, query):
+    @staticmethod
+    def getFields(query):
         """
         Take in input a query string and return its fields (columns) and
         more details.
@@ -575,11 +581,13 @@ class Agent(object):
 
         return fieldsSelectFrom, fieldsSelect, fieldsNoSelect, fieldsSelectTop, fieldsSelectCase, fieldsToCastList, fieldsToCastStr, fieldsExists
 
-    def simpleConcatenate(self, first, second):
+    @staticmethod
+    def simpleConcatenate(first, second):
         rootQuery = queries[Backend.getIdentifiedDbms()]
         return rootQuery.concatenate.query % (first, second)
 
-    def preprocessField(self, table, field):
+    @staticmethod
+    def preprocessField(table, field):
         """
         Does a field preprocessing (if needed) based on its type (e.g. image to text)
         Note: used primarily in dumping of custom tables
@@ -623,6 +631,7 @@ class Agent(object):
 
         @return: query string nulled, casted and concatenated
         @rtype: C{str}
+        :param unpack:
         """
 
         if unpack:
@@ -765,6 +774,15 @@ class Agent(object):
 
         @return: UNION ALL SELECT query string forged
         @rtype: C{str}
+        :param count:
+        :param comment:
+        :param prefix:
+        :param suffix:
+        :param char:
+        :param where:
+        :param multipleUnions:
+        :param limited:
+        :param fromTable:
         """
 
         if conf.uFrom:
@@ -843,7 +861,8 @@ class Agent(object):
 
         return unionQuery
 
-    def limitCondition(self, expression, dump=False):
+    @staticmethod
+    def limitCondition(expression, dump=False):
         startLimit = 0
         stopLimit = None
         limitCond = True
@@ -936,6 +955,7 @@ class Agent(object):
 
         @return: limited query string
         @rtype: C{str}
+        :param uniqueField:
         """
 
         if " FROM " not in query:
@@ -1063,7 +1083,8 @@ class Agent(object):
 
         return unescaper.escape(lengthExpr)
 
-    def forgeCaseStatement(self, expression):
+    @staticmethod
+    def forgeCaseStatement(expression):
         """
         Take in input a query string and return its CASE statement query
         string.
@@ -1091,21 +1112,24 @@ class Agent(object):
 
         return caseExpression
 
-    def addPayloadDelimiters(self, value):
+    @staticmethod
+    def addPayloadDelimiters(value):
         """
         Adds payload delimiters around the input string
         """
 
         return "%s%s%s" % (PAYLOAD_DELIMITER, value, PAYLOAD_DELIMITER) if value else value
 
-    def removePayloadDelimiters(self, value):
+    @staticmethod
+    def removePayloadDelimiters(value):
         """
         Removes payload delimiters from inside the input string
         """
 
         return value.replace(PAYLOAD_DELIMITER, '') if value else value
 
-    def extractPayload(self, value):
+    @staticmethod
+    def extractPayload(value):
         """
         Extracts payload from inside of the input string
         """
@@ -1113,7 +1137,8 @@ class Agent(object):
         _ = re.escape(PAYLOAD_DELIMITER)
         return extractRegexResult(r"(?s)%s(?P<result>.*?)%s" % (_, _), value)
 
-    def replacePayload(self, value, payload):
+    @staticmethod
+    def replacePayload(value, payload):
         """
         Replaces payload inside the input string with a given payload
         """
@@ -1123,14 +1148,16 @@ class Agent(object):
                       ("%s%s%s" % (PAYLOAD_DELIMITER, getUnicode(payload), PAYLOAD_DELIMITER)).replace("\\", r"\\"),
                       value) if value else value
 
-    def runAsDBMSUser(self, query):
+    @staticmethod
+    def runAsDBMSUser(query):
         if conf.dbmsCred and "Ad Hoc Distributed Queries" not in query:
             query = getSQLSnippet(DBMS.MSSQL, "run_statement_as_user", USER=conf.dbmsUsername,
                                   PASSWORD=conf.dbmsPassword, STATEMENT=query.replace("'", "''"))
 
         return query
 
-    def whereQuery(self, query):
+    @staticmethod
+    def whereQuery(query):
         if conf.dumpWhere and query:
             prefix, suffix = query.split(" ORDER BY ") if " ORDER BY " in query else (query, "")
 

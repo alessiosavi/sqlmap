@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -259,7 +260,7 @@ DB2_SYSTEM_DBS = (
 "NULLID", "SQLJ", "SYSCAT", "SYSFUN", "SYSIBM", "SYSIBMADM", "SYSIBMINTERNAL", "SYSIBMTS", "SYSPROC", "SYSPUBLIC",
 "SYSSTAT", "SYSTOOLS")
 HSQLDB_SYSTEM_DBS = ("INFORMATION_SCHEMA", "SYSTEM_LOB")
-H2_SYSTEM_DBS = ("INFORMATION_SCHEMA")
+H2_SYSTEM_DBS = "INFORMATION_SCHEMA"
 INFORMIX_SYSTEM_DBS = ("sysmaster", "sysutils", "sysuser", "sysadmin")
 
 MSSQL_ALIASES = ("microsoft sql server", "mssqlserver", "mssql", "ms")
@@ -916,7 +917,7 @@ for key, value in os.environ.items():
 def _reversible(ex):
     if isinstance(ex, UnicodeDecodeError):
         if INVALID_UNICODE_PRIVATE_AREA:
-            return ("".join(unichr(int('000f00%2x' % ord(_), 16)) for _ in ex.object[ex.start:ex.end]), ex.end)
+            return "".join(unichr(int('000f00%2x' % ord(_), 16)) for _ in ex.object[ex.start:ex.end]), ex.end
         else:
             return (
             "".join(INVALID_UNICODE_CHAR_FORMAT % ord(_) for _ in ex.object[ex.start:ex.end]).decode(UNICODE_ENCODING),

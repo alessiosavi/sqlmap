@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -41,13 +42,15 @@ class UDF:
         self.udfs = {}
         self.udfToCreate = set()
 
-    def _askOverwriteUdf(self, udf):
+    @staticmethod
+    def _askOverwriteUdf(udf):
         message = "UDF '%s' already exists, do you " % udf
         message += "want to overwrite it? [y/N] "
 
         return readInput(message, default='N', boolean=True)
 
-    def _checkExistUdf(self, udf):
+    @staticmethod
+    def _checkExistUdf(udf):
         logger.info("checking if UDF '%s' already exist" % udf)
 
         query = agent.forgeCaseStatement(queries[Backend.getIdentifiedDbms()].check_udf.query % (udf, udf))
@@ -69,7 +72,8 @@ class UDF:
 
         self.createSupportTbl(self.cmdTblName, self.tblField, dataType)
 
-    def udfForgeCmd(self, cmd):
+    @staticmethod
+    def udfForgeCmd(cmd):
         if not cmd.startswith("'"):
             cmd = "'%s" % cmd
 
@@ -342,11 +346,11 @@ class UDF:
 
                 if choice == 'Q':
                     break
-                elif hasattr(choice, "isdigit") and choice.isdigit() and int(choice) > 0 and int(choice) <= len(
+                elif hasattr(choice, "isdigit") and choice.isdigit() and 0 < int(choice) <= len(
                         udfList):
                     choice = int(choice)
                     break
-                elif isinstance(choice, int) and choice > 0 and choice <= len(udfList):
+                elif isinstance(choice, int) and 0 < choice <= len(udfList):
                     break
                 else:
                     warnMsg = "invalid value, only digits >= 1 and "

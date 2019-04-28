@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 """
 vulnserver.py - Trivial SQLi vulnerable HTTP server (Note: for testing purposes)
@@ -58,7 +59,7 @@ def init(quiet=False):
     global _conn
     global _cursor
 
-    _conn = sqlite3.connect(":memory:", isolation_level=None, check_same_thread=False)
+    _conn = sqlite3.connect(":memory:", check_same_thread=False)
     _cursor = _conn.cursor()
 
     _cursor.executescript(SCHEMA)

@@ -1,3 +1,4 @@
+# coding=utf-8
 ######################## BEGIN LICENSE BLOCK ########################
 # The Original Code is Mozilla Universal charset detector code.
 #
@@ -173,11 +174,13 @@ class HebrewProber(CharSetProber):
         self._mLogicalProber = logicalProber
         self._mVisualProber = visualProber
 
-    def is_final(self, c):
+    @staticmethod
+    def is_final(c):
         return wrap_ord(c) in [FINAL_KAF, FINAL_MEM, FINAL_NUN, FINAL_PE,
                                FINAL_TSADI]
 
-    def is_non_final(self, c):
+    @staticmethod
+    def is_non_final(c):
         # The normal Tsadi is not a good Non-Final letter due to words like
         # 'lechotet' (to chat) containing an apostrophe after the tsadi. This
         # apostrophe is converted to a space in FilterWithoutEnglishLetters

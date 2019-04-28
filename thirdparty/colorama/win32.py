@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 
 # from winbase.h
@@ -131,7 +132,7 @@ else:
         adjusted_position = COORD(position.Y - 1, position.X - 1)
         if adjust:
             # Adjust for viewport's scroll position
-            sr = GetConsoleScreenBufferInfo(STDOUT).srWindow
+            sr = GetConsoleScreenBufferInfo().srWindow
             adjusted_position.Y += sr.Top
             adjusted_position.X += sr.Left
         # Resume normal processing

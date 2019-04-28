@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -19,11 +20,11 @@ class Syntax(GenericSyntax):
         >>> from lib.core.common import Backend
         >>> Backend.setVersion('2')
         ['2']
-        >>> Syntax.escape("SELECT 'abcdefgh' FROM foobar")
+        >>> Syntax.escape()
         "SELECT 'abcdefgh' FROM foobar"
         >>> Backend.setVersion('3')
         ['3']
-        >>> Syntax.escape("SELECT 'abcdefgh' FROM foobar")
+        >>> Syntax.escape()
         "SELECT CAST(X'6162636465666768' AS TEXT) FROM foobar"
         """
 

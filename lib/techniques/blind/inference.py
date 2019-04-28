@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -522,7 +523,7 @@ def bisection(payload, expression, length=None, charsetType=None, firstChar=None
 
                                 for i in xrange(startCharIndex, endCharIndex + 1):
                                     output += '_' if currentValue[i] is None else filterControlChars(
-                                        currentValue[i] if len(currentValue[i]) == 1 else ' ', replacement=' ')
+                                        currentValue[i] if len(currentValue[i]) == 1 else ' ')
 
                                 for i in xrange(length):
                                     count += 1 if currentValue[i] is not None else 0
@@ -669,7 +670,7 @@ def bisection(payload, expression, length=None, charsetType=None, firstChar=None
                     finalValue = partialValue[:-1]
                     break
 
-                if (lastChar > 0 and index >= lastChar):
+                if lastChar > 0 and index >= lastChar:
                     finalValue = "" if length == 0 else partialValue
                     finalValue = finalValue.rstrip() if len(finalValue) > 1 else finalValue
                     partialValue = None

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -66,7 +67,7 @@ class xrange(object):
         return hash(self._slice)
 
     def __cmp__(self, other):
-        return (cmp(type(self), type(other)) or cmp(self._slice, other._slice))
+        return cmp(type(self), type(other)) or cmp(self._slice, other._slice)
 
     def __repr__(self):
         return '%s(%r, %r, %r)' % (type(self).__name__, self.start, self.stop, self.step)
@@ -92,7 +93,7 @@ class xrange(object):
                 fixed_index = index
 
             if not 0 <= fixed_index < self._len():
-                raise IndexError("Index %d out of %r" % (index, self))
+                raise IndexError("Index %d out of %r" % (index, self._len()))
 
             return self._index(fixed_index)
         else:

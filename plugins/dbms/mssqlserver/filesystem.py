@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -30,7 +31,8 @@ from plugins.generic.filesystem import Filesystem as GenericFilesystem
 
 
 class Filesystem(GenericFilesystem):
-    def _dataToScr(self, fileContent, chunkName):
+    @staticmethod
+    def _dataToScr(fileContent, chunkName):
         fileLines = []
         fileSize = len(fileContent)
         lineAddr = 0x100
@@ -147,7 +149,7 @@ class Filesystem(GenericFilesystem):
 
         if not result:
             result = []
-            count = inject.getValue("SELECT COUNT(*) FROM %s" % (hexTbl), resumeValue=False, expected=EXPECTED.INT,
+            count = inject.getValue("SELECT COUNT(*) FROM %s" % hexTbl, resumeValue=False, expected=EXPECTED.INT,
                                     charsetType=CHARSET_TYPE.DIGITS)
 
             if not isNumPosStrValue(count):

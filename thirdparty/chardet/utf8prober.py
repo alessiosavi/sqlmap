@@ -1,3 +1,4 @@
+# coding=utf-8
 ######################## BEGIN LICENSE BLOCK ########################
 # The Original Code is mozilla.org code.
 #
@@ -74,7 +75,7 @@ class UTF8Prober(CharSetProber):
         unlike = 0.99
         if self._mNumOfMBChar < 6:
             for i in xrange(0, self._mNumOfMBChar):
-                unlike = unlike * ONE_CHAR_PROB
+                unlike *= ONE_CHAR_PROB
             return 1.0 - unlike
         else:
             return unlike

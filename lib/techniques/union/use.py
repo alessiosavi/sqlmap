@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -157,7 +158,7 @@ def _oneShotUnionUse(expression, unpack=True, limited=False):
             hashDBWrite("%s%s" % (conf.hexConvert or False, expression), retVal)
 
         elif not kb.rowXmlMode:
-            trimmed = _("%s(?P<result>.*?)<" % (kb.chars.start))
+            trimmed = _("%s(?P<result>.*?)<" % kb.chars.start)
 
             if trimmed:
                 warnMsg = "possible server trimmed output detected "
@@ -289,7 +290,7 @@ def unionUse(expression, unpack=True, dump=False):
 
                 stopLimit = 1
 
-            elif (not count or int(count) == 0):
+            elif not count or int(count) == 0:
                 if not count:
                     warnMsg = "the SQL query provided does not "
                     warnMsg += "return any output"

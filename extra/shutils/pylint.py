@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# coding=utf-8
 
 # Runs pylint on all python scripts found in a directory tree
 # Reference: http://rowinggolfer.blogspot.com/2009/08/pylint-recursively.html
@@ -21,7 +22,7 @@ def check(module):
     if module[-3:] == ".py":
 
         print("CHECKING ", module)
-        pout = os.popen("pylint --rcfile=/dev/null %s" % module, 'r')
+        pout = os.popen("pylint --rcfile=/dev/null %s" % module)
         for line in pout:
             if re.match(r"\AE:", line):
                 print(line.strip())

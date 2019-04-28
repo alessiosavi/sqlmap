@@ -1,3 +1,4 @@
+# coding=utf-8
 """A parser for SGML, using the derived class as a static DTD."""
 
 # Note: missing in Python3
@@ -134,7 +135,7 @@ class SGMLParser(_markupbase.ParserBase):
                 if starttagopen.match(rawdata, i):
                     if self.literal:
                         self.handle_data(rawdata[i])
-                        i = i + 1
+                        i += 1
                         continue
                     k = self.parse_starttag(i)
                     if k < 0:
@@ -151,7 +152,7 @@ class SGMLParser(_markupbase.ParserBase):
                 if self.literal:
                     if n > (i + 1):
                         self.handle_data("<")
-                        i = i + 1
+                        i += 1
                     else:
                         # incomplete
                         break
@@ -184,7 +185,7 @@ class SGMLParser(_markupbase.ParserBase):
             elif rawdata[i] == '&':
                 if self.literal:
                     self.handle_data(rawdata[i])
-                    i = i + 1
+                    i += 1
                     continue
                 match = charref.match(rawdata, i)
                 if match:
@@ -192,7 +193,7 @@ class SGMLParser(_markupbase.ParserBase):
                     self.handle_charref(name)
                     i = match.end(0)
                     if rawdata[i - 1] != ';':
-                        i = i - 1
+                        i -= 1
                     continue
                 match = entityref.match(rawdata, i)
                 if match:
@@ -200,7 +201,7 @@ class SGMLParser(_markupbase.ParserBase):
                     self.handle_entityref(name)
                     i = match.end(0)
                     if rawdata[i - 1] != ';':
-                        i = i - 1
+                        i -= 1
                     continue
             else:
                 self.error('neither < nor & ??')
@@ -209,7 +210,7 @@ class SGMLParser(_markupbase.ParserBase):
             match = incomplete.match(rawdata, i)
             if not match:
                 self.handle_data(rawdata[i])
-                i = i + 1
+                i += 1
                 continue
             j = match.end(0)
             if j == n:
@@ -300,7 +301,7 @@ class SGMLParser(_markupbase.ParserBase):
             attrs.append((attrname.lower(), attrvalue))
             k = match.end(0)
         if rawdata[j] == '>':
-            j = j + 1
+            j += 1
         self.__starttag_text = rawdata[start_pos:j]
         self.finish_starttag(tag, attrs)
         return j
@@ -325,7 +326,7 @@ class SGMLParser(_markupbase.ParserBase):
         j = match.start(0)
         tag = rawdata[i + 2:j].strip().lower()
         if rawdata[j] == '>':
-            j = j + 1
+            j += 1
         self.finish_endtag(tag)
         return j
 
@@ -387,11 +388,13 @@ class SGMLParser(_markupbase.ParserBase):
             del self.stack[-1]
 
     # Overridable -- handle start tag
-    def handle_starttag(self, tag, method, attrs):
+    @staticmethod
+    def handle_starttag(tag, method, attrs):
         method(attrs)
 
     # Overridable -- handle end tag
-    def handle_endtag(self, tag, method):
+    @staticmethod
+    def handle_endtag(tag, method):
         method()
 
     # Example -- report an unbalanced </...> tag.
@@ -410,7 +413,8 @@ class SGMLParser(_markupbase.ParserBase):
             return
         return self.convert_codepoint(n)
 
-    def convert_codepoint(self, codepoint):
+    @staticmethod
+    def convert_codepoint(codepoint):
         return chr(codepoint)
 
     def handle_charref(self, name):

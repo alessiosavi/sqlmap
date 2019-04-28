@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -24,7 +25,8 @@ class Fingerprint(GenericFingerprint):
     def __init__(self):
         GenericFingerprint.__init__(self, DBMS.MAXDB)
 
-    def _versionCheck(self):
+    @staticmethod
+    def _versionCheck():
         infoMsg = "executing %s SYSINFO version check" % DBMS.MAXDB
         logger.info(infoMsg)
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -12,7 +13,10 @@ from lib.core.enums import CUSTOM_LOGGING
 from lib.core.enums import TIMEOUT_STATE
 
 
-def timeout(func, args=(), kwargs={}, duration=1, default=None):
+def timeout(func, args=(), kwargs=None, duration=1, default=None):
+    if kwargs is None:
+        kwargs = {}
+
     class InterruptableThread(threading.Thread):
         def __init__(self):
             threading.Thread.__init__(self)

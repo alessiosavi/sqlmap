@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 safe2bin.py - Simple safe(hex) to binary format converter

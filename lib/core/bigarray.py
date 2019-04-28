@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -56,7 +57,9 @@ class BigArray(list):
     List-like class used for storing large amounts of data (disk cached)
     """
 
-    def __init__(self, items=[]):
+    def __init__(self, items=None):
+        if items is None:
+            items = []
         self.chunks = [[]]
         self.chunk_length = sys.maxint
         self.cache = None
@@ -122,7 +125,7 @@ class BigArray(list):
             raise SqlmapSystemException(errMsg)
 
     def _checkcache(self, index):
-        if (self.cache and self.cache.index != index and self.cache.dirty):
+        if self.cache and self.cache.index != index and self.cache.dirty:
             filename = self._dump(self.cache.data)
             self.chunks[self.cache.index] = filename
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -24,7 +25,8 @@ class HTTPCollectorFactory:
     def __init__(self, harFile=False):
         self.harFile = harFile
 
-    def create(self):
+    @staticmethod
+    def create():
         return HTTPCollector()
 
 
@@ -187,7 +189,7 @@ class Response:
             "size": len(self.content or "")
         }
 
-        binary = set(['\0', '\1'])
+        binary = {'\0', '\1'}
         if any(c in binary for c in self.content):
             content["encoding"] = "base64"
             content["text"] = base64.b64encode(self.content)

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -141,7 +142,7 @@ class Filesystem(GenericFilesystem):
         query = agent.prefixQuery(
             query)  # Note: No need for suffix as 'write_file_limit' already ends with comment (required)
         payload = agent.payload(newValue=query)
-        Request.queryPage(payload, content=False, raise404=False, silent=True, noteResponseTime=False)
+        Request.queryPage(payload, raise404=False, silent=True, noteResponseTime=False)
 
         warnMsg = "expect junk characters inside the "
         warnMsg += "file as a leftover from original query"

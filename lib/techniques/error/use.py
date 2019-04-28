@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -98,7 +99,7 @@ def _oneShotErrorUse(expression, field=None, chunkTest=False):
                     candidate = len(result) - len(kb.chars.stop)
                     current = candidate if candidate != current else current - 1
             else:
-                current = current // 2
+                current //= 2
 
         if kb.errorChunkLength:
             hashDBWrite(HASHDB_KEYS.KB_ERROR_CHUNK_LENGTH, kb.errorChunkLength)
@@ -375,7 +376,7 @@ def errorUse(expression, dump=False):
 
                 stopLimit = 1
 
-            elif (not count or int(count) == 0):
+            elif not count or int(count) == 0:
                 if not count:
                     warnMsg = "the SQL query provided does not "
                     warnMsg += "return any output"

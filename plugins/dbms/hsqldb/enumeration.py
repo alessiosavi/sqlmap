@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -26,7 +27,7 @@ class Enumeration(GenericEnumeration):
             logger.info(infoMsg)
 
             query = queries[DBMS.HSQLDB].banner.query
-            kb.data.banner = unArrayizeValue(inject.getValue(query, safeCharEncode=True))
+            kb.data.banner = unArrayizeValue(inject.getValue(query))
 
         return kb.data.banner
 

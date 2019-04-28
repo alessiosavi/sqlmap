@@ -1,3 +1,4 @@
+# coding=utf-8
 #
 # Copyright (C) 2010-2012 Vinay Sajip. All rights reserved. Licensed under the new BSD license.
 # (Note: 2018 modifications by @stamparm)

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -67,7 +68,8 @@ class Fingerprint(GenericFingerprint):
 
         return value
 
-    def _sysTablesCheck(self):
+    @staticmethod
+    def _sysTablesCheck():
         retVal = None
         table = (
             ("1.0", ("EXISTS(SELECT CURRENT_USER FROM RDB$DATABASE)",)),
@@ -94,7 +96,8 @@ class Fingerprint(GenericFingerprint):
 
         return retVal
 
-    def _dialectCheck(self):
+    @staticmethod
+    def _dialectCheck():
         retVal = None
 
         if Backend.getIdentifiedDbms():

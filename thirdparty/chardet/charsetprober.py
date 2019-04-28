@@ -1,3 +1,4 @@
+# coding=utf-8
 ######################## BEGIN LICENSE BLOCK ########################
 # The Original Code is Mozilla Universal charset detector code.
 #
@@ -49,14 +50,17 @@ class CharSetProber:
     def get_confidence(self):
         return 0.0
 
-    def filter_high_bit_only(self, aBuf):
+    @staticmethod
+    def filter_high_bit_only(aBuf):
         aBuf = re.sub(b'([\x00-\x7F])+', b' ', aBuf)
         return aBuf
 
-    def filter_without_english_letters(self, aBuf):
+    @staticmethod
+    def filter_without_english_letters(aBuf):
         aBuf = re.sub(b'([A-Za-z])+', b' ', aBuf)
         return aBuf
 
-    def filter_with_english_letters(self, aBuf):
+    @staticmethod
+    def filter_with_english_letters(aBuf):
         # TODO
         return aBuf

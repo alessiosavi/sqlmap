@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -45,7 +46,7 @@ class Enumeration(GenericEnumeration):
 
         rootQuery = queries[DBMS.MAXDB].dbs
         query = rootQuery.inband.query
-        retVal = pivotDumpTable("(%s) AS %s" % (query, kb.aliasName), ['%s.schemaname' % kb.aliasName], blind=True)
+        retVal = pivotDumpTable("(%s) AS %s" % (query, kb.aliasName), ['%s.schemaname' % kb.aliasName])
 
         if retVal:
             kb.data.cachedDbs = retVal[0].values()[0]
@@ -81,7 +82,7 @@ class Enumeration(GenericEnumeration):
 
         for db in dbs:
             query = rootQuery.inband.query % (("'%s'" % db) if db != "USER" else 'USER')
-            retVal = pivotDumpTable("(%s) AS %s" % (query, kb.aliasName), ['%s.tablename' % kb.aliasName], blind=True)
+            retVal = pivotDumpTable("(%s) AS %s" % (query, kb.aliasName), ['%s.tablename' % kb.aliasName])
 
             if retVal:
                 for table in retVal[0].values()[0]:
@@ -195,8 +196,7 @@ class Enumeration(GenericEnumeration):
                 return {conf.db: kb.data.cachedColumns[conf.db]}
 
             if dumpMode and colList:
-                table = {}
-                table[safeSQLIdentificatorNaming(tbl, True)] = dict((_, None) for _ in colList)
+                table = {safeSQLIdentificatorNaming(tbl, True): dict((_, None) for _ in colList)}
                 kb.data.cachedColumns[safeSQLIdentificatorNaming(conf.db)] = table
                 continue
 
@@ -210,7 +210,7 @@ class Enumeration(GenericEnumeration):
                 conf.db) != "USER" else 'USER')
             retVal = pivotDumpTable("(%s) AS %s" % (query, kb.aliasName),
                                     ['%s.columnname' % kb.aliasName, '%s.datatype' % kb.aliasName,
-                                     '%s.len' % kb.aliasName], blind=True)
+                                     '%s.len' % kb.aliasName])
 
             if retVal:
                 table = {}

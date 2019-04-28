@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -40,7 +41,7 @@ class HashDB(object):
 
         if threadData.hashDBCursor is None:
             try:
-                connection = sqlite3.connect(self.filepath, timeout=3, isolation_level=None)
+                connection = sqlite3.connect(self.filepath, timeout=3)
                 threadData.hashDBCursor = connection.cursor()
                 threadData.hashDBCursor.execute(
                     "CREATE TABLE IF NOT EXISTS storage (id INTEGER PRIMARY KEY, value TEXT)")
@@ -58,7 +59,8 @@ class HashDB(object):
 
     cursor = property(_get_cursor, _set_cursor)
 
-    def close(self):
+    @staticmethod
+    def close():
         threadData = getCurrentThreadData()
         try:
             if threadData.hashDBCursor:

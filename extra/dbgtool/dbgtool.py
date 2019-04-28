@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 """
 dbgtool.py - Portable executable to ASCII debug script converter

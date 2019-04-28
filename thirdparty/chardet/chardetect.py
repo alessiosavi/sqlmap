@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 """
 Script which takes one or more file paths and reports on their detected
 encodings

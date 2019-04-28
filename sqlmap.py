@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -151,7 +152,7 @@ def main():
 
             # Overwrite system standard output and standard error to write
             # to an IPC database
-            sys.stdout = StdDbOut(conf.taskid, messagetype="stdout")
+            sys.stdout = StdDbOut(conf.taskid)
             sys.stderr = StdDbOut(conf.taskid, messagetype="stderr")
             setRestAPILog()
 

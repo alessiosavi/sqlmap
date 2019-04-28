@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -61,13 +62,13 @@ class Enumeration(Custom, Databases, Entries, Search, Users):
             bannerParser(kb.data.banner)
 
             if conf.os and conf.os == "windows":
-                kb.bannerFp["type"] = set(["Windows"])
+                kb.bannerFp["type"] = {"Windows"}
 
             elif conf.os and conf.os == "linux":
-                kb.bannerFp["type"] = set(["Linux"])
+                kb.bannerFp["type"] = {"Linux"}
 
             elif conf.os:
-                kb.bannerFp["type"] = set(["%s%s" % (conf.os[0].upper(), conf.os[1:])])
+                kb.bannerFp["type"] = {"%s%s" % (conf.os[0].upper(), conf.os[1:])}
 
             if conf.os:
                 setOs()

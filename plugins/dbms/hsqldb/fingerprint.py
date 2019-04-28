@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -127,8 +128,7 @@ class Fingerprint(GenericFingerprint):
                         Backend.setVersionList([">= 2.0.0", "< 2.3.0"])
                     else:
                         banner = unArrayizeValue(
-                            inject.getValue("\"org.hsqldbdb.Library.getDatabaseFullProductVersion\"()",
-                                            safeCharEncode=True))
+                            inject.getValue("\"org.hsqldbdb.Library.getDatabaseFullProductVersion\"()"))
                         if banner:
                             Backend.setVersion("= %s" % banner)
                         else:
@@ -144,6 +144,7 @@ class Fingerprint(GenericFingerprint):
 
             return False
 
-    def getHostname(self):
+    @staticmethod
+    def getHostname():
         warnMsg = "on HSQLDB it is not possible to enumerate the hostname"
         logger.warn(warnMsg)

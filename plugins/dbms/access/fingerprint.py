@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -27,7 +28,8 @@ class Fingerprint(GenericFingerprint):
     def __init__(self):
         GenericFingerprint.__init__(self, DBMS.ACCESS)
 
-    def _sandBoxCheck(self):
+    @staticmethod
+    def _sandBoxCheck():
         # Reference: http://milw0rm.com/papers/198
         retVal = None
         table = None
@@ -43,7 +45,8 @@ class Fingerprint(GenericFingerprint):
 
         return retVal
 
-    def _sysTablesCheck(self):
+    @staticmethod
+    def _sysTablesCheck():
         infoMsg = "executing system table(s) existence fingerprint"
         logger.info(infoMsg)
 
@@ -85,7 +88,8 @@ class Fingerprint(GenericFingerprint):
 
         return None
 
-    def _getDatabaseDir(self):
+    @staticmethod
+    def _getDatabaseDir():
         retVal = None
 
         infoMsg = "searching for database directory"

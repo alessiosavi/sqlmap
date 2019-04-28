@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -62,7 +63,7 @@ class _ThreadData(threading.local):
         self.random = WichmannHill()
         self.resumed = False
         self.retriesCount = 0
-        self.seqMatcher = difflib.SequenceMatcher(None)
+        self.seqMatcher = difflib.SequenceMatcher()
         self.shared = shared
         self.validationRun = 0
         self.valueStack = []
@@ -190,7 +191,7 @@ def runThreads(numThreads, threadFunction, cleanupFunction=None, forwardExceptio
             logger.info("waiting for threads to finish%s" % (
                 " (Ctrl+C was pressed)" if isinstance(ex, KeyboardInterrupt) else ""))
         try:
-            while (threading.activeCount() > 1):
+            while threading.activeCount() > 1:
                 pass
 
         except KeyboardInterrupt:

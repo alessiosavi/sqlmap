@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -23,7 +24,8 @@ class Fingerprint(GenericFingerprint):
     def __init__(self):
         GenericFingerprint.__init__(self, DBMS.DB2)
 
-    def _versionCheck(self):
+    @staticmethod
+    def _versionCheck():
         minor, major = None, None
 
         for version in reversed(xrange(5, 15)):

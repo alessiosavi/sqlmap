@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 from . import win32
 
@@ -24,7 +25,7 @@ class WinStyle(object):
 class WinTerm(object):
 
     def __init__(self):
-        self._default = win32.GetConsoleScreenBufferInfo(win32.STDOUT).wAttributes
+        self._default = win32.GetConsoleScreenBufferInfo().wAttributes
         self.set_attrs(self._default)
         self._default_fore = self._fore
         self._default_back = self._back
@@ -83,7 +84,8 @@ class WinTerm(object):
             handle = win32.STDERR
         win32.SetConsoleTextAttribute(handle, attrs)
 
-    def get_position(self, handle):
+    @staticmethod
+    def get_position(handle):
         position = win32.GetConsoleScreenBufferInfo(handle).dwCursorPosition
         # Because Windows coordinates are 0-based,
         # and win32.SetConsoleCursorPosition expects 1-based.
@@ -91,7 +93,8 @@ class WinTerm(object):
         position.Y += 1
         return position
 
-    def set_cursor_position(self, position=None, on_stderr=False):
+    @staticmethod
+    def set_cursor_position(position=None, on_stderr=False):
         if position is None:
             # I'm not currently tracking the position, so there is no default.
             # position = self.get_position()
@@ -164,5 +167,6 @@ class WinTerm(object):
         # now set the buffer's attributes accordingly
         win32.FillConsoleOutputAttribute(handle, self.get_attrs(), cells_to_erase, from_coord)
 
-    def set_title(self, title):
+    @staticmethod
+    def set_title(title):
         win32.SetConsoleTitle(title)

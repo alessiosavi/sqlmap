@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -83,7 +84,7 @@ class Enumeration(GenericEnumeration):
 
             kb.data.cachedUsersPrivileges[user] = None
 
-        return (kb.data.cachedUsersPrivileges, areAdmins)
+        return kb.data.cachedUsersPrivileges, areAdmins
 
     def getDbs(self):
         if len(kb.data.cachedDbs) > 0:
@@ -272,8 +273,7 @@ class Enumeration(GenericEnumeration):
                 return {conf.db: kb.data.cachedColumns[conf.db]}
 
             if dumpMode and colList:
-                table = {}
-                table[safeSQLIdentificatorNaming(tbl, True)] = dict((_, None) for _ in colList)
+                table = {safeSQLIdentificatorNaming(tbl, True): dict((_, None) for _ in colList)}
                 kb.data.cachedColumns[safeSQLIdentificatorNaming(conf.db)] = table
                 continue
 

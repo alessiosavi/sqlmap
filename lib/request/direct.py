@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -54,10 +55,10 @@ def direct(query, content=True):
     start = time.time()
 
     if not select and "EXEC " not in query.upper():
-        timeout(func=conf.dbmsConnector.execute, args=(query,), duration=conf.timeout, default=None)
+        timeout(func=conf.dbmsConnector.execute, args=(query,), duration=conf.timeout)
     elif not (output and ("%soutput" % TAKEOVER_TABLE_PREFIX) not in query and (
             "%sfile" % TAKEOVER_TABLE_PREFIX) not in query):
-        output, state = timeout(func=conf.dbmsConnector.select, args=(query,), duration=conf.timeout, default=None)
+        output, state = timeout(func=conf.dbmsConnector.select, args=(query,), duration=conf.timeout)
         if state == TIMEOUT_STATE.NORMAL:
             hashDBWrite(query, output, True)
         elif state == TIMEOUT_STATE.TIMEOUT:

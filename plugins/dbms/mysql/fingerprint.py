@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -29,7 +30,8 @@ class Fingerprint(GenericFingerprint):
     def __init__(self):
         GenericFingerprint.__init__(self, DBMS.MYSQL)
 
-    def _commentCheck(self):
+    @staticmethod
+    def _commentCheck():
         infoMsg = "executing %s comment injection fingerprint" % DBMS.MYSQL
         logger.info(infoMsg)
 

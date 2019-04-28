@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 #
 # Copyright 2008-2009 Jose Fonseca
 #

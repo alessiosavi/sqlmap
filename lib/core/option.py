@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -1794,7 +1795,7 @@ def _cleanupOptions():
 
     if "timeSec" not in kb.explicitSettings:
         if conf.tor:
-            conf.timeSec = 2 * conf.timeSec
+            conf.timeSec *= 2
             kb.adjustTimeDelay = ADJUST_TIME_DELAY.DISABLE
 
             warnMsg = "increasing default value for "
@@ -1960,7 +1961,7 @@ def _setKnowledgeBaseAttributes(flushAll=True):
     kb.chars.stop = "%s%s%s" % (
     KB_CHARS_BOUNDARY_CHAR, randomStr(length=3, alphabet=KB_CHARS_LOW_FREQUENCY_ALPHABET), KB_CHARS_BOUNDARY_CHAR)
     kb.chars.at, kb.chars.space, kb.chars.dollar, kb.chars.hash_ = (
-    "%s%s%s" % (KB_CHARS_BOUNDARY_CHAR, _, KB_CHARS_BOUNDARY_CHAR) for _ in randomStr(length=4, lowercase=True))
+    "%s%s%s" % (KB_CHARS_BOUNDARY_CHAR, _, KB_CHARS_BOUNDARY_CHAR) for _ in randomStr(lowercase=True))
 
     kb.columnExistsChoice = None
     kb.commonOutputs = None
@@ -2126,11 +2127,11 @@ def _useWizardInterface():
 
     while not conf.url:
         message = "Please enter full target URL (-u): "
-        conf.url = readInput(message, default=None)
+        conf.url = readInput(message)
 
     message = "%s data (--data) [Enter for None]: " % (
                 (conf.method if conf.method != HTTPMETHOD.GET else conf.method) or HTTPMETHOD.POST)
-    conf.data = readInput(message, default=None)
+    conf.data = readInput(message)
 
     if not (filter(lambda _: '=' in unicode(_), (conf.url, conf.data)) or '*' in conf.url):
         warnMsg = "no GET and/or %s parameter(s) found for testing " % (
@@ -2461,11 +2462,11 @@ def _basicOptionValidation():
         errMsg = "value for option '--stop' (limitStop) must be an integer value greater than zero (>0)"
         raise SqlmapSyntaxException(errMsg)
 
-    if conf.level is not None and not (isinstance(conf.level, int) and conf.level >= 1 and conf.level <= 5):
+    if conf.level is not None and not (isinstance(conf.level, int) and 1 <= conf.level <= 5):
         errMsg = "value for option '--level' must be an integer value from range [1, 5]"
         raise SqlmapSyntaxException(errMsg)
 
-    if conf.risk is not None and not (isinstance(conf.risk, int) and conf.risk >= 1 and conf.risk <= 3):
+    if conf.risk is not None and not (isinstance(conf.risk, int) and 1 <= conf.risk <= 3):
         errMsg = "value for option '--risk' must be an integer value from range [1, 3]"
         raise SqlmapSyntaxException(errMsg)
 
@@ -2637,7 +2638,7 @@ def _basicOptionValidation():
         errMsg = "switch '--check-tor' requires usage of switch '--tor' (or option '--proxy' with HTTP proxy address of Tor service)"
         raise SqlmapSyntaxException(errMsg)
 
-    if conf.torPort is not None and not (isinstance(conf.torPort, int) and conf.torPort >= 0 and conf.torPort <= 65535):
+    if conf.torPort is not None and not (isinstance(conf.torPort, int) and 0 <= conf.torPort <= 65535):
         errMsg = "value for option '--tor-port' must be in range [0, 65535]"
         raise SqlmapSyntaxException(errMsg)
 
@@ -2720,7 +2721,9 @@ def _resolveCrossReferences():
     lib.controller.checks.setWafFunctions = _setWafFunctions
 
 
-def initOptions(inputOptions=AttribDict(), overrideOptions=False):
+def initOptions(inputOptions=None, overrideOptions=False):
+    if inputOptions is None:
+        inputOptions = AttribDict()
     _setConfAttributes()
     _setKnowledgeBaseAttributes()
     _mergeOptions(inputOptions, overrideOptions)

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -150,7 +151,8 @@ class Metasploit:
             "reverse": "local port number",
         }
 
-    def _skeletonSelection(self, msg, lst=None, maxValue=1, default=1):
+    @staticmethod
+    def _skeletonSelection(msg, lst=None, maxValue=1, default=1):
         if Backend.isOs(OS.WINDOWS):
             opSys = "windows"
         else:
@@ -443,7 +445,7 @@ class Metasploit:
         logger.info(infoMsg)
 
         logger.debug("executing local command: %s" % self._cliCmd)
-        self._msfCliProc = execute(self._cliCmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=False)
+        self._msfCliProc = execute(self._cliCmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
     def _runMsfCli(self, exitfunc):
         self._forgeMsfCliCmd(exitfunc)
@@ -453,7 +455,7 @@ class Metasploit:
         logger.info(infoMsg)
 
         logger.debug("executing local command: %s" % self._cliCmd)
-        self._msfCliProc = execute(self._cliCmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=False)
+        self._msfCliProc = execute(self._cliCmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
     def _runMsfShellcodeRemote(self):
         infoMsg = "running Metasploit Framework shellcode "
@@ -475,7 +477,8 @@ class Metasploit:
 
         self.execCmd(cmd, silent=True)
 
-    def _loadMetExtensions(self, proc, metSess):
+    @staticmethod
+    def _loadMetExtensions(proc, metSess):
         if not Backend.isOs(OS.WINDOWS):
             return
 
@@ -560,7 +563,7 @@ class Metasploit:
                             # Probably the child has exited
                             pass
 
-                out = recv_some(proc, t=.1, e=0)
+                out = recv_some(proc, e=0)
                 blockingWriteToFD(sys.stdout.fileno(), out)
 
                 # For --os-pwn and --os-bof
@@ -616,7 +619,7 @@ class Metasploit:
         self._forgeMsfPayloadCmd(exitfunc, format, self._shellcodeFilePath, extra)
 
         logger.debug("executing local command: %s" % self._payloadCmd)
-        process = execute(self._payloadCmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=False)
+        process = execute(self._payloadCmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
         dataToStdout("\r[%s] [INFO] creation in progress " % time.strftime("%X"))
         pollProcess(process)
@@ -628,7 +631,7 @@ class Metasploit:
             payloadSize = int(match.group(2))
 
             if extra == "BufferRegister=EAX":
-                payloadSize = payloadSize // 2
+                payloadSize //= 2
 
             debugMsg = "the shellcode size is %d bytes" % payloadSize
             logger.debug(debugMsg)

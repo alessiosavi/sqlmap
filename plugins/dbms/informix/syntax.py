@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -19,7 +20,7 @@ class Syntax(GenericSyntax):
         >>> from lib.core.common import Backend
         >>> Backend.setVersion('12.10')
         ['12.10']
-        >>> Syntax.escape("SELECT 'abcdefgh' FROM foobar")
+        >>> Syntax.escape()
         'SELECT CHR(97)||CHR(98)||CHR(99)||CHR(100)||CHR(101)||CHR(102)||CHR(103)||CHR(104) FROM foobar'
         """
 

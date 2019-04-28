@@ -95,7 +95,7 @@ try:
                 args.append(name)
                 if param.default is not param.empty:
                     defaults.append(param.default)
-        return (args, varargs, keywords, tuple(defaults) or None)
+        return args, varargs, keywords, tuple(defaults) or None
 except ImportError:
     from inspect import getargspec
 
@@ -936,7 +936,8 @@ class Bottle(object):
 
         return wrapper
 
-    def default_error_handler(self, res):
+    @staticmethod
+    def default_error_handler(res):
         return tob(template(ERROR_PAGE_TEMPLATE, e=res))
 
     def _handle(self, environ):
@@ -1288,7 +1289,7 @@ class BaseRequest(object):
             body.write(part)
             body_size += len(part)
             if not is_temp_file and body_size > self.MEMFILE_MAX:
-                body, tmp = TemporaryFile(mode='w+b'), body
+                body, tmp = TemporaryFile(), body
                 body.write(tmp.getvalue())
                 del tmp
                 is_temp_file = True
@@ -1456,7 +1457,7 @@ class BaseRequest(object):
         basic = parse_auth(self.environ.get('HTTP_AUTHORIZATION', ''))
         if basic: return basic
         ruser = self.environ.get('REMOTE_USER')
-        if ruser: return (ruser, None)
+        if ruser: return ruser, None
         return None
 
     @property
@@ -1588,10 +1589,9 @@ class BaseResponse(object):
     # Header blacklist for specific response codes
     # (rfc2616 section 10.2.3 and 10.3.5)
     bad_headers = {
-        204: set(('Content-Type',)),
-        304: set(('Allow', 'Content-Encoding', 'Content-Language',
-                  'Content-Length', 'Content-Range', 'Content-Type',
-                  'Content-Md5', 'Last-Modified'))
+        204: {'Content-Type'},
+        304: {'Allow', 'Content-Encoding', 'Content-Language', 'Content-Length', 'Content-Range', 'Content-Type',
+              'Content-Md5', 'Last-Modified'}
     }
 
     def __init__(self, body='', status=None, headers=None, **more_headers):
@@ -1748,15 +1748,6 @@ class BaseResponse(object):
 
             Additionally, this method accepts all RFC 2109 attributes that are
             supported by :class:`cookie.Morsel`, including:
-
-            :param max_age: maximum age in seconds. (default: None)
-            :param expires: a datetime object or UNIX timestamp. (default: None)
-            :param domain: the domain that is allowed to read the cookie.
-              (default: current domain)
-            :param path: limits the cookie to a given path (default: current path)
-            :param secure: limit the cookie to HTTPS connections (default: off).
-            :param httponly: prevents client-side javascript to read this cookie
-              (default: off, requires Python 2.6 or newer).
 
             If neither `expires` nor `max_age` is set (default), the cookie will
             expire at the end of the browser session (as soon as the browser
@@ -1935,7 +1926,8 @@ class TemplatePlugin(object):
     def setup(self, app):
         app.tpl = self
 
-    def apply(self, callback, route):
+    @staticmethod
+    def apply(callback, route):
         conf = route.config.get('template')
         if isinstance(conf, (tuple, list)) and len(conf) == 2:
             return view(conf[0], **conf[1])(callback)
@@ -2054,6 +2046,7 @@ class MultiDict(DictMixin):
     def get(self, key, default=None, index=-1, type=None):
         """ Return the most recent value for a key.
 
+            :param key:
             :param default: The default value to be returned if the key is not
                    present or the type conversion fails.
             :param index: An index for the list of available values.
@@ -2246,6 +2239,7 @@ class ConfigDict(dict):
 
     def load_module(self, path, squash):
         """ Load values from a Python module.
+            :param path:
             :param squash: Squash nested dicts into namespaces by using
                            load_dict(), otherwise use update()
             Example: load_config('my.app.settings', True)
@@ -2409,6 +2403,7 @@ class ResourceManager(object):
         """ Add a new path to the list of search paths. Return False if the
             path does not exist.
 
+            :param create:
             :param path: The new search path. Relative paths are turned into
                 an absolute and normalized form. If the path looks like a file
                 (not ending in `/`), the filename is stripped off.
@@ -2785,6 +2780,7 @@ def yieldroutes(func):
 def path_shift(script_name, path_info, shift=1):
     """ Shift path fragments from PATH_INFO to SCRIPT_NAME and vice versa.
 
+        :param path_info:
         :return: The modified paths.
         :param script_name: The SCRIPT_NAME path.
         :param script_name: The PATH_INFO path.
@@ -3275,6 +3271,9 @@ def run(app=None,
         config=None, **kargs):
     """ Start a server instance. This method blocks until the server terminates.
 
+        :param plugins:
+        :param debug:
+        :param config:
         :param app: WSGI application or target string supported by
                :func:`load_app`. (default: :func:`default_app`)
         :param server: Server adapter to use. See :data:`server_names` keys
@@ -3287,7 +3286,6 @@ def run(app=None,
         :param reloader: Start auto-reloading server? (default: False)
         :param interval: Auto-reloader interval in seconds (default: 1)
         :param quiet: Suppress output to stdout and stderr? (default: False)
-        :param options: Options passed to the server adapter.
      """
     if NORUN: return
     if reloader and not os.environ.get('BOTTLE_CHILD'):
@@ -3549,7 +3547,9 @@ class CheetahTemplate(BaseTemplate):
 
 
 class Jinja2Template(BaseTemplate):
-    def prepare(self, filters=None, tests=None, globals={}, **kwargs):
+    def prepare(self, filters=None, tests=None, globals=None, **kwargs):
+        if globals is None:
+            globals = {}
         from jinja2 import Environment, FunctionLoader
         self.env = Environment(loader=FunctionLoader(self.loader), **kwargs)
         if filters: self.env.filters.update(filters)
@@ -3607,7 +3607,8 @@ class SimpleTemplate(BaseTemplate):
         self.encoding = parser.encoding
         return code
 
-    def _rebase(self, _env, _name=None, **kwargs):
+    @staticmethod
+    def _rebase(_env, _name=None, **kwargs):
         _env['_rebase'] = (_name, kwargs)
 
     def _include(self, _env, _name=None, **kwargs):

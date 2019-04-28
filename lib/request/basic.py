@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -145,6 +146,8 @@ def parseResponse(page, headers, status=None):
     (back-end DBMS fingerprint based upon DBMS error messages return
     through the web application) list and absFilePaths (absolute file
     paths) set.
+    :param headers:
+    :param status:
     """
 
     if headers:

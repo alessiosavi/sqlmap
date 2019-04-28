@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -64,7 +65,8 @@ class XP_cmdshell:
 
         inject.goStacked(agent.runAsDBMSUser(cmd))
 
-    def _xpCmdshellConfigure2005(self, mode):
+    @staticmethod
+    def _xpCmdshellConfigure2005(mode):
         debugMsg = "configuring xp_cmdshell using sp_configure "
         debugMsg += "stored procedure"
         logger.debug(debugMsg)
@@ -73,7 +75,8 @@ class XP_cmdshell:
 
         return cmd
 
-    def _xpCmdshellConfigure2000(self, mode):
+    @staticmethod
+    def _xpCmdshellConfigure2000(mode):
         debugMsg = "configuring xp_cmdshell using sp_addextendedproc "
         debugMsg += "stored procedure"
         logger.debug(debugMsg)

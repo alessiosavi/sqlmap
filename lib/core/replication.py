@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -85,7 +86,9 @@ class Replication(object):
                 errMsg = "wrong number of columns used in replicating insert"
                 raise SqlmapValueException(errMsg)
 
-        def execute(self, sql, parameters=[]):
+        def execute(self, sql, parameters=None):
+            if parameters is None:
+                parameters = []
             try:
                 self.parent.cursor.execute(sql, parameters)
             except sqlite3.OperationalError as ex:

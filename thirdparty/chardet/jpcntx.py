@@ -1,3 +1,4 @@
+# coding=utf-8
 ######################## BEGIN LICENSE BLOCK ########################
 # The Original Code is Mozilla Communicator client code.
 #
@@ -439,7 +440,7 @@ class SJISContextAnalysis(JapaneseContextAnalysis):
             return -1, 1
         # find out current char's byte length
         first_char = wrap_ord(aBuf[0])
-        if ((0x81 <= first_char <= 0x9F) or (0xE0 <= first_char <= 0xFC)):
+        if (0x81 <= first_char <= 0x9F) or (0xE0 <= first_char <= 0xFC):
             charLen = 2
             if (first_char == 0x87) or (0xFA <= first_char <= 0xFC):
                 self.charset_name = "CP932"

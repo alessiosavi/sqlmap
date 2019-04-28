@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -100,7 +101,7 @@ def mysql_passwd(password, uppercase=True):
     Reference(s):
         http://csl.sublevel3.org/mysql-password-function/
 
-    >>> mysql_passwd(password='testpass', uppercase=True)
+    >>> mysql_passwd(password='testpass')
     '*00E247AC5F9AF26AE0194B41E1E769DEE1429A29'
     """
 
@@ -117,7 +118,7 @@ def mysql_old_passwd(password, uppercase=True):  # prior to version '4.1'
         http://www.sfr-fresh.com/unix/privat/tpop3d-1.5.5.tar.gz:a/tpop3d-1.5.5/password.c
         http://voidnetwork.org/5ynL0rd/darkc0de/python_script/darkMySQLi.html
 
-    >>> mysql_old_passwd(password='testpass', uppercase=True)
+    >>> mysql_old_passwd(password='testpass')
     '7DCDA0D57290B453'
     """
 
@@ -142,7 +143,7 @@ def postgres_passwd(password, username, uppercase=False):
     Reference(s):
         http://pentestmonkey.net/blog/cracking-postgres-hashes/
 
-    >>> postgres_passwd(password='testpass', username='testuser', uppercase=False)
+    >>> postgres_passwd(password='testpass', username='testuser')
     'md599e5ea7a6f7c3269995cba3927fd0093'
     """
 
@@ -160,7 +161,7 @@ def mssql_passwd(password, salt, uppercase=False):
         http://www.leidecker.info/projects/phrasendrescher/mssql.c
         https://www.evilfingers.com/tools/GSAuditor.php
 
-    >>> mssql_passwd(password='testpass', salt='4086ceb6', uppercase=False)
+    >>> mssql_passwd(password='testpass', salt='4086ceb6')
     '0x01004086ceb60c90646a8ab9889fe3ed8e5c150b5460ece8425a'
     """
 
@@ -179,7 +180,7 @@ def mssql_old_passwd(password, salt, uppercase=True):  # prior to version '2005'
         http://www.leidecker.info/projects/phrasendrescher/mssql.c
         https://www.evilfingers.com/tools/GSAuditor.php
 
-    >>> mssql_old_passwd(password='testpass', salt='4086ceb6', uppercase=True)
+    >>> mssql_old_passwd(password='testpass', salt='4086ceb6')
     '0x01004086CEB60C90646A8AB9889FE3ED8E5C150B5460ECE8425AC7BB7255C0C81D79AA5D0E93D4BB077FB9A51DA0'
     """
 
@@ -196,7 +197,7 @@ def mssql_new_passwd(password, salt, uppercase=False):
     Reference(s):
         http://hashcat.net/forum/thread-1474.html
 
-    >>> mssql_new_passwd(password='testpass', salt='4086ceb6', uppercase=False)
+    >>> mssql_new_passwd(password='testpass', salt='4086ceb6')
     '0x02004086ceb6eb051cdbc5bdae68ffc66c918d4977e592f6bdfc2b444a7214f71fa31c35902c5b7ae773ed5f4c50676d329120ace32ee6bc81c24f70711eb0fc6400e85ebf25'
     """
 
@@ -215,7 +216,7 @@ def oracle_passwd(password, salt, uppercase=True):
         http://www.notesbit.com/index.php/scripts-oracle/oracle-11g-new-password-algorithm-is-revealed-by-seclistsorg/
         http://seclists.org/bugtraq/2007/Sep/304
 
-    >>> oracle_passwd(password='SHAlala', salt='1B7B5F82B7235E9E182C', uppercase=True)
+    >>> oracle_passwd(password='SHAlala', salt='1B7B5F82B7235E9E182C')
     'S:2BFCFDF5895014EE9BB2B9BA067B01E0389BB5711B7B5F82B7235E9E182C'
     """
 
@@ -231,7 +232,7 @@ def oracle_old_passwd(password, username, uppercase=True):  # prior to version '
     Reference(s):
         http://www.notesbit.com/index.php/scripts-oracle/oracle-11g-new-password-algorithm-is-revealed-by-seclistsorg/
 
-    >>> oracle_old_passwd(password='tiger', username='scott', uppercase=True)
+    >>> oracle_old_passwd(password='tiger', username='scott')
     'F894844C34402B67'
     """
 
@@ -254,7 +255,7 @@ def oracle_old_passwd(password, username, uppercase=True):  # prior to version '
 
 def md5_generic_passwd(password, uppercase=False):
     """
-    >>> md5_generic_passwd(password='testpass', uppercase=False)
+    >>> md5_generic_passwd(password='testpass')
     '179ad45c6ce2cb97cf1029e212046e81'
     """
 
@@ -267,7 +268,7 @@ def md5_generic_passwd(password, uppercase=False):
 
 def sha1_generic_passwd(password, uppercase=False):
     """
-    >>> sha1_generic_passwd(password='testpass', uppercase=False)
+    >>> sha1_generic_passwd(password='testpass')
     '206c80413b9a96c1312cc346b7d2517b84463edd'
     """
 
@@ -327,7 +328,7 @@ def ssha512_passwd(password, salt, **kwargs):
 
 def sha224_generic_passwd(password, uppercase=False):
     """
-    >>> sha224_generic_passwd(password='testpass', uppercase=False)
+    >>> sha224_generic_passwd(password='testpass')
     '648db6019764b598f75ab6b7616d2e82563a00eb1531680e19ac4c6f'
     """
 
@@ -340,7 +341,7 @@ def sha224_generic_passwd(password, uppercase=False):
 
 def sha256_generic_passwd(password, uppercase=False):
     """
-    >>> sha256_generic_passwd(password='testpass', uppercase=False)
+    >>> sha256_generic_passwd(password='testpass')
     '13d249f2cb4127b40cfa757866850278793f814ded3c587fe5889e889a7a9f6c'
     """
 
@@ -353,7 +354,7 @@ def sha256_generic_passwd(password, uppercase=False):
 
 def sha384_generic_passwd(password, uppercase=False):
     """
-    >>> sha384_generic_passwd(password='testpass', uppercase=False)
+    >>> sha384_generic_passwd(password='testpass')
     '6823546e56adf46849343be991d4b1be9b432e42ed1b4bb90635a0e4b930e49b9ca007bc3e04bf0a4e0df6f1f82769bf'
     """
 
@@ -366,7 +367,7 @@ def sha384_generic_passwd(password, uppercase=False):
 
 def sha512_generic_passwd(password, uppercase=False):
     """
-    >>> sha512_generic_passwd(password='testpass', uppercase=False)
+    >>> sha512_generic_passwd(password='testpass')
     '78ddc8555bb1677ff5af75ba5fc02cb30bb592b0610277ae15055e189b77fe3fda496e5027a3d99ec85d54941adee1cc174b50438fdc21d82d0a79f85b58cf44'
     """
 
@@ -407,10 +408,10 @@ def unix_md5_passwd(password, salt, magic="$1$", **kwargs):
     def _encode64(value, count):
         output = ""
 
-        while (count - 1 >= 0):
-            count = count - 1
+        while count - 1 >= 0:
+            count -= 1
             output += ITOA64[value & 0x3f]
-            value = value >> 6
+            value >>= 6
 
         return output
 
@@ -431,10 +432,10 @@ def unix_md5_passwd(password, salt, magic="$1$", **kwargs):
     i = len(password)
     while i:
         if i & 1:
-            ctx = ctx + chr(0)  # if ($i & 1) { $ctx->add(pack("C", 0)); }
+            ctx += chr(0)  # if ($i & 1) { $ctx->add(pack("C", 0)); }
         else:
             ctx = ctx + password[0]
-        i = i >> 1
+        i >>= 1
 
     final = md5(ctx).digest()
 
@@ -460,11 +461,11 @@ def unix_md5_passwd(password, salt, magic="$1$", **kwargs):
         final = md5(ctx1).digest()
 
     hash_ = _encode64((int(ord(final[0])) << 16) | (int(ord(final[6])) << 8) | (int(ord(final[12]))), 4)
-    hash_ = hash_ + _encode64((int(ord(final[1])) << 16) | (int(ord(final[7])) << 8) | (int(ord(final[13]))), 4)
-    hash_ = hash_ + _encode64((int(ord(final[2])) << 16) | (int(ord(final[8])) << 8) | (int(ord(final[14]))), 4)
-    hash_ = hash_ + _encode64((int(ord(final[3])) << 16) | (int(ord(final[9])) << 8) | (int(ord(final[15]))), 4)
-    hash_ = hash_ + _encode64((int(ord(final[4])) << 16) | (int(ord(final[10])) << 8) | (int(ord(final[5]))), 4)
-    hash_ = hash_ + _encode64((int(ord(final[11]))), 2)
+    hash_ += _encode64((int(ord(final[1])) << 16) | (int(ord(final[7])) << 8) | (int(ord(final[13]))), 4)
+    hash_ += _encode64((int(ord(final[2])) << 16) | (int(ord(final[8])) << 8) | (int(ord(final[14]))), 4)
+    hash_ += _encode64((int(ord(final[3])) << 16) | (int(ord(final[9])) << 8) | (int(ord(final[15]))), 4)
+    hash_ += _encode64((int(ord(final[4])) << 16) | (int(ord(final[10])) << 8) | (int(ord(final[5]))), 4)
+    hash_ += _encode64((int(ord(final[11]))), 2)
 
     return "%s%s$%s" % (magic, salt.decode(UNICODE_ENCODING), hash_.decode(UNICODE_ENCODING))
 
@@ -545,7 +546,7 @@ def wordpress_passwd(password, salt, count, prefix, **kwargs):
             output = output + ITOA64[value & 0x3f]
 
             if i < count:
-                value = value | (ord(input_[i]) << 8)
+                value |= ord(input_[i]) << 8
 
             output = output + ITOA64[(value >> 6) & 0x3f]
 
@@ -554,7 +555,7 @@ def wordpress_passwd(password, salt, count, prefix, **kwargs):
                 break
 
             if i < count:
-                value = value | (ord(input_[i]) << 16)
+                value |= ord(input_[i]) << 16
 
             output = output + ITOA64[(value >> 12) & 0x3f]
 
@@ -1069,7 +1070,7 @@ def dictionaryAttack(attack_dict):
                         checkFile(dictPath)
 
                         if os.path.splitext(dictPath)[1].lower() == ".zip":
-                            _ = zipfile.ZipFile(dictPath, 'r')
+                            _ = zipfile.ZipFile(dictPath)
                             if len(_.namelist()) == 0:
                                 errMsg = "no file(s) inside '%s'" % dictPath
                                 raise SqlmapDataException(errMsg)
@@ -1231,7 +1232,7 @@ def dictionaryAttack(attack_dict):
                             warnMsg += "not supported on this platform"
                             singleTimeWarnMessage(warnMsg)
 
-                            class Value():
+                            class Value:
                                 pass
 
                             retVal = _queue.Queue()

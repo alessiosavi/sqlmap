@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -34,7 +35,8 @@ from thirdparty.six.moves import urllib as _urllib
 
 
 class SmartRedirectHandler(_urllib.request.HTTPRedirectHandler):
-    def _get_header_redirect(self, headers):
+    @staticmethod
+    def _get_header_redirect(headers):
         retVal = None
 
         if headers:
@@ -64,7 +66,8 @@ class SmartRedirectHandler(_urllib.request.HTTPRedirectHandler):
             if kb.resendPostOnRedirect:
                 self.redirect_request = self._redirect_request
 
-    def _redirect_request(self, req, fp, code, msg, headers, newurl):
+    @staticmethod
+    def _redirect_request(req, fp, code, msg, headers, newurl):
         newurl = newurl.replace(' ', '%20')
         return _urllib.request.Request(newurl, data=req.data, headers=req.headers,
                                        origin_req_host=req.get_origin_req_host())
@@ -182,7 +185,8 @@ class SmartRedirectHandler(_urllib.request.HTTPRedirectHandler):
 
     http_error_301 = http_error_303 = http_error_307 = http_error_302
 
-    def _infinite_loop_check(self, req):
+    @staticmethod
+    def _infinite_loop_check(req):
         if hasattr(req, 'redirect_dict') and (
                 req.redirect_dict.get(req.get_full_url(), 0) >= MAX_SINGLE_URL_REDIRECTIONS or len(
                 req.redirect_dict) >= MAX_TOTAL_REDIRECTIONS):

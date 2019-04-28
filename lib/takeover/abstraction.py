@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# coding=utf-8
 
 """
 Copyright (c) 2006-2019 sqlmap developers (http://sqlmap.org/)
@@ -160,7 +161,8 @@ class Abstraction(Web, UDF, XP_cmdshell):
 
             self.runCmd(command)
 
-    def _initRunAs(self):
+    @staticmethod
+    def _initRunAs():
         if not conf.dbmsCred:
             return
 
