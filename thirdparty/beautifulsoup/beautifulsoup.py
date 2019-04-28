@@ -86,7 +86,6 @@ __copyright__ = "Copyright (c) 2004-2012 Leonard Richardson"
 __license__ = "New-style BSD"
 
 import codecs
-import types
 import re
 import sys
 

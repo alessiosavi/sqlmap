@@ -411,6 +411,7 @@ class HTTPResponse(_http_client.HTTPResponse):
     # modification from socket.py
 
     def __init__(self, sock, debuglevel=0, strict=0, method=None):
+        self.headers = None
         if method:  # the httplib in python 2.3 uses the method arg
             _http_client.HTTPResponse.__init__(self, sock, debuglevel, method)
         else:  # 2.2 doesn't
